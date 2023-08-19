@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>The Central Role of Propensity Scores</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="1983_Rosenbaum_and_Rubin_files/libs/clipboard/clipboard.min.js"></script>
+<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/quarto.js"></script>
+<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/popper.min.js"></script>
+<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/anchor.min.js"></script>
+<link href="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="1983_Rosenbaum_and_Rubin_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="1983_Rosenbaum_and_Rubin_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="1983_Rosenbaum_and_Rubin_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#an-example" id="toc-an-example" class="nav-link" data-scroll-target="#an-example">An Example</a></li>
+  <li><a href="#theorem-1" id="toc-theorem-1" class="nav-link" data-scroll-target="#theorem-1"><strong>Theorem 1</strong></a></li>
+  <li><a href="#theorem-2" id="toc-theorem-2" class="nav-link" data-scroll-target="#theorem-2"><strong>Theorem 2</strong></a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#theorem-3" id="toc-theorem-3" class="nav-link" data-scroll-target="#theorem-3"><strong>Theorem 3</strong></a></li>
+  <li><a href="#theorem-4" id="toc-theorem-4" class="nav-link" data-scroll-target="#theorem-4"><strong>Theorem 4</strong></a></li>
+  <li><a href="#corollaries" id="toc-corollaries" class="nav-link" data-scroll-target="#corollaries"><strong>Corollaries</strong></a></li>
+  <li><a href="#claims-about-matching" id="toc-claims-about-matching" class="nav-link" data-scroll-target="#claims-about-matching">Claims about matching</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#theorem-6" id="toc-theorem-6" class="nav-link" data-scroll-target="#theorem-6"><strong>Theorem 6</strong></a></li>
+  <li><a href="#corollary-6.1" id="toc-corollary-6.1" class="nav-link" data-scroll-target="#corollary-6.1"><strong>Corollary 6.1</strong></a></li>
+  <li><a href="#theorem-7" id="toc-theorem-7" class="nav-link" data-scroll-target="#theorem-7"><strong>Theorem 7</strong></a></li>
+  <li><a href="#my-conclusions" id="toc-my-conclusions" class="nav-link" data-scroll-target="#my-conclusions">My Conclusions</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The Central Role of Propensity Scores</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Notes on <i>The Central Role of the Propensity Score in Observational Studies for Causal Effects</i> by Paul R. Rosenbaum and Donald B. Rubin (1983), Biometrika</p>
+<p><a href="https://doi.org/10.1093/biomet/70.1.41" class="uri">https://doi.org/10.1093/biomet/70.1.41</a></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This paper introduces the reader to the propensity score and shows how, through large and small sample theory, that adjustment for the scalar propensity score is sufficient to remove bias due to the observed covariates.</p>
+<p>The quantity of fundamental interest is the <span class="vocab">average treatment effect</span> (presented in their notation):</p>
+<p><span class="math display">\[\mathbb E(r_1) - \mathbb E(r_0),\]</span> where <span class="math inline">\(r_1\)</span> is the outcome under treatment and <span class="math inline">\(r_0\)</span> is the outcome under no treatment.</p>
+<p>They introduce <span class="vocab">balancing scores</span> which are functions <span class="math inline">\(b(x)\)</span> such that <span class="math display">\[x \perp\!\!\!\perp z | b(x) \quad (\text{or equivalently} \quad  z \perp\!\!\!\perp x | b(x)).\]</span></p>
+<p>In other words, <span class="math inline">\(P(Z|X,b(X)) = P(Z|b(X))\)</span>.</p>
+<p>We define the <span class="vocab">propensity score</span> to be <span class="math display">\[e(x) = Pr(Z=1|X = x)\]</span> e.g., the probability of treatment given covariates}, is the propensity score or propensity towards treatment.</p>
+</section>
+<section id="an-example" class="level2">
+<h2 class="anchored" data-anchor-id="an-example">An Example</h2>
+<p>We might have a situation where age is correlated with assignment to the treatment mechanism.</p>
+<p>Denoting <span class="math inline">\(X\)</span> as age and <span class="math inline">\(Z\)</span> as treatment, consider the following scenario where we set</p>
+<p><span class="math display">\[X \sim \text{Uniform on } \mathbb N \cap \text{ the age range } [19,64]\]</span> <span class="math display">\[Z \sim \text{Bernoulli}(\underbrace{\text{logistic}(\underbrace{\beta_0 + \beta_1 \cdot X}_{\text{log odds}})}_{\text{probability scale}})\]</span> <span class="math display">\[ \text{where logistic}(x) = \frac{1}{1+e^{-x}} = \frac{e^x}{1+e^x}\]</span></p>
+<p>It’s clear that <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> will be dependent and correlated, but by stratifying on propensity scores estimated via a logistic regression model, we can empirically see an example of<br>
+how conditioning on propensity scores renders <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> conditionally independent.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dependencies</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a data.frame of 100 folks with ages from 19-65</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">seq</span>(<span class="dv">19</span>,<span class="dv">65</span>), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">size =</span> <span class="dv">100</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients for our logistic model</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>beta_0 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the odds of treatment using a logistic function</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>e_x <span class="ot">&lt;-</span> <span class="fu">exp</span>(beta_0 <span class="sc">+</span> beta_1 <span class="sc">*</span> df<span class="sc">$</span>x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(beta_0 <span class="sc">+</span> beta_1 <span class="sc">*</span> df<span class="sc">$</span>x))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign treatment group based on the computed odds</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="fu">nrow</span>(df), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> df<span class="sc">$</span>e_x)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a logistic regression model </span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(z <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span>logit))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Report model estimates</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted propensity scores</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>propensity_scores <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># We can confirm these match our intuition — </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># This is just applying the logistic function 1/(1+exp(-x)) to the</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># expanded terms from our regression model.</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(df<span class="sc">$</span>propensity_scores, <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>(<span class="fu">coef</span>(model)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(model)[<span class="dv">2</span>]<span class="sc">*</span>df<span class="sc">$</span>x))))</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot our age-treatment relationship</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> z)) <span class="sc">+</span> </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">height=</span><span class="fl">0.025</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">18</span>,<span class="dv">65</span>,.<span class="dv">1</span>), </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">18</span>,<span class="dv">65</span>,.<span class="dv">1</span>)), <span class="at">type=</span><span class="st">'response'</span>)),</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span> </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Treatment, or Treatment Probability"</span>) <span class="sc">+</span> </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of Treatment Assignment by Age and Logistic Model"</span>) <span class="sc">+</span> </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide the data into bins based on the propensity score</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>e_bin <span class="ot">&lt;-</span> <span class="fu">cut</span>(df<span class="sc">$</span>e_x, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.1</span>))</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the mean age by propensity score in</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>mean_x_by_bin <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">group_by</span>(e_bin, z) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">x =</span> <span class="fu">mean</span>(x))</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Show age by propensity score bins and treatment</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> e_bin, <span class="at">y =</span> x, <span class="at">color =</span> <span class="fu">as.factor</span>(z))) <span class="sc">+</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span>.<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">05</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> mean_x_by_bin, <span class="fu">aes</span>(<span class="at">group =</span> z)) <span class="sc">+</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> </span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Balance Check: Mean Age (Line) by Propensity Score Bin and Treatment Status"</span>),</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>       x <span class="ot">=</span> <span class="st">"Propensity Score Bin"</span>,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>       y <span class="ot">=</span> <span class="st">"Age"</span>,</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>       color <span class="ot">=</span> <span class="st">"Treatment Status"</span><span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="biased_treatment.png" class="img-fluid figure-img" style="width:6.5in"></p>
+<p></p><figcaption class="figure-caption">The distribution of treatment assignment by age and a fit logistic model.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="balance_check.png" class="img-fluid figure-img" style="width:6.5in"></p>
+<p></p><figcaption class="figure-caption">A balance check showing that after stratifying by the propensity scores, age and assignment to treatment are independent..</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="theorem-1" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-1"><strong>Theorem 1</strong></h2>
+<p><span class="math inline">\(X \perp\!\!\!\perp Z | e(X)\)</span></p>
+<p>This falls out as a special case of Theorem 2, which we will prove in detail.</p>
+</section>
+<section id="theorem-2" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-2"><strong>Theorem 2</strong></h2>
+<p>Let <span class="math inline">\(b(x)\)</span> be a function of <span class="math inline">\(x\)</span>. Then <span class="math inline">\(b(x)\)</span> is a balancing score, that is <span class="math display">\[x \perp\!\!\!\perp z | b(x)\]</span> if and only if <span class="math inline">\(b(x)\)</span> is finer than <span class="math inline">\(e(x)\)</span> in the sense that <span class="math inline">\(e(x) = f(b(x))\)</span> for some function <span class="math inline">\(f\)</span>.</p>
+<p><em>Proof.</em> (<span class="math inline">\(\leftarrow\)</span>) First we show that if <span class="math inline">\(b(x)\)</span> is finer than <span class="math inline">\(e(x)\)</span> then it is a balancing score. To show this, it is sufficient to show that</p>
+<p><span class="math display">\[Pr(Z=1|b(x)) = e(x).\]</span> Why is this the case? Because <span class="math inline">\(e(x)\)</span> is a balancing score, as evidenced by the fact that <span class="math inline">\(Z\)</span> is binary and that <span class="math inline">\(e(x) = Pr(Z=1|X=x)\)</span> completely characterizes the interdependence of <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span>. Given that, conditioning on <span class="math inline">\(e(x)\)</span> is analagous to conditioning on a particular value <span class="math inline">\(X=x\)</span>. <span class="math inline">\(X \perp\!\!\!\perp Z \rvert X = x\)</span> is of course true given that <span class="math inline">\(x\)</span> is a fixed value independent of <span class="math inline">\(Z\)</span>. Similarly we have that <span class="math inline">\(X \perp\!\!\!\perp Z \rvert Pr(Z = 1 | X = x)\)</span>.</p>
+<p>Now we can proceed to show that <span class="math inline">\(b(x)\)</span> is a balancing function by showing that <span class="math inline">\(Pr(Z = 1 | b(x)) = e(x)\)</span>.</p>
+<p>In order to see the truth behind this claim, notice that <span class="math inline">\(e(x)\)</span> is the propensity towards treatment at a given level of covariates <span class="math inline">\(x\)</span> while <span class="math inline">\(Pr(Z=1|b(x))\)</span> is the propensity towards treatment among those with covariates that map to <span class="math inline">\(b(x)\)</span> under the function <span class="math inline">\(b\)</span>. In other words, we’ve described the average amount of treatment (or probability) among those with covariates that map to <span class="math inline">\(b(x)\)</span>, which can be written <span class="math inline">\(\mathbb E[e(x)|b(x)]\)</span>.</p>
+<p>As Rosenbaum and Rubin write it, “By the definition of <span class="math inline">\(e(x)\)</span>, <span class="math display">\[ Pr(Z=1|b(x)) = \mathbb E[e(x)|b(x)]\text{"}\]</span></p>
+<p>The next step of Rosenbaum and Rubin’s is to claim that <span class="math display">\[\mathbb E[e(X) | b(X) = b(x)] = e(x).\]</span></p>
+<p>The most straightforward to see this is to start by noting that if we fix <span class="math inline">\(X=x\)</span>, then any function of <span class="math inline">\(X\)</span> as a random variable also becomes fixed, so that <span class="math inline">\(\mathbb E[f(X)|X=x] = f(x)\)</span>. In our case, we have that <span class="math inline">\(e(x) = f(b(x))\)</span>, so <span class="math inline">\(\mathbb E[e(x)|b(x)] = \mathbb E[f(b(X))|b(X)=b(x)] = f(b(x)) = e(x)\)</span>.</p>
+<p>As a result, we’ve shown that <span class="math display">\[\mathbb E[e(x)|b(x)] = Pr(Z = 1|b(x)) = e(x),\]</span> which concludes this direction of the proof showing that if <span class="math inline">\(b(x)\)</span> is finer than <span class="math inline">\(e(x)\)</span> then it is a balancing score. <span class="math display">\[ \exists f \colon e(x) = f(b(x)) \Longrightarrow X \perp\!\!\!\perp Z | b(x).\]</span></p>
+<p>(<span class="math inline">\(\rightarrow\)</span>) Moving on, we now prove the converse direction by contradiction. Suppose that we have <span class="math inline">\(b(x)\)</span>, a balancing score such that <span class="math inline">\(X \perp\!\!\!\perp Z | b(x)\)</span>, but <span class="math inline">\(b(x)\)</span> is not finer than <span class="math inline">\(e(x)\)</span> so we have <span class="math inline">\(\exists x_1, x_2 \ni e(x_1) \neq e(x_2) \text{ and } b(x_1) = b(x_2)\)</span>.</p>
+<p>We know by applying the definition of <span class="math inline">\(e(\cdot)\)</span> that <span class="math display">\[Pr(Z = 1 | X = x_1) \neq Pr(Z = 1 | X = x_2).\]</span> However, if <span class="math inline">\(X \perp\!\!\!\perp Z | b(x)\)</span>, then we should have that</p>
+<p><span class="math display">\[Pr(Z = 1 | X = x_1, b(x_1)) = Pr(Z=1 | b(x_1)), \quad \text{ and }\]</span> <span class="math display">\[Pr(Z = 1 | X = x_2, b(x_2)) = Pr(Z=1 | b(x_2)).\]</span></p>
+<p>Since <span class="math inline">\(b(x_1) = b(x_2)\)</span>, we also then know that <span class="math display">\[Pr(Z=1 | b(x_1)) = Pr(Z=1 | b(x_2)),\]</span> but this would imply that <span class="math display">\[e(x_1) = Pr(Z = 1 | X = x_1, b(x_1)) = Pr(Z = 1 | X = x_2, b(x_2)) = e(x_2)),\]</span> which is a contradiction to our assumption that <span class="math inline">\(e(x_1) \neq e(x_2)\)</span>.</p>
+<p>Thus if <span class="math inline">\(b(x)\)</span> is a balancing function then it must be finer than <span class="math inline">\(e(x)\)</span>. <span class="math display">\[X \perp\!\!\!\perp Z | b(x) \Longrightarrow e(x) = f(b(x)).\]</span></p>
+<div style="text-align: right;">
+<span class="math inline">\(\square\)</span>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p><strong>Definition.</strong> We say that <span class="vocab">treatment assignment is strongly ignorable</span> given a vector of covariates <span class="math inline">\(v\)</span> if and only if <span class="math display">\[(r_1,r_0) \perp\!\!\!\perp z | v, \quad 0 &lt; Pr(Z=1|v) &lt; 1.\]</span></p>
+</section>
+<section id="theorem-3" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-3"><strong>Theorem 3</strong></h2>
+<p>If treatment assignment is strongly ignorable given <span class="math inline">\(x\)</span>, then it is strongly ignorable given any balancing score <span class="math inline">\(b(x)\)</span>; that is, <span class="math display">\[(r_1, r_0) \perp\!\!\!\perp Z | X\]</span> and <span class="math display">\[0 &lt; Pr(Z=1 | X) &lt; 1\]</span> for all <span class="math inline">\(x\)</span> imply <span class="math display">\[(r_1, r_0) \perp\!\!\!\perp Z | b(X)\]</span> and <span class="math display">\[0 &lt; Pr(Z = 1 | b(X)) &lt; 1\]</span> for all <span class="math inline">\(b(X)\)</span>.</p>
+<p><em>Proof.</em> It is clear that if <span class="math inline">\(0 &lt; Pr(Z = 1|x) &lt; 1\)</span> for all values of <span class="math inline">\(x\)</span>, then there is no such value of <span class="math inline">\(x\)</span> where conditioning on <span class="math inline">\(b(x)\)</span> would push the quantity <span class="math inline">\(Pr(Z=1|b(x))\)</span> outside the interval <span class="math inline">\((0,1)\)</span>.</p>
+<p>What remains then is to show that <span class="math inline">\((r_1, r_0) \perp\!\!\!\perp z | b(x)\)</span>, or rewritten that <span class="math display">\[Pr(Z=1 | r_1, r_0, b(x)) = Pr(Z=1 | b(x)),\]</span> which, if we recall the proof to Theorem 2, we have shown <span class="math display">\[ = e(x).\]</span></p>
+<p>In order to show the claimed equality, we rewrite the probability of treatment given <span class="math inline">\(r_1, r_0,\)</span> and <span class="math inline">\(b(x)\)</span> as the expected value of <span class="math inline">\(Pr(Z=1 | r_1, r_0, X)\)</span> conditioned on <span class="math inline">\(b(x)\)</span>. We then have, by the assumption that <span class="math inline">\((r_1, r_0) \perp\!\!\!\perp Z | X\)</span>,</p>
+<p><span class="math display">\[\begin{aligned}
+Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
+&amp; = \mathbb E[Pr(Z=1|X)|b(x)] \\
+&amp; = \mathbb E[e(X)|b(x)] = e(x).
+\end{aligned}\]</span></p>
+<div style="text-align: right">
+<span class="math inline">\(\square\)</span>
+</div>
+</section>
+<section id="theorem-4" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-4"><strong>Theorem 4</strong></h2>
+<p>Suppose treatment assignment is strongly ignorable and <span class="math inline">\(b(x)\)</span> is a balancing score. Then the expected difference in observed responses to the two treatments at <span class="math inline">\(b(x)\)</span> is equal to the average treatment effect at <span class="math inline">\(b(x)\)</span>, that is,</p>
+<p><span class="math display">\[\mathbb E[r_1 | b(x), Z= 1] - \mathbb E[r_0 | b(x), Z= 0] = \mathbb E[r_1 - r_0 | b(x)].\]</span></p>
+<p><em>Proof.</em> If a randomly selected treated unit (<span class="math inline">\(Z = 1\)</span>) is compared to a randomly selected control unit (<span class="math inline">\(Z = 0\)</span>), the expected difference in outcome is <span class="math display">\[\mathbb E[r_1 | Z = 1] - \mathbb E[r_0 | Z=0].\]</span></p>
+<p>This expression does not equal <span class="math inline">\(\mathbb E[r_1] - \mathbb E[r_0]\)</span> in general because we do not observe <span class="math inline">\(r_1\)</span> for untreated units and vice-versa and instead only observe the conditional distribution of <span class="math inline">\(r_t\)</span> given <span class="math inline">\(Z = t\)</span>.</p>
+<p>We introduce a two-stage sampling procedure now, where first we sample a vector of covariates <span class="math inline">\(x\)</span> and then sample both treated and control units that have covariates equal to <span class="math inline">\(x\)</span>. The expected difference is now <span class="math display">\[\mathbb E_{x} [ E[r_1 | X=x, Z=1] - \mathbb E[r_0 | X=x, Z=0]],\]</span> where <span class="math inline">\(\mathbb E_{x}\)</span> denotes expectation with respect to the distribution of covariates <span class="math inline">\(X\)</span>. If treatment assignment is strongly ignorable, then the above is equal to <span class="math display">\[ \mathbb E_x [E[r_1|x] - E[r_0|x]],\]</span> which is the average treatment effect.</p>
+<p>Now suppose we alter the two-stage sampling procedure to sample a value of <span class="math inline">\(b(x)\)</span> instead of a vector of covariate levels. Given strongly ignorable treatment assignment, it follows from Theorem 3 that</p>
+<p><span class="math display">\[\mathbb E[r_1 | b(x), Z = 1] - \mathbb E[r_0 | b(x), Z=0] = \mathbb E[r_1 | b(x)] - \mathbb E[r_0 | b(x)].\]</span></p>
+<p>From this it follows that</p>
+<p><span class="math display">\[\begin{aligned} \mathbb E_{b(x)} [ \mathbb E[r_1| b(x), Z=1] - \mathbb E[r_0 | b(x), Z = 0]] &amp;
+= \mathbb E_{b(x)} [ \mathbb E[r_1 | b(x)] - \mathbb E[r_0 | b(x)]] \\
+&amp; = \mathbb E[r_1 - r_0]. \end{aligned}\]</span></p>
+<p>To quote:</p>
+<blockquote class="blockquote">
+<p>In words, under strongly ignorable treatment assignment, units with the same value of the balancing score <span class="math inline">\(b(x)\)</span> but different treatments can act as controls for each other, in the sense that the expected difference in their responses equals the average treatment effect.</p>
+</blockquote>
+<div style="text-align: right;">
+<span class="math inline">\(\square\)</span>
+</div>
+</section>
+<section id="corollaries" class="level2">
+<h2 class="anchored" data-anchor-id="corollaries"><strong>Corollaries</strong></h2>
+<p>Paraphrasing: These theorems provide a rigorous justification for the estimation of average treatment effects via either pair matching on balancing scores or by estimating those treatment effects within strata of equal (or similar) balancing scores.</p>
+<blockquote class="blockquote">
+<p><strong>Corollary 4.3.</strong> Covariance adjustment on balancing scores. Suppose treatment assignment is strongly ignorable, so that in particular <span class="math inline">\(\mathbb E[r_t|Z = t, b(x)] = \mathbb E[r_t|b(x)]\)</span> for balancing score <span class="math inline">\(b(x)\)</span>. Further suppose that the conditional expectation of <span class="math inline">\(r_t\)</span> given <span class="math inline">\(b(x)\)</span> is linear: <span class="math display">\[\mathbb E[r_t | Z=t,b(x)] = \alpha_t + \beta_t b(x) \quad (t=0,1).\]</span> Then the estimator <span class="math display">\[(\hat \alpha_1 - \hat \alpha_0) + (\hat \beta_1 - \hat \beta_0)b(x)\]</span> is conditionally unbiased given <span class="math inline">\(b(x_i)\)</span> for the treatment effect at <span class="math inline">\(b(x)\)</span>, namely <span class="math inline">\(\mathbb E[r_1-r_0|b(x)]\)</span>, if <span class="math inline">\(\hat \alpha_t\)</span> and <span class="math inline">\(\hat \beta_t\)</span> are conditionally unbiased estimators of <span class="math inline">\(\alpha_t\)</span> and <span class="math inline">\(\beta_t\)</span> such as least squares estimators. Moreover <span class="math display">\[(\hat \alpha_1 - \hat \alpha_0) + (\hat \beta_1 - \hat \beta_0) \bar b,\]</span> where <span class="math inline">\(\bar b = n^{-1} \sum b(x_i)\)</span> is unbiased for the average treatment effect if the units in the study are a simple random sample from the population.</p>
+</blockquote>
+<p>Corollary 4.3 feels particularly different from corollary 4.1 and 4.2 (which are only summarized above) to me in that the above simulation (to me) clearly demonstrates how pair-matching and stratification on balancing scores would work. However, the covariate adjustment proposed in corollary 4.3 feels like something else, so I thought having some simulation code to demonstrate it made sense.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Generate data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>b_x <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))  <span class="co"># a simple logistic propensity score</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Simulate treatment assignments</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, b_x)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Simulate potential outcomes</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>alpha_0 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>beta_0 <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>r_0 <span class="ot">&lt;-</span> alpha_0 <span class="sc">+</span> beta_0 <span class="sc">*</span> b_x <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>r_1 <span class="ot">&lt;-</span> alpha_1 <span class="sc">+</span> beta_1 <span class="sc">*</span> b_x <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed outcomes</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> z <span class="sc">*</span> r_1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> z) <span class="sc">*</span> r_0</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">b_x =</span> b_x, <span class="at">z =</span> z, <span class="at">r =</span> r)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Use linear regression to estimate parameters</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>model_0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> b_x, <span class="at">data =</span> df[z <span class="sc">==</span> <span class="dv">0</span>,])</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> b_x, <span class="at">data =</span> df[z <span class="sc">==</span> <span class="dv">1</span>,])</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>hat_alpha_0 <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_0)[<span class="dv">1</span>]</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>hat_alpha_1 <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_1)[<span class="dv">1</span>]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>hat_beta_0 <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_0)[<span class="dv">2</span>]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>hat_beta_1 <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_1)[<span class="dv">2</span>]</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Compute the estimator</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>b_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(b_x)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>ATE_est <span class="ot">&lt;-</span> (hat_alpha_1 <span class="sc">-</span> hat_alpha_0) <span class="sc">+</span> (hat_beta_1 <span class="sc">-</span> hat_beta_0) <span class="sc">*</span> b_bar</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ATE_est)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept) 
+   1.295816 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Compare to the true average treatment effect</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>true_ATE <span class="ot">&lt;-</span> (alpha_1 <span class="sc">-</span> alpha_0) <span class="sc">+</span> (beta_1 <span class="sc">-</span> beta_0) <span class="sc">*</span> b_bar</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(true_ATE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.241509</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Bootstrap to estimate SE of ATE_est</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span>  <span class="co"># number of bootstrap samples</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ATE_boot <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Resample data with replacement</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  bootstrap_indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  x_b <span class="ot">&lt;-</span> x[bootstrap_indices]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  z_b <span class="ot">&lt;-</span> z[bootstrap_indices]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  r_b <span class="ot">&lt;-</span> r[bootstrap_indices]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  b_x_b <span class="ot">&lt;-</span> b_x[bootstrap_indices]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">r_b =</span> r_b, <span class="at">b_x_b =</span> b_x_b, <span class="at">z_b =</span> z_b)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use linear regression to estimate parameters for bootstrapped data</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  model_0_b <span class="ot">&lt;-</span> <span class="fu">lm</span>(r_b <span class="sc">~</span> b_x_b, <span class="at">data =</span> df[z_b <span class="sc">==</span> <span class="dv">0</span>,])</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  model_1_b <span class="ot">&lt;-</span> <span class="fu">lm</span>(r_b <span class="sc">~</span> b_x_b, <span class="at">data =</span> df[z_b <span class="sc">==</span> <span class="dv">1</span>,])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  hat_alpha_0_b <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_0_b)[<span class="dv">1</span>]</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  hat_alpha_1_b <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_1_b)[<span class="dv">1</span>]</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  hat_beta_0_b <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_0_b)[<span class="dv">2</span>]</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  hat_beta_1_b <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_1_b)[<span class="dv">2</span>]</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute the estimator for bootstrapped data</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  b_bar_b <span class="ot">&lt;-</span> <span class="fu">mean</span>(b_x_b)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  ATE_boot[i] <span class="ot">&lt;-</span> (hat_alpha_1_b <span class="sc">-</span> hat_alpha_0_b) <span class="sc">+</span> (hat_beta_1_b <span class="sc">-</span> hat_beta_0_b) <span class="sc">*</span> b_bar_b</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard error is the standard deviation of the bootstrapped estimates</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>SE_ATE_boot <span class="ot">&lt;-</span> <span class="fu">sd</span>(ATE_boot)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>mean_ATE_boot <span class="ot">&lt;-</span> <span class="fu">mean</span>(ATE_boot)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(SE_ATE_boot) <span class="co"># print standard error for bootstrap estimated ATE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1519462</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_ATE_boot) <span class="co"># check bootstrap estimated ATE resembles above estimate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.298091</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 9. Visualizations to Aid Intuition</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>b_x, <span class="at">fill=</span><span class="fu">as.factor</span>(z), <span class="at">color =</span> <span class="fu">as.factor</span>(z))) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stackgroups =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"dotdensity"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">binpositions =</span> <span class="st">'all'</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> .<span class="dv">022</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Distribution of Propensity Scores by Treatment Group"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">"Propensity Score"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Frequency"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="st">"Treatment Group"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">color=</span><span class="st">"Treatment Group"</span>) <span class="sc">+</span> </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">'0'</span> <span class="ot">=</span> <span class="st">'dodgerblue'</span>, <span class="st">'1'</span> <span class="ot">=</span> <span class="st">'orange'</span>),</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">expression</span>(r[<span class="dv">0</span>]), <span class="fu">expression</span>(r[<span class="dv">1</span>]))</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">'0'</span> <span class="ot">=</span> <span class="st">'dodgerblue'</span>, <span class="st">'1'</span> <span class="ot">=</span> <span class="st">'orange'</span>),</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">expression</span>(r[<span class="dv">0</span>]), <span class="fu">expression</span>(r[<span class="dv">1</span>]))</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="pscore_by_trt_dotplot.png" class="img-fluid" style="width:6.5in"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> b_x, <span class="at">y =</span> r, <span class="at">color =</span> <span class="fu">factor</span>(z))) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Outcomes "</span>, r[<span class="dv">0</span>], <span class="st">" and "</span>, r[<span class="dv">1</span>], <span class="st">" vs. Propensity Score"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    )),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Propensity Score"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Outcome: "</span>, r[<span class="dv">0</span>], <span class="st">" or "</span>, r[<span class="dv">1</span>])),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Outcome Type"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">'segment'</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> b_bar,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">yend =</span> hat_alpha_1 <span class="sc">+</span> hat_beta_1 <span class="sc">*</span> b_bar,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> b_bar,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> hat_alpha_0 <span class="sc">+</span> hat_beta_0 <span class="sc">*</span> b_bar,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">ends =</span> <span class="st">'both'</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">'mm'</span>))</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">'label'</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> b_bar <span class="sc">+</span> .<span class="dv">16</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(<span class="fu">c</span>(hat_alpha_0, hat_alpha_1)) <span class="sc">+</span> <span class="fu">mean</span>(<span class="fu">c</span>(hat_beta_0, hat_beta_1)) <span class="sc">*</span> b_bar <span class="sc">+</span> .<span class="dv">15</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">'average treatment effect'</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">'0'</span> <span class="ot">=</span> <span class="st">'dodgerblue'</span>, <span class="st">'1'</span> <span class="ot">=</span> <span class="st">'orange'</span>),</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">expression</span>(r[<span class="dv">0</span>]), <span class="fu">expression</span>(r[<span class="dv">1</span>]))</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ate_on_regression_lines.png" class="img-fluid" style="width:6.5in"></p>
+</div>
+</div>
+</section>
+<section id="claims-about-matching" class="level2">
+<h2 class="anchored" data-anchor-id="claims-about-matching">Claims about matching</h2>
+<p>Rosenbaum and Rubin continue in their section on applications of propensity scores to observational studies to make the following arguments about the superiority of matching techniques to model-based adjustment ones in estimating average treatment effects.</p>
+<p>They claim</p>
+<ol type="1">
+<li>Matched treated and control pairs allow relatively unsophisticated researchers to do meaningful analysis by performing pair-comparisons.</li>
+<li>Matching methods should have lower variance estimates of treatment effects compared to covariance based methods because matched samples should be more similar than in random samples.</li>
+<li>Model-based adjustment on matched samples should be more robust to the assumed form of the underlying model than model-based adjustement on random samples because of reduced reliance on model extrapolations.</li>
+<li>In settings with small numbers of treated observations, large reservoirs of control observations, and large numbers of potential confounders, those confounding variables are more likely to be able to be adjusted for by matched sampling than regression adjustment.</li>
+</ol>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<p><strong>Definition.</strong> The <span class="vocab">initial bias in <span class="math inline">\(X\)</span></span> is defined as the quantity <span class="math display">\[B = \mathbb E[X|Z=1] - \mathbb E[X|Z=0]\]</span></p>
+<p>and the <span class="vocab">expected bias in <span class="math inline">\(X\)</span> in matched samples is</span> <span class="math display">\[ B_m = \mathbb E[X|Z=1] - \mathbb E_m [X|Z=0]\]</span> where the subscript <span class="math inline">\(m\)</span> indicates the distribution in matched samples.</p>
+<p>If <span class="math inline">\(B_m = \gamma B\)</span> for some scalar <span class="math inline">\(\gamma\)</span> with <span class="math inline">\(0 &lt; \gamma &lt; 1\)</span> then matching reduces bias in each coordinate of <span class="math inline">\(X\)</span> is reduced by <span class="math inline">\(100(1-\gamma)\)</span>% and we say that the matching method is <span class="vocab">equal percent bias reducing</span>.</p>
+</section>
+<section id="theorem-6" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-6"><strong>Theorem 6</strong></h2>
+<p>Let <span class="math inline">\(b = b(x)\)</span> be a balancing score. For any matching method that uses <span class="math inline">\(b\)</span> alone to match each treated unit with a control unit, the reduction in bias is <span class="math display">\[B - B_m = \int \mathbb E[X|b] \{ \text{Pr}_m(b|z=0) - \text{Pr}(b|z = 0) \} db,\]</span> where <span class="math inline">\(\text{Pr}_m(b | z = 0)\)</span> denotes the distribution of <span class="math inline">\(b\)</span> in matched samples from the control group.</p>
+<em>Proof.</em> Using the definitions introduced immediately prior, we have that <span class="math display">\[\begin{aligned} B-B_m = \int \{ E_m&amp;[X | Z = 0, b) \text{Pr}_m(b|Z=0) \\
+&amp; - \mathbb E[X|Z=0,b) \text{Pr}(b|Z=0) \} db.\end{aligned}\]</span> For any matching method satisfying the condition of the theorem <span class="math display">\[\mathbb E_m[X|Z=0,b] = \mathbb E[X|Z=0,b]\]</span> because any matching method using <span class="math inline">\(b\)</span> alone to match units alters the marginal distribution of <span class="math inline">\(b\)</span> in the control group, <span class="math inline">\(Z = 0\)</span>, but does not alter the conditional distribution of <span class="math inline">\(x\)</span> given <span class="math inline">\(b\)</span> in the control group. However, by theorem 2, <span class="math display">\[\mathbb E[X|Z=0,b] = \mathbb E[X|b].\]</span> Substitution into the first equation yields the result.
+<div style="text-align: right;">
+<span class="math inline">\(\square\)</span>
+</div>
+</section>
+<section id="corollary-6.1" class="level2">
+<h2 class="anchored" data-anchor-id="corollary-6.1"><strong>Corollary 6.1</strong></h2>
+<p>If <span class="math inline">\(\mathbb E[X|b] = \alpha + \beta f(b)\)</span> for some vectors <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> and some scalar-valued function <span class="math inline">\(f(\cdot)\)</span>, then matching on <span class="math inline">\(b\)</span> alone is equal percent bias reducing.</p>
+<p><em>Proof.</em> The percent reduction in bias for the <span class="math inline">\(i\)</span>th coordinate of <span class="math inline">\(X\)</span> is:</p>
+<p><span class="math display">\[ 100 \frac{\beta_i [\mathbb E_m(f(b)|Z=0) - \mathbb E(f(b)|Z=0)]}{\beta_i [\mathbb E(f(b)|Z=1) - \mathbb E(f(b)|Z=0)]},\]</span> which is independent of <span class="math inline">\(i\)</span> as required (because <span class="math inline">\(\beta_i\)</span> cancels from the numerator and denominator).</p>
+</section>
+<section id="theorem-7" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-7"><strong>Theorem 7</strong></h2>
+<p>Let <span class="math inline">\(I_s\)</span> be the set of values of a balancing score which make up subclass <span class="math inline">\(s\)</span> (<span class="math inline">\(s = 1, ..., S\)</span>), so that <span class="math inline">\(b(a) \in I_s\)</span> implies that the units with <span class="math inline">\(x = a\)</span> fall in subclass <span class="math inline">\(s\)</span>. Suppose the weight applied to subclass <span class="math inline">\(s\)</span> in direct adjustment is <span class="math inline">\(w_s\)</span>.</p>
+<p>The bias in <span class="math inline">\(x\)</span> after direct adjustment for the subclasses <span class="math inline">\((I_s, s = 1, ..., S)\)</span> is <span class="math display">\[\begin{aligned}B_i = \sum_{s = 1}^S w_s \int \mathbb E(X|b) &amp; \{ \text{Pr}(b|Z=1, b \in I_s) \\
+&amp; - \text{Pr}(b|Z=0, b \in I_s \} db,\end{aligned}\]</span> where <span class="math inline">\(b = b(x)\)</span>.</p>
+<p>For pedagogical aid, let’s go back to our first example and consider what bias results from dividing the dataset into quintiles.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a data.frame of 1000 folks with ages from 19-65</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">seq</span>(<span class="dv">19</span>,<span class="dv">65</span>), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">size =</span> <span class="dv">1000</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients for our logistic model</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>beta_0 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the odds of treatment using a logistic function</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>e_x <span class="ot">&lt;-</span> <span class="fu">exp</span>(beta_0 <span class="sc">+</span> beta_1 <span class="sc">*</span> df<span class="sc">$</span>x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(beta_0 <span class="sc">+</span> beta_1 <span class="sc">*</span> df<span class="sc">$</span>x))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign treatment group based on the computed odds</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="fu">nrow</span>(df), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> df<span class="sc">$</span>e_x)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the initial bias in x</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>initial_bias_in_x <span class="ot">&lt;-</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(z <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">x =</span> <span class="fu">mean</span>(x)) <span class="sc">-</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(z <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">x =</span> <span class="fu">mean</span>(x))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Describe initial bias</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"Initial bias in x (age): "</span>, <span class="fu">round</span>(initial_bias_in_x, <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initial bias in x (age): 15.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(stringr<span class="sc">::</span><span class="fu">str_wrap</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"In other words, age is on average "</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(initial_bias_in_x, <span class="dv">1</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">" years higher in the treated group than the untreated group"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">80</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In other words, age is on average 15.5 years higher in the treated group than
+the untreated group</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider tertile, quantile, and decile subclassification</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>)) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Divide propensity scores into S subclasses.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>quantile <span class="ot">&lt;-</span> <span class="fu">cut</span>(df<span class="sc">$</span>e_x, <span class="fu">quantile</span>(df<span class="sc">$</span>e_x, <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length.out=</span>n)), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># expectation of x by quantile of propensity score and by treatment status</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  E_x_by_subclass <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(quantile, z) <span class="sc">%&gt;%</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">E_x_b =</span> <span class="fu">mean</span>(x))</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot wider so we can subtract</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  E_x_by_subclass <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(E_x_by_subclass,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="st">'quantile'</span>, </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="st">'E_x_b'</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> z)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rename columns from 1 and 0 to be more descriptive</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  E_x_by_subclass <span class="ot">&lt;-</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      E_x_by_subclass,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">E_x_given_subclass_and_z1 =</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">E_x_given_subclass_and_z0 =</span> <span class="st">`</span><span class="at">0</span><span class="st">`</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use equal weighting for each subclass</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  w_s <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>n</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the bias in x within the Is substrata </span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  B_s <span class="ot">&lt;-</span> <span class="fu">sum</span>(w_s <span class="sc">*</span> <span class="fu">with</span>(E_x_by_subclass, (E_x_given_subclass_and_z1 <span class="sc">-</span> E_x_given_subclass_and_z0)))</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"Bias in x (age) after adjusting for "</span>, n, <span class="st">" subclasses is "</span>, <span class="fu">round</span>(B_s, <span class="dv">1</span>), <span class="st">'</span><span class="sc">\n</span><span class="st">'</span>))</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bias in x (age) after adjusting for 3 subclasses is 3.1
+Bias in x (age) after adjusting for 5 subclasses is 1
+Bias in x (age) after adjusting for 10 subclasses is 0.1</code></pre>
+</div>
+</div>
+</section>
+<section id="my-conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="my-conclusions">My Conclusions</h2>
+<p>The first comment I would make is that for anyone looking to follow the details of the proofs, the presentation in Chapters 12 and 13 of <em>Causal Inference for Statistics, Social, and Biomedical Sciences</em> by Guido W. Imbens and Donald B. Rubin is much more introductory, detailed and I found the notation more clear in terms of what is a random variable vs.&nbsp;being treated as a fixed value.</p>
+<p>I did not realize to what an extent this paper would be a mini-treatise on the advantages of matching as opposed to covariance-adjustment methods when using propensity scores.</p>
+<p>I’m very happy to feel that I’m now up to speed on what the proofs behind the scenes are when people talk about propensity score matching or regression methods that incorporate propensity scores. I’ll have to keep reading as I’ve just started to discover some literature around the deficiencies of propensity score matching, which I now feel prepared to tackle given my newfound acquaintance with the subject matter. For example of criticisms, see:</p>
+<blockquote class="blockquote">
+<p>King, G., &amp; Nielsen, R. (2019). Why Propensity Scores Should Not Be Used for Matching. Political Analysis, 27(4), 435-454. doi:10.1017/pan.2019.11</p>
+</blockquote>
+<p>My sense is that it’s been a fruitful task for me to work through this paper filling in the proof details that weren’t immediately clear to me and writing simulation code to aid learning as I went along. I’m hopeful that this knowledge will pay off as I move towards more complex subjects, especially things like <span class="vocab"><a style="color: #008B72;" href="https://link.springer.com/book/10.1007/978-1-4419-9782-1"> targeted learning</a></span> or <span class="vocab"><a style="color: #008B72;" href="https://pubmed.ncbi.nlm.nih.gov/17910531/">super-learners</a></span>.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

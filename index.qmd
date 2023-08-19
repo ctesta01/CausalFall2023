@@ -1,0 +1,22 @@
+---
+title: "Readings in Causal Inference, Fall 2023"
+format: 
+  html:
+    theme: style.scss
+---
+
+During the Fall 2023 I'm doing a reading-based independent study 
+and writing up my notes to share here from some classic and modern 
+texts in causal inference with a particular interest on a few subtopics
+including 1) complex mediators, 2) the role of semiparametric methods,
+and 3) doubly-robust learning.
+
+--- 
+
+Week 1: <a href="1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html" style='text-decoration: none; color: black;'><u><i>The Central Role of the Propensity Score in Observational Studies for Causal Effects</i></u> by Paul R. Rosenbaum and Donald B. Rubin (1983), Biometrika</a>
+
+[HTML](1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html) 
+<span style='margin-left: 25px;'></span>
+[PDF](1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.pdf)
+
+---

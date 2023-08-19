@@ -1,0 +1,144 @@
+/*-- scss:defaults --*/
+
+$font-family-sans-serif: "Lora";
+// $font-family-monospace: "Lora";
+$bs-body-font-family: "Lora";
+$web-font-path: "No";
+
+/*-- scss:rules --*/
+
+/* lora-regular - latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lora Regular'), local('Lora-Regular'),
+       url('fonts/lora-v15-latin-regular.woff2') format('woff2'),
+       url('fonts/lora-v15-latin-regular.woff') format('woff');
+}
+
+/* lora-italic - latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Lora Italic'), local('Lora-Italic'),
+       url('fonts/lora-v15-latin-italic.woff2') format('woff2'),
+       url('fonts/lora-v15-latin-italic.woff') format('woff');
+}
+
+/* lora-700 - latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lora Bold'), local('Lora-Bold'),
+       url('fonts/lora-v15-latin-700.woff2') format('woff2'),
+       url('fonts/lora-v15-latin-700.woff') format('woff');
+}
+
+/* lora-700italic - latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Lora Bold Italic'), local('Lora-BoldItalic'),
+       url('fonts/lora-v15-latin-700italic.woff2') format('woff2'),
+       url('fonts/lora-v15-latin-700italic.woff') format('woff');
+}
+/* marcellus-sc-regular - latin */
+@font-face {
+  font-family: 'Marcellus SC';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Marcellus SC'), local('MarcellusSC-Regular'),
+       url('fonts/marcellus-sc-v7-latin-regular.woff2') format('woff2'),
+       url('fonts/marcellus-sc-v7-latin-regular.woff') format('woff');
+}
+
+article, aside, footer, header, hgroup, nav, section, main {
+    display:block;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Lora', serif;
+}
+header {
+    font-weight: normal;
+    font-size: 2.5em;
+    font-family: "Lora", serif;
+    width: 90%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0.3em;
+    margin-top: 0.8em;
+}
+pre {
+    overflow-x: auto;
+}
+main, footer {
+    width: 90%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+footer {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+h1, h2, h3 {
+    font-weight: normal;
+    font-family: "Marcellus SC", sans-serif;
+    margin-bottom: 0.2em;
+    margin-top: 0.8em;
+    color: #a81010;
+}
+h1 {
+    font-size: 1.3em;
+}
+h2 {
+    font-size: 1.2em;
+}
+h3 {
+    font-size: 1em;
+}
+p {
+    margin-top: 0.5em;
+}
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+div.display-eq {
+  text-align: center;
+  font-style: italic;
+}
+div.display-eq span.text {
+  font-style: normal;
+}
+
+canvas.box {
+  border: solid 2px black;
+  border-radius: 3px;
+}
+pre code {
+  margin-left: 2em;
+  font-size: 11px;
+}
+ul li {
+  margin: 7px 0;
+}
+@media only screen and (max-width: 600px) {
+    header {
+        font-size: 2em;
+    }
+}
+
+.vocab {
+  color: #008B72;
+}
