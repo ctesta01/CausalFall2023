@@ -127,15 +127,50 @@ ggplot(df, aes(x = e_bin, y = x, color = as.factor(z))) +
 knitr::include_graphics("biased_treatment.png")
 ```
 
-```{r, echo=FALSE, out.width='6.5in', fig.cap = "A balance check showing that after stratifying by the propensity scores, age and assignment to treatment are independent.."}
+```{r, echo=FALSE, out.width='6.5in', fig.cap = "A balance check showing that after stratifying by the propensity scores, age and assignment to treatment are independent."}
 knitr::include_graphics("balance_check.png")
 ```
 
 ## **Theorem 1**
 
-$X \independent Z | e(X)$
+$e(X)$ is a balancing score. That is, $$X \independent Z | e(X).$$
 
-This falls out as a special case of Theorem 2, which we will prove in detail.
+*Proof.* We want to show that 
+$$Pr(Z = 1 | X, e(X)) = Pr(Z = 1 | e(X)).$$
+
+Since $e(x)$ is a function of $x$, we have that 
+$$Pr(Z = 1 | X, e(X)) = Pr(Z = 1 | X = X) = e(X).$$ 
+
+What remains is to show that $Pr(Z = 1 | e(X)) = e(X)$. 
+
+By the definition of probability and the law of iterated expectation, 
+$$\begin{aligned}
+Pr(Z = 1 | e(X)) & = \E[Z = 1 | e(X)] \quad \text{ (by definition of probability) } \\
+ & = \E[\E(Z = 1|X) | e(X)] \quad (\star) \\ 
+ & = \E[ e(X) | e(X) ] \\ 
+ & = e(x) \quad \text{(by the law of iterated expectations)} 
+ \end{aligned}$$
+ 
+The $(\star)$ step can be justified two ways, either 
+rhetorically or more rigorously: 
+
+  1. Rhetorically: With respect to the inside term, we can 
+  apply extra conditioning by $X = x$ since we're going to compute the outer
+  expectations conditioned on $e(X)$ and thus across the $X$ values
+  that satisfy $X = x \in e^{-1}(x)$. 
+  2. More rigorously:
+  $$ \begin{aligned}
+    \E[Z = 1 | e(X')] & = \E[Z = 1 | X \in e^{-1}(X')] \\
+    & = \frac{1}{Pr(X \in e^{-1}(X'))} \int z Pr(Z = 1, X \in e^{-1}(X')) dz \\
+    & = \frac{1}{Pr(X \in e^{-1}(X'))} \int z \int_{x \in e^{-1}(X')} Pr(Z = 1 | X = x) dx dz \\
+    & = \E[\E[Z = 1 | X ] | X \in e^{-1}(X')] \\
+    & = \E[\E[Z = 1 | X ] | e(X')] \\ 
+    & = \text{(continue from above)}
+    \end{aligned}$$ 
+  
+
+Thus $$Pr(Z = 1 | X, e(X)) = e(X) = Pr(Z = 1 | e(X)).$$
+<div style='text-align: right;'>$\square$</div>
 
 ## **Theorem 2**
 
@@ -146,39 +181,30 @@ function $f$.
 
 *Proof.*  ($\leftarrow$) 
 First we show that if $b(x)$ is finer than $e(x)$ then it is a balancing score. 
-To show this, it is sufficient to show that 
-    
+
+We want to show that 
+$$ Pr(Z = 1 | X, b(X)) \stackrel{\text{claim}}{=} Pr(Z = 1 | b(X))$$
+
+Since the left hand side is easily understood to be $e(x)$ since $b(X)$ is a
+function of $X$, it is then sufficient to show that
 $$Pr(Z=1|b(x)) = e(x).$$
-Why is this the case?  Because $e(x)$ is a balancing score, as evidenced by
-the fact that $Z$ is binary and that $e(x) = Pr(Z=1|X=x)$ completely
-characterizes the interdependence of $X$ and $Z$.  Given that, conditioning
-on $e(x)$ is analagous to conditioning on a particular value $X=x$. $X
-\independent Z \rvert X = x$ is of course true given that $x$ is a fixed
-value independent of $Z$. Similarly we have that $X \independent Z \rvert
-Pr(Z = 1 | X = x)$.
 
-Now we can proceed to show that $b(x)$ is a balancing function by showing that $Pr(Z = 1 | b(x)) = e(x)$. 
-
-In order to see the truth behind this claim, notice that $e(x)$ is the propensity towards treatment at a given level of covariates $x$ while $Pr(Z=1|b(x))$ is
-the propensity towards treatment among 
-those with covariates that map to $b(x)$ 
-under the function $b$. In other words, we've described the average amount of treatment (or probability) among those with covariates that map to $b(x)$, which can be written $\E[e(x)|b(x)]$. 
-
-As Rosenbaum and Rubin write it, "By the definition of $e(x)$, 
-$$ Pr(Z=1|b(x)) = \E[e(x)|b(x)]\text{"}$$
+Now we rewrite the left-hand-side as follows:
+$$Pr(Z=1|b(x)) = \E[Z=1|b(X)] = \E[\E[Z=1|X]|b(X)] = \E[e(x)|b(x)].$$
 
 The next step of Rosenbaum and Rubin's is to 
 claim that 
 $$\E[e(X) | b(X) = b(x)] = e(x).$$
 
-The most straightforward to see this is to start
-by noting that if we fix $X=x$, then any function 
-of $X$ as a random variable also becomes fixed, so that $\E[f(X)|X=x] = f(x)$. In our case, we have that 
-$e(x) = f(b(x))$, so $\E[e(x)|b(x)] = \E[f(b(X))|b(X)=b(x)] = f(b(x)) = e(x)$. 
+The most straightforward way to see this is to start by noting that if we fix
+$X=x$, then any function of $X$ as a random variable also becomes fixed, so that
+$\E[f(X)|X=x] = f(x)$. In our case, we have that $e(x) = f(b(x))$, so
+$\E[e(x)|b(x)] = \E[f(b(X))|b(X)=b(x)] = f(b(x)) = e(x)$.
 
-As a result, we've shown that 
-$$\mathbb E[e(x)|b(x)] = Pr(Z = 1|b(x)) = e(x),$$
-which concludes this direction of the proof showing that if $b(x)$ is finer than $e(x)$ then it is a balancing score. 
+As a result, we've shown that $$\mathbb E[e(x)|b(x)] = Pr(Z = 1|b(x)) = e(x),$$
+which concludes this direction of the proof showing that if $b(x)$ is finer than
+$e(x)$ then it is a balancing score.
+
 $$ \exists f \colon e(x) = f(b(x)) \Longrightarrow X \independent Z | b(x).$$
 
 ($\rightarrow$) Moving on, we now prove the converse direction by contradiction.  Suppose that we have $b(x)$, a balancing score such that $X \independent Z | b(x)$, but $b(x)$ is not finer than $e(x)$ so we have $\exists x_1, x_2 \ni e(x_1) \neq e(x_2) \text{ and } b(x_1) = b(x_2)$. 
@@ -193,8 +219,9 @@ $$Pr(Z = 1 | X = x_2, b(x_2)) = Pr(Z=1 | b(x_2)).$$
 Since $b(x_1) = b(x_2)$, we also then know that 
 $$Pr(Z=1 | b(x_1)) = Pr(Z=1 | b(x_2)),$$
 but this would imply that 
-$$e(x_1) = Pr(Z = 1 | X = x_1, b(x_1)) = Pr(Z = 1 | X = x_2, b(x_2)) = e(x_2)),$$
-which is a contradiction to our assumption that $e(x_1) \neq e(x_2)$. 
+$$e(x_1) = Pr(Z = 1 | X = x_1, b(x_1)) = Pr(Z = 1 | X = x_2, b(x_2)) = e(x_2),$$
+since $Pr(Z|X,f(X)) = Pr(Z|X)$ for any function $f$. This establishes a
+contradiction to our assumption that $e(x_1) \neq e(x_2)$.
 
 Thus if $b(x)$ is a balancing function then it must be finer than $e(x)$.
 $$X \independent Z | b(x) \Longrightarrow e(x) = f(b(x)).$$
@@ -548,7 +575,10 @@ is $$\begin{aligned}B_i = \sum_{s = 1}^S w_s \int \E(X|b) & \{ \text{Pr}(b|Z=1, 
 where $b = b(x)$. 
 
 For pedagogical aid, let's go back to our first example and consider
-what bias results from dividing the dataset into quintiles. 
+what bias results from dividing the dataset into varying fineness of quantile bins
+(tertiles, quintiles, and deciles) and observe how bias decreases as we 
+increase the fineness of our bins.  In this simulation, we use 1000 
+observations to ensure we have large enough sample sizes in each bin.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
