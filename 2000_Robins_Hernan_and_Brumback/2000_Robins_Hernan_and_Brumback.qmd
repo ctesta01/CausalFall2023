@@ -79,11 +79,15 @@ knitr::include_graphics("standalone_figures/point_exposure2/point_exposure2.svg"
 knitr::include_graphics("standalone_figures/point_exposure3/point_exposure3.svg")
 ```
 
-I think Robins, Hernán, and Brumback summarize the problem with time-varying confounders
-so well in section 7.1 that I want to repeat their statement here in my introduction: 
+<div style='background: #E8F5E9; padding-left: 20px; padding-right: 20px; padding-top: 15px; border-color: #008b72; border-radius: 15px; border-style: solid;'>
 
-> ... Standard regression methods adjust for covariates by including them in the model as regressors. These standard methods may fail to adjust appropriately for confounding due to measured confounders $L_k$ when treatment is time varying because (1) $L_k$ may be a confounder for later treatment and thus must be adjusted for, but (2) may also be affected by earlier treatment and thus should not be adjusted for by standard methods. A solution to this conundrum is to adjust for the time-dependent covariates $L_k$ by using them to calculate the weights $sw_i$ rather than by adding $L_k$ to the
-regression model as regressors. 
+I think Robins, Hernán, and Brumback summarize the problem with time-varying confounders
+quite clearly in section 7.1: 
+
+"... Standard regression methods adjust for covariates by including them in the model as regressors. These standard methods may fail to adjust appropriately for confounding due to measured confounders $L_k$ when treatment is time varying because (1) $L_k$ may be a confounder for later treatment and thus must be adjusted for, but (2) may also be affected by earlier treatment and thus should not be adjusted for by standard methods. A solution to this conundrum is to adjust for the time-dependent covariates $L_k$ by using them to calculate the weights $sw_i$ rather than by adding $L_k$ to the
+regression model as regressors."
+
+</div>
 
 ## Background — Counterfactuals in Point-Treatment Studies
 
@@ -157,14 +161,77 @@ rests on two additional claims:
   in both populations. 
   
 *Proof of 1.* We want to show that
-$$Pr(A_0 = a_0 | L_0 = l_0) \stackrel{claim}{=} Pr(A_0 = a_0) \quad \text{ after re-weighting.}$$
+$$Pr^W(A = a | L = l) \stackrel{claim}{=} Pr^W(A = a),$$
+where $Pr^W$ refers to probability in the reweighted pseudopopulation.
 
-To do this, consider that:
-$$\E_w[A_0 = a_0 | L_0 = l_0] = \sum_{l_0} Pr_w(A_0 = a_0 | L_0 = l_0) \times Pr_w(L_0 = l_0)$$
+I will only show this for the case where both $A$ and $L$ are dichotomous. 
 
-Where $\E_w$ and $Pr_w$ refer to expectation and probability in the reweighted sample. 
+First, we can establish that 
+$$Pr^W(A = a | L = l) = \frac{N_{(A = a, L =l)} w}{\sum_{i \colon L_i = l} w_i},$$
+where $w = 1/Pr(A = a|L=l)$ is a scalar-value and 
 
-What we can now do is introduce additional indexing over the subjects 
-and their subject-specific weights. 
+$$w_i = \left\{ \begin{array}{ll} 1/Pr(A=1|L=l) & \text{ if } A_i = 1 \\
+1/Pr(A=0|L=l) & \text{ if } A_i = 0 \end{array}\right.$$
 
-$$ = \sum_{l_0} \frac{\sum \{ I_{A_0 = a_0}(a_{0i} \text{ for subjects where} L_0 = l_0 ) \}} $$
+where $N_{(A=a,L=l)} \stackrel{\text{def}}{=} \sum_{i \colon a_i = a, l_i = l} 1$.
+
+Letting $w' = 1/Pr(A = 1-a | L=l)$, then we have that:
+
+$$Pr^W(A = a | L = l) = \frac{N_{(A=a, L=l)}w}{N_{(A=a,L=l)}w + N_{(A=1-a,L=l)}w'}.$$
+
+Substituting that $Pr(A = a | L = l)$ is estimated by $N_{(A=a,L=l)}/N_{(L=l)}$,
+we have that
+
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/cancel']},
+  tex: {packages: {'[+]': ['cancel']}}
+};
+</script>
+
+$$Pr^W(A = a | L = l) = \frac{\cancel{N_{(A=a, L=l)}} \frac{N_{(L=l)}}{\cancel{N_{(A=a,L=l)}}}}{
+\cancel{N_{(A=a,L=l)}} \frac{N_{(L=l)}}{\cancel{N_{(A=a,L=l)}}} + \cancel{N_{(A=1-a,L=l)}} \frac{N_{(L=l)}}{\cancel{N_{(A=1-a,L=l)}}}}$$
+$$ = \frac{N_{(L=l)}}{2 N_{(L=l)}}$$
+$$ = \frac{1}{2}$$
+
+In general, if $L$ took on more than just two values, we find that the probability that $A=a$ is
+the inverse of the number of levels of $L$, which is independent of any single value that $L$
+could take on.
+
+<div style='text-align: right'>$\square$</div>
+
+*Thinking about 2.* It's not entirely clear to me why they say that 
+$Pr(Y=1|A)$ remains unchanged comparing the weighted vs. unweighted
+populations. 
+
+If we consider the 3-way tables necessary in the situation when $A$, $L$, and 
+$Y$ are each dichotomous, we're looking at something like this (for a 
+simulated study of 1,000 participants):
+
+```{r, echo=FALSE, out.width = "3.5in", fig.align = 'center'}
+knitr::include_graphics("script_examples/point_treatment_confounding/original_table.svg")
+```
+
+After applying inverse probability of treatment weights:
+
+```{r, echo=FALSE, out.width = "3.5in", fig.align = 'center'}
+knitr::include_graphics("script_examples/point_treatment_confounding/table_w_weights.svg")
+knitr::include_graphics("script_examples/point_treatment_confounding/reweighted_table.svg")
+```
+
+In general, we would write that the estimate of $Pr^W(Y = 1 | A = 1)$ is
+given by:
+
+$$\quad \frac{N_{\tiny (Y=1, A=1, L=1)} w_{\tiny (A=1,L=1)} + N_{\tiny (Y=1, A=1, L=0)}w_{\tiny (A=1,L=0)}}{
+N_{\tiny (Y=1, A=1, L=1)} w_{\tiny (A=1,L=1)} + N_{\tiny (Y=1, A=1, L=0)}w_{\tiny (A=1,L=0)} + 
+N_{\tiny (Y=0, A=1, L=1)} w_{\tiny (A=1,L=1)} + N_{\tiny (Y=0, A=1, L=0)}w_{\tiny (A=1,L=0)}}$$
+
+where $w_{(A=a|L=l)} = 1/Pr(A=a|L=l)$. The previous expression is only equal to
+$Pr(Y=1 | A=1)$ in the unweighted population if $w_{(A=1,L=0)} = w_{(A=1,L=1)}$ 
+(which we will denote $w$ in the next line to follow) since we could
+then factor:
+
+$$ Pr^W(Y = 1 | A = 1) = \frac{\cancel{w} (N_{\tiny (Y=1,A=1,L=1)} + N_{\tiny (Y=1,A=1,L=0)})}{
+\cancel{w} ( N_{\tiny (Y=1,A=1,L=1)} + N_{\tiny (Y=1,A=1,L=0)} + N_{\tiny (Y=0,A=1,L=1)} + N_{\tiny (Y=0,A=1,L=0)})}$$
+$$ = Pr(Y = 1 | A = 1) \quad \text{ as claimed.}$$
+
