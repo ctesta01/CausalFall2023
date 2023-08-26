@@ -27,4 +27,11 @@ Week 1: <a href="1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html" style='
 <span style='margin-left: 25px;'></span>
 [PDF](1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.pdf)
 
+Week 2: <a href="2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" style='text-decoration: none; color: black;'><u><i>Marginal Structural Models for Causal Inference</i></u> by James M. Robin, Miguel Ángel Hernán, and Babette Brumback (2000), Epidemiology</a>
+
+[HTML](2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html) 
+<span style='margin-left: 25px;'></span>
+[PDF](2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.pdf)
+
+
 ---

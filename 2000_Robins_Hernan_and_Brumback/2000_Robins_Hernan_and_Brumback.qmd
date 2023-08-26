@@ -1,0 +1,170 @@
+---
+title: "Marginal Structural Models"
+format: 
+  html:
+    toc: true
+    theme: ../style.scss
+comments:
+  utterances:
+    repo: ctesta01/CausalFall2023
+---
+
+::: {.content-hidden}
+$$
+\newcommand{\E}[0]{\mathbb E}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+$$
+:::
+
+Notes on <i>Marginal Structural Models and Causal Inference in Epidemiology</i> by James M. Robins, Miguel Ángel Hernán, and Babette Brumback (2000), Epidemiology
+
+<https://doi.org/10.1097/00001648-200009000-00011>
+
+## Introduction 
+
+The key problem this paper addresses is the bias induced by time-dependent confounders that
+are also affected by previous treatment — which are handled by the introduction of 
+marginal structural models that can be consistently estimated using inverse-probability-of-treatment 
+weighted (IPTW) estimators. 
+
+**Definition.** <span style='vocab'>Time-dependent confounders</span> are covariates that are a 
+risk factor for, or predictor of, the event of interest and also predicts subsequent exposure. 
+
+We are particularly interested in time-dependent confounders that are also affected or predicted 
+by past exposure history (Condition 2). 
+
+## Time-Dependent Confounding
+
+> Consider a follow-up study of HIV-infected patients. Let $A_k$ be
+the dose of the treatment or exposure of interest, say zidovudine (AZT)
+on the $k$th day since start of follow-up. Let $Y$ be a dichotomous outcome of interest
+(for example, $Y = 1$ if HIV RNA is not detectable in the blood and 0 otherwise)
+measured at end of follow-up on day $K+1$. Our goal is to estimate the time-dependent
+treatment $A_k$ on the outcome $Y$.
+
+Let $L_k$ represent the vector of all measured risk factors on day $k$ for the
+outcome such as age, CD4 lymphocyte count, white blood count, hematocrit, 
+diagnosis of AIDS, and presence of absence of symptoms and opportunistic infections. 
+Let $U_k$ represent the value(s) on day $k$ of all unmeasured causal risk factors
+for $Y$. 
+
+```{r, echo=FALSE, out.width='75%', fig.cap="Figure 1a. The most complex of the causal graphs for time-dependent exposure."}
+knitr::include_graphics("standalone_figures/time_dependent_exposures1/time_dependent_exposures1.svg")
+```
+
+```{r, echo=FALSE, out.width='75%', fig.cap="Figure 1b. Similar to the above graph, but missing the arrows from $U_{t_1}$ to $A_{t_2}$ for $t_1, t_2 \\in \\{0, 1\\}$."}
+knitr::include_graphics("standalone_figures/time_dependent_exposures2/time_dependent_exposures2.svg")
+```
+
+```{r, echo=FALSE, out.width='75%', fig.cap="Figure 1c. Again similar to the above graph, but also missing the arrows from $L_{t_1}$ to $A_{t_2}$ for $t_1, t_2 \\in \\{0, 1\\}$."}
+knitr::include_graphics("standalone_figures/time_dependent_exposures2/time_dependent_exposures2.svg")
+```
+
+Before diving immediately into how to address time-varying confounding that 
+is affected by antecedent exposures, we establish some preliminary findings
+in the setting of point-treatment studies. 
+
+```{r, echo=FALSE, out.width='35%', fig.cap="Figure 2 |> a. A causal graph for a point-exposure.", fig.align='center'}
+knitr::include_graphics("standalone_figures/point_exposure1/point_exposure1.svg")
+```
+
+```{r, echo=FALSE, out.width='35%', fig.cap="Figure 2b. Similar to above but missing the arrow from $U_0 \to A_0$.", fig.align='center'}
+knitr::include_graphics("standalone_figures/point_exposure2/point_exposure2.svg")
+```
+
+```{r, echo=FALSE, out.width='35%', fig.cap="Figure 2c. Again similar to above but missing the arrow from $L_0 \to A_0$.", fig.align='center'}
+knitr::include_graphics("standalone_figures/point_exposure3/point_exposure3.svg")
+```
+
+I think Robins, Hernán, and Brumback summarize the problem with time-varying confounders
+so well in section 7.1 that I want to repeat their statement here in my introduction: 
+
+> ... Standard regression methods adjust for covariates by including them in the model as regressors. These standard methods may fail to adjust appropriately for confounding due to measured confounders $L_k$ when treatment is time varying because (1) $L_k$ may be a confounder for later treatment and thus must be adjusted for, but (2) may also be affected by earlier treatment and thus should not be adjusted for by standard methods. A solution to this conundrum is to adjust for the time-dependent covariates $L_k$ by using them to calculate the weights $sw_i$ rather than by adding $L_k$ to the
+regression model as regressors. 
+
+## Background — Counterfactuals in Point-Treatment Studies
+
+In an effort to help orient the readers, the authors provide some basic background
+on causal inference in point-treatment studies (Figures 2a-2c) to help keep us all
+grounded before moving on to more complicated settings. 
+
+Through this section ($\S2$) the authors contrast <span class='vocab'>crude measures</span> with <span class='vocab'>causal measures</span>
+explaining that the causal measures will equal the crude measures when the 
+analysis is unconfounded. 
+
+$$cRD = Pr[Y = 1 | A_0 = 1] - Pr[Y = 1 | A_0 = 0] \quad \text{\small (Crude Risk Difference)}$$
+$$cRR = Pr[Y = 1 | A_0 = 1]/Pr[Y = 1 | A_0 = 0] \quad \text{\small (Crude Risk Ratio)}$$
+$$cOR = \frac{Pr[Y = 1 | A_0 = 1]/Pr[Y=1 | A_0 = 0]}{Pr[Y=0 | A_0 = 1]/Pr[Y=0 | A_0 = 0]} \quad \text{\small (Crude Odds Ratio)}$$
+
+$$Pr[Y_{a_0 = 1} = 1] - Pr[Y_{a_0 = 0} = 1] \quad \text{\small (Causal Risk Difference)}$$
+$$Pr[Y_{a_0 = 1} = 1]/Pr[Y_{a_0 = 0} = 1] \quad \text{\small (Causal Risk Ratio)}$$
+$$\frac{Pr[Y_{a_0 = 1} = 1]/Pr[Y_{a_0 = 0} = 1]}{Pr[Y_{a_0=1}=0]/Pr[Y_{a_0=0} = 0]} \quad \text{\small (Causal Risk Ratio)}$$
+
+Note that the way I've written the odds ratios is to make the structure of them 
+obvious as ratios of odds, but of course one can re-express any fraction 
+written $\displaystyle \frac{a / b}{c / d} = \frac{a d}{b c}$, which is how 
+they're presented in the paper. 
+
+An important point they make is that because of the possibility of effect modification, 
+the population causal parameter need not be the same as its estimate in a particular
+stratum of measured risk factors even if the treatment is unconfounded. 
+
+To estimate these quantities of interest, we might fit linear, exponential, and logistic models
+depending on expert knowledge about the nature of the data being considered
+(and what type of exposure-response curve we expect): 
+
+$$Pr[Y_{a_0} = 1] = \phi_0 + \phi_1 a_0$$
+$$\log Pr[Y_{a_0} = 1] = \theta_0 + \theta_1 a_0$$
+$$\text{logit} Pr[Y_{a_0} = 1] = \beta_0 + \beta_1 a_0$$
+
+Interpreting, the causal RD is $\phi_1$, the causal RR is $e^{\theta_1}$, 
+and the causal OR is $e^{\beta_1}$. 
+
+These models are described as <span class='vocab'>marginal</span> 
+because they model the marginal distribution of the counterfactual
+random variables $Y_{a_0=1}$ and $Y_{a_0=1}$ rather than the joint distribution
+(as in, they do not model $\text{cor}(Y_{a_0=1}, Y_{a_0=0})$). They are 
+said to be <span class='vocab'>structural</span> because they model the 
+probabilities of counterfactual variables (apparently 
+models for counterfactual variables are often called structural 
+in the econometrics and social science literature). 
+
+I'm a little confused about their claim that these are <span class='vocab'>saturated</span>
+models:  they say that they're saturated because each model has two unknown parameters 
+and places no restriction on the probabilities for $Y_{a_0 = 1}$ and $Y_{a_0 = 0}$. 
+I guess I'm just used to a different definition of saturated in which saturation 
+refers to the model having as many parameters as it has data points, which does not 
+feel like it's necessarily true here. 
+
+### No Unmeasured Confounders 
+
+Next a claim is introduced: if we weight the observations by 
+$w_i = 1/Pr[A_0 = a_{0i} | L_0 = l_{0i}]$ where $l_{0i}$
+and $a_{0i}$ are the measured covariates and 
+exposures for subject $i$, then we should recover
+unbiased estimates of the causal quantities of interest. 
+
+A rough sketch of why this should work is presented that
+rests on two additional claims: 
+
+  1. In the constructed pseudopopulation, $A_0$ should be unconfounded
+  by the measured covariates $L_0$.
+  2. $Pr(Y_{a_0=1} = 1)$ and $Pr(Y_{a_0=1} = 0)$ are the same as in the 
+  true study population so that the causal RD, RR, and OR are the same 
+  in both populations. 
+  
+*Proof of 1.* We want to show that
+$$Pr(A_0 = a_0 | L_0 = l_0) \stackrel{claim}{=} Pr(A_0 = a_0) \quad \text{ after re-weighting.}$$
+
+To do this, consider that:
+$$\E_w[A_0 = a_0 | L_0 = l_0] = \sum_{l_0} Pr_w(A_0 = a_0 | L_0 = l_0) \times Pr_w(L_0 = l_0)$$
+
+Where $\E_w$ and $Pr_w$ refer to expectation and probability in the reweighted sample. 
+
+What we can now do is introduce additional indexing over the subjects 
+and their subject-specific weights. 
+
+$$ = \sum_{l_0} \frac{\sum \{ I_{A_0 = a_0}(a_{0i} \text{ for subjects where} L_0 = l_0 ) \}} $$

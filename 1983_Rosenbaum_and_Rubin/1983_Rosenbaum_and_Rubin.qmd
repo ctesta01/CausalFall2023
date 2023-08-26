@@ -4,6 +4,9 @@ format:
   html:
     toc: true
     theme: ../style.scss
+comments:
+  utterances:
+    repo: ctesta01/CausalFall2023
 ---
 
 ::: {.content-hidden}

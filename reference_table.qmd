@@ -22,4 +22,3 @@
 | Robins, J. M., Sued, M., Lei, G., & Mínguez, D. (2017). Comment: The self-controlled case series method - An innovative design for home and online randomized controlled trials. Statistical Science, 32(2), 264-267. | [Article](https://pubmed.ncbi.nlm.nih.gov/31637695/) |
 | Hernán, M. A., & Robins, J. M. (2018). Causal Inference. Chapman & Hall/CRC. | [Book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) |
 | Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C., Newey, W., & Robins, J. (2018). Double/debiased machine learning for treatment and structural parameters. The Econometrics Journal, 21(1), C1-C68. | [Link](https://academic.oup.com/ectj/article/21/1/C1/5056401) |
-| Peters, M. E., Neumann, M., Iyyer, M., Gardner, M., Clark, C., Lee, K., & Zettlemoyer, L. (2018). Deep contextualized word representations. arXiv preprint arXiv:1802.05365. | [Article](https://aclanthology.org/N18-1202/) |
