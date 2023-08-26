@@ -378,13 +378,13 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ATE_est)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) 
-   1.550283 </code></pre>
+   1.170256 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Compare to the true average treatment effect</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>true_ATE <span class="ot">&lt;-</span> (alpha_1 <span class="sc">-</span> alpha_0) <span class="sc">+</span> (beta_1 <span class="sc">-</span> beta_0) <span class="sc">*</span> b_bar</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(true_ATE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.243965</code></pre>
+<pre><code>[1] 1.25178</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Bootstrap to estimate SE of ATE_est</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -420,11 +420,11 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(SE_ATE_boot) <span class="co"># print standard error for bootstrap estimated ATE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1543754</code></pre>
+<pre><code>[1] 0.1512519</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_ATE_boot) <span class="co"># check bootstrap estimated ATE resembles above estimate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.551205</code></pre>
+<pre><code>[1] 1.161758</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -561,7 +561,7 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Describe initial bias</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"Initial bias in x (age): "</span>, <span class="fu">round</span>(initial_bias_in_x, <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Initial bias in x (age): 14.7</code></pre>
+<pre><code>Initial bias in x (age): 14</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(stringr<span class="sc">::</span><span class="fu">str_wrap</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(</span>
@@ -572,8 +572,8 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">80</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>In other words, age is on average 14.7 years higher in the treated group than
-the untreated group</code></pre>
+<pre><code>In other words, age is on average 14 years higher in the treated group than the
+untreated group</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider tertile, quantile, and decile subclassification</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>)) {</span>
@@ -608,9 +608,9 @@ the untreated group</code></pre>
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"Bias in x (age) after adjusting for "</span>, n, <span class="st">" subclasses is "</span>, <span class="fu">round</span>(B_s, <span class="dv">1</span>), <span class="st">'</span><span class="sc">\n</span><span class="st">'</span>))</span>
 <span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Bias in x (age) after adjusting for 3 subclasses is 2.8
-Bias in x (age) after adjusting for 5 subclasses is 1
-Bias in x (age) after adjusting for 10 subclasses is 0</code></pre>
+<pre><code>Bias in x (age) after adjusting for 3 subclasses is 3
+Bias in x (age) after adjusting for 5 subclasses is 0.9
+Bias in x (age) after adjusting for 10 subclasses is 0.2</code></pre>
 </div>
 </div>
 </section>
@@ -760,7 +760,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="ctesta01/CausalFall2023" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+<script src="https://giscus.app/client.js" data-repo="ctesta01/CausalFall2023" data-repo-id="R_kgDOKJFkiQ" data-category="General" data-category-id="DIC_kwDOKJFkic4CY4aM" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 
