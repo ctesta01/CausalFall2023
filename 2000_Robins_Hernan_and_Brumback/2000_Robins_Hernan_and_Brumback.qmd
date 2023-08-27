@@ -30,7 +30,7 @@ are also affected by previous treatment — which are handled by the introductio
 marginal structural models that can be consistently estimated using inverse-probability-of-treatment 
 weighted (IPTW) estimators. 
 
-**Definition.** <span style='vocab'>Time-dependent confounders</span> are covariates that are a 
+**Definition.** <span class='vocab'>Time-dependent confounders</span> are covariates that are a 
 risk factor for, or predictor of, the event of interest and also predicts subsequent exposure. 
 
 We are particularly interested in time-dependent confounders that are also affected or predicted 
@@ -89,7 +89,7 @@ regression model as regressors."
 
 </div>
 
-## Background — Counterfactuals in Point-Treatment Studies
+## Counterfactuals in Point-Treatment Studies
 
 In an effort to help orient the readers, the authors provide some basic background
 on causal inference in point-treatment studies (Figures 2a-2c) to help keep us all
@@ -143,7 +143,7 @@ I guess I'm just used to a different definition of saturated in which saturation
 refers to the model having as many parameters as it has data points, which does not 
 feel like it's necessarily true here. 
 
-### No Unmeasured Confounders 
+## No Unmeasured Confounders 
 
 Next a claim is introduced: if we weight the observations by 
 $w_i = 1/Pr[A_0 = a_{0i} | L_0 = l_{0i}]$ where $l_{0i}$
@@ -235,3 +235,153 @@ $$ Pr^W(Y = 1 | A = 1) = \frac{\cancel{w} (N_{\tiny (Y=1,A=1,L=1)} + N_{\tiny (Y
 \cancel{w} ( N_{\tiny (Y=1,A=1,L=1)} + N_{\tiny (Y=1,A=1,L=0)} + N_{\tiny (Y=0,A=1,L=1)} + N_{\tiny (Y=0,A=1,L=0)})}$$
 $$ = Pr(Y = 1 | A = 1) \quad \text{ as claimed.}$$
 
+After some searching, I believe I have found a proof, in Rebecca Barter's
+blog-post on [*The intuition behind inverse probability weighting in causal
+inference*](https://www.rebeccabarter.com/blog/2017-07-05-ip-weighting).
+
+Before getting into the proof, she helpfully reminds us that a causal estimand
+is identifiable when (1) <span class='vocab'>exchangeability/ignorability</span>, 
+(2) <span class='vocab'>consistency</span>, and (3) 
+<span class='vocab'>positivity</span> all hold. 
+
+*Definition.* <span class='vocab'>Exchangeability</span> is the assumption we can re-arrange our observations 
+without altering our conclusions. In the context of causal inference, we're saying 
+that we'd like our observations to be identically and independently distributed,
+same for the treatment assignment mechanism, and that therefore except for
+the treatment individual units received, we can permute them without changing our 
+results. 
+
+*Definition.* <span class='vocab'>Consistency</span> refers to whether or not our model of potential (unobserved) outcomes
+is valid, in that our model is *consistent* with the reality of the data generating
+processes if we are making accurate statements regarding $Pr(\text{outcomes}|\text{exposures}).$
+
+*Definition.* <span class='vocab'>Positivity</span> refers to the fact that all observations necessarily 
+must have strictly positive probability of being assigned to either the treatment
+or control group — because otherwise if there is 0 probability of assignment to 
+one of the treatment or control groups, we will necessarily lack observations from
+that group and thus unable to form causal estimates.
+
+If we were to have exchangeability, consistency, and positivity, then we could
+say that the average treatment effect is estimated by 
+$$\frac{\sum_{i \colon A=1} Y_i}{N_{(A=1)}} - \frac{\sum_{i \colon A = 0} Y_i}{N_{(A=0)}},$$
+since by exchangeability the observations are not confounded. 
+
+Now we can proceed to proving the claim that re-weighting the population as
+described produces a pseudopopulation in which the causal estimate is unbiased.
+
+*Proof.* 
+Let $p(l) = Pr(A=1|L=l)$ where for treated individuals we will weight them by
+$1/p(l)$ and for untreated individuals we will weight them by $1/(1-p(l))$ and
+we would estimate $\hat p$ by a logistic regression model.
+
+The causal estimate with inverse probability of treatment weighting is then given 
+by: 
+
+$$\sum_{i \colon A=1} \frac{Y_i}{N_{(A=1)} \hat p(L_i)} - \sum_{i \colon A = 0}
+\frac{Y_i}{N_{(A=0)} (1-\hat p(L_i))}$$
+
+$$ = \sum_{i}^n \frac{Y_iA_i}{n \hat p(L_i)} - \sum_{i}^n
+\frac{Y_i(1-A_i)}{n (1-\hat p(L_i))}.$$
+
+What remains to be checked is if the above is equal to $\E[Y_{A=1}] - \E[Y_{A=0}]$
+(with respect to the super-population that we assume is exchangeable/unconfounded).
+
+We will do so by verifying that $\E\left[ \frac{YA}{p(L)} \right] = \E[Y_{A=1}]$
+(and the same steps would follow for showing $\E\left[ \frac{Y(1-A)}{1-p(L)} \right]
+= \E[Y_{A=0}]$.
+
+$$\begin{aligned}
+\E\left[ \frac{YA}{p(L)} \right] & = \E\left[\E\left[ \frac{YA}{p(L)} \middle\vert L \right] \right] \\ 
+& = \E\left[\E\left[ \frac{Y_{A=1}A}{p(L)} \middle\vert L \right] \right] \\ 
+& = \E\left[\frac{\E[Y_{A=1}|L] \E[A|L]}{p(L)} \right] \\ 
+& = \E\left[\frac{\E[Y_{A=1}|L] \cancel{\E[A|L]}}{\cancel{\E[A|L]}} \right] \\ 
+& = \E\left[\E[Y_{A=1}|L]\right] \\ 
+& = \E\left[Y_{A=1}\right]. \\ 
+\end{aligned}
+$$
+
+
+Hence we can conclude that the inverse probability of treatment weighting 
+yields an unbiased estimator for the causal effect.
+
+<div style='text-align: right'>$\square$</div>
+
+## Stabilized Weights
+
+Robins, Hernán, and Brumback go on to say that if levels of $A$ and $L$ are
+strongly associated, then it is likely that we will see quite large inverse
+probability of treatment weights. Such undesired variability in our estimated weights
+suggest that few individuals may inappropriately dominate the pseudopopulation 
+and hence the weighted analysis. 
+
+To mitigate this, they introduce "stabilized weights" which are written 
+as $$sw_i = \frac{Pr(A = a)}{Pr(A=A_i | L=L_i)},$$
+which are the same weights as before just multiplied by $Pr(A=A_i)$. 
+
+I am suspicious that the reason we're able to do this trick is because if 
+we refer back to the proof that the original weights provided an unbiased
+estimator, we saw that 
+$$\E\left[ \frac{Y_{A=1}A}{p(L)} \right] = \E \left[ Y_{A=1} \right],$$
+and if we work the same argument through with the stabilized weights, I think we'd get 
+$\E \left[ Y_{A=1} \E[A] \right]$ instead. However, since $\E[Y_{A=1}]$ is
+the expected value of $Y$ when $A=1$, I think we can say that the prior
+quantity is equal to $\E \left[ Y \E [A] \middle\vert A = 1\right] = 
+\E \left[ Y \middle \vert A = 1 \right] = \E[ Y_{A=1} ].$ 
+
+
+## Time-Dependent Treatments
+
+Returning to the setting of time-dependent confounding as in Figures 1a-c, let $A_k$ represent
+the dosage of a treatment on the $k$th day from start of follow-up, $Y$ is a dichotomous
+variable measured at the end of follow-up on day $K+1$ , and $L_k$ represents all
+measured risk factors for the outcome on day $k$. We'll let $\bar A_k = (A_0, A_1, ..., A_k)$ be
+the treatment or exposure history thorugh day $k$ and let $\bar A = \bar A_K$. 
+
+Generally we'll be more interested in the cumulative effect of dosage ($\sum a_k$) rather than specific
+dosage histories $\bar a$ when thinking about counterfactuals. 
+
+*Assuming no loss to follow-up selection bias or measurement error*, we can 
+unbiasedly estimate causal quantities using a logistic regression model
+
+$$ \text{logistic}(Pr[Y=1 | \bar A = \bar a]) = \beta_0 + \beta_1 \sum a_k, $$
+if treatment is unconfounded.
+
+However, if treatment is confounded, we need to reweight the population by stabilized weights given 
+by 
+
+$$sw_i = \frac{\displaystyle \prod_{k=0}^K Pr(A_k = a_{ki} | \bar A_{k-1} = \bar a_{(k-1)i})}{
+\displaystyle \prod_{k=0}^K Pr(A_k = a_{ki} | \bar A_{k-1} = \bar a_{(k-1)i}, \bar L_k = \bar l_{ki}).
+}$$
+
+## Censoring by Loss to Follow-Up
+
+They say that we can also consider censoring at time $k$ (denoted $C_k$) as another 
+aspect of treatment and re-work our analyses to become "inverse-probability-of-treatment-and-censoring
+weighted estimators" if we view $(A_k, C_k)$ as a joint-treatment at time $k$. 
+
+## Limitations
+
+The authors state that marginal structural models cannot be used to model the
+interaction of treatment with a time-varying covariate (so effect modification).
+For this, they recommend structural nested models to be used.
+
+As suggested above, it's also the case that we cannot use marginal structural
+models when we have violations to the positivity assumption. 
+
+## Important Points from the Appendix 
+
+If we recall the recommendations from [Rosenbaum and Rubin, 1983](https://ctesta01.github.io/CausalFall2023/1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html), 
+it's worth distinguishing the approach suggested here from the propensity score 
+based approaches previously. 
+The propensity score methods were largely oriented towards either propensity score 
+stratification, propensity score matching, or covariance adjustment for propensity scores. 
+It's very much worth noting that the inverse of the propensity score is not the same
+as the inverse probability of treatment proposed here, as the propensity score
+always models $Pr(A=1|L=l)$ while the probability of treatment is the probability 
+of the treatment *a specific unit received*, so $Pr(A=a_i | L=l_i)$. In other words, 
+for those units which were treated, the propensity score and the probability of treatment
+agree, but for untreated units, the probability of the treatment they received (no-treatment) is $1-Pr(A=1|L=l_i)$.
+
+As an additional consideration, it's worth noting that matching or stratification methods
+could introduce significant bias if there is difficulty finding sufficiently close 
+matches or residual uncontrolled-for intrastratum confounding.
