@@ -30,6 +30,8 @@ and responses to it in the Journal of the American Statistical Association
 
 --- 
 
+## Dawid's Article
+
 Dawid argues that because we never observe both treated and untreated outcomes
 for the same units, we are dangerously wading into metaphysical terrain and
 that ultimately this renders causal inference in its counterfactual formulation 
@@ -51,7 +53,7 @@ We'll be discussing what this "Popperian philosophy" exactly is and
 the role philosophy of science has in this conversation at length, but for now let's establish
 a few more facts about Dawid's argument. 
 
-## Types of Causal Inference
+### Types of Causal Inference
 
 Dawid draws our attention to the difference in nature between two types of questions, 
 which can be characterized by archetypal examples. 
@@ -94,7 +96,7 @@ far as I can tell. This is in large part due to the problem of fundamental
 causes:  eventually we'll get to a statement like "X happened because the
 Universe began" which is profoundly unsatisfying.
 
-## A Decision-Analytic Framework
+### A Decision-Analytic Framework
 
 I find this a bit strange, but Dawid claims that "the counterfactual approach
 typically takes as the fundamental object of causal inference the <span class='vocab'>
@@ -145,7 +147,7 @@ could support nonhomogeneous populations:
   awfully close to a modeling approach that, while in its description may sound different,
   is fundamentally doing something extremely similar to the usual counterfactual approach. 
 
-## Philosophy and "Fatalism"
+### Philosophy and "Fatalism"
 
 > Many counterfactual analyses are based, explicitly or implicity, on an attitude that I 
 term *"fatalism."* This considers the various potential responses $Y_i(u)$, when 
@@ -167,7 +169,7 @@ counterfactual causal inference is rooted in an assumption that the counterfactu
 is itself *not a random variable*, which I just simply don't agree with as that's 
 not a presentation or approach I've ever seen advocated for.  
 
-## Have we constructed a strawman?
+### Have we constructed a strawman?
 
 At one point (section 9.1), Dawid says that the average causal effect (in his
 notation: $\E_p\{f(Y_t) - f(Y_c)\}$) (I take in a population where
@@ -184,7 +186,7 @@ conclusions.
 At this point, I'm questioning what exactly Dawid is attacking given that he
 clearly says much of the causal inference literature is acceptable. 
 
-## "Conclusions"
+### "Conclusions"
 
 > There is no magical statistical route that can bypass the need to do real science to attain 
 the clearest possible understanding of the operation of relevant (typically 
@@ -197,9 +199,9 @@ insofar as its relevant to this discussion, it doesn't really matter as long as
 long as the best models we have for sufficiently complex future outcomes are
 those of *random* data generation mechanisms.
 
-# Responses 
+## Responses 
 
-## Cox 
+### Cox 
 
 Of all the responses, I thought the one that hit the nail on the head 
 was David R. Cox's: 
@@ -222,7 +224,7 @@ is established, is it the case that causality has been established? "In one sens
 and yet I believe that many working scientists would be uneasy using the term in 
 such situations." 
 
-## Casella and Schwartz 
+### Casella and Schwartz 
 
 > Dawid insists that such choices, and inferences, must be based on strict principles
 that can be verified empirically. We believe that such a program is so overly rigid that,
@@ -238,5 +240,5 @@ Casella and Schwartz also note that it feels like Dawid has substantially change
 the inferential target of interest from the average causal effect to the 
 decision-theoretically important quantity $u_0 | \text{treatment} = t$.
 
-## Pearl 
+### Pearl 
 

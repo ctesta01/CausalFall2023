@@ -12,7 +12,9 @@ book:
     - 2000_Dawid/2000_Dawid.qmd
 format:
   html:
+    toc: true
     theme: style.scss
     number-depth: 1
+    toc-expand: 3
   pdf:
     documentclass: scrreport

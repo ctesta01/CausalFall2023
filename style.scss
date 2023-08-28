@@ -146,3 +146,7 @@ ul li {
 .quarto-title-meta {
   font-size: 22px;
 }
+
+.sidebar nav[role="doc-toc"] ul {
+  display: block;
+}

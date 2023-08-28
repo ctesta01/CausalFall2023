@@ -122,12 +122,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#types-of-causal-inference" id="toc-types-of-causal-inference" class="nav-link active" data-scroll-target="#types-of-causal-inference">Types of Causal Inference</a></li>
+  <li><a href="#dawids-article" id="toc-dawids-article" class="nav-link active" data-scroll-target="#dawids-article">Dawid’s Article</a>
+  <ul class="collapse">
+  <li><a href="#types-of-causal-inference" id="toc-types-of-causal-inference" class="nav-link" data-scroll-target="#types-of-causal-inference">Types of Causal Inference</a></li>
   <li><a href="#a-decision-analytic-framework" id="toc-a-decision-analytic-framework" class="nav-link" data-scroll-target="#a-decision-analytic-framework">A Decision-Analytic Framework</a></li>
   <li><a href="#philosophy-and-fatalism" id="toc-philosophy-and-fatalism" class="nav-link" data-scroll-target="#philosophy-and-fatalism">Philosophy and “Fatalism”</a></li>
   <li><a href="#have-we-constructed-a-strawman" id="toc-have-we-constructed-a-strawman" class="nav-link" data-scroll-target="#have-we-constructed-a-strawman">Have we constructed a strawman?</a></li>
   <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">“Conclusions”</a></li>
-  <li><a href="#responses" id="toc-responses" class="nav-link" data-scroll-target="#responses"><span class="toc-section-number">5</span>  Responses</a>
+  </ul></li>
+  <li><a href="#responses" id="toc-responses" class="nav-link" data-scroll-target="#responses">Responses</a>
   <ul class="collapse">
   <li><a href="#cox" id="toc-cox" class="nav-link" data-scroll-target="#cox">Cox</a></li>
   <li><a href="#casella-and-schwartz" id="toc-casella-and-schwartz" class="nav-link" data-scroll-target="#casella-and-schwartz">Casella and Schwartz</a></li>
@@ -161,6 +164,8 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="https://doi.org/10.1080/01621459.2000.10474210" class="uri">https://doi.org/10.1080/01621459.2000.10474210</a></p>
 <p><a href="https://www.ics.uci.edu/~sternh/courses/265/dawid_jasa2000.pdf" class="uri">https://www.ics.uci.edu/~sternh/courses/265/dawid_jasa2000.pdf</a></p>
 <hr>
+<section id="dawids-article" class="level2">
+<h2 class="anchored" data-anchor-id="dawids-article">Dawid’s Article</h2>
 <p>Dawid argues that because we never observe both treated and untreated outcomes for the same units, we are dangerously wading into metaphysical terrain and that ultimately this renders causal inference in its counterfactual formulation untestable and unfalsifiable. I suppose I’m giving away the ending, but a large handful of eminent statisticians wrote responses to this article disagreeing quite substantially with its premises.</p>
 <p>Dawid does have a few choice quotes that I particularly agree with:</p>
 <blockquote class="blockquote">
@@ -174,8 +179,8 @@ ul.task-list li input[type="checkbox"] {
 <p>My approach is grounded in a Popperian philosophy, in which the meaningfulness of a purportedly scientific theory, proposition, quantity, or concept is related to the implications it has for what is or could be observed … When this is the case, assertions are empirically refutable and are considered “scientific.” When this is not so, they may be branded “metaphysical.” I argue that counterfactual theories are essentially metaphysical.</p>
 </blockquote>
 <p>We’ll be discussing what this “Popperian philosophy” exactly is and the role philosophy of science has in this conversation at length, but for now let’s establish a few more facts about Dawid’s argument.</p>
-<section id="types-of-causal-inference" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-causal-inference">Types of Causal Inference</h2>
+<section id="types-of-causal-inference" class="level3">
+<h3 class="anchored" data-anchor-id="types-of-causal-inference">Types of Causal Inference</h3>
 <p>Dawid draws our attention to the difference in nature between two types of questions, which can be characterized by archetypal examples.</p>
 <ol type="1">
 <li>“I have a headache. Will it help if I take aspirin?”</li>
@@ -189,8 +194,8 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p>“Wishful thinking” and “clever analysis,” I agree with, but arbitrary untestable assumptions can get you pretty far — But I agree with him in principle here. I think it’s practically impossible to take a recorded history and give a rigorous treatment to why it played out the way it did using statistical machinery, as far as I can tell. This is in large part due to the problem of fundamental causes: eventually we’ll get to a statement like “X happened because the Universe began” which is profoundly unsatisfying.</p>
 </section>
-<section id="a-decision-analytic-framework" class="level2">
-<h2 class="anchored" data-anchor-id="a-decision-analytic-framework">A Decision-Analytic Framework</h2>
+<section id="a-decision-analytic-framework" class="level3">
+<h3 class="anchored" data-anchor-id="a-decision-analytic-framework">A Decision-Analytic Framework</h3>
 <p>I find this a bit strange, but Dawid claims that “the counterfactual approach typically takes as the fundamental object of causal inference the <span class="vocab"> <em>individual causal effect</em></span>…”</p>
 <p>I can’t tell if it’s that I’m not very familiar with what the field of causal inference looked like pre-1980 or so, or if it’s just that this is a mischaracterization. Either way, what I’m familiar with is exclusively causal inference literature that takes as its main object of interest the <span class="vocab"><em>average treatment effect</em></span> or another population-level treatment effect (perhaps conditioned if thinking about effect-heterogeneity).</p>
 <p>Nonetheless, Dawid mounts criticism of the counterfactual framework as involving “metaphysical” variables (variables we do not directly observe) and suggests a Bayesian decision-analytic alternative to the counterfactual formulation of causal inference instead.</p>
@@ -208,8 +213,8 @@ ul.task-list li input[type="checkbox"] {
 <li>If we’re allowing ourselves to control for potential confounders in prediction models that are used for a Bayesian decision-analytic approach, I’m suspicious we’re treading awfully close to a modeling approach that, while in its description may sound different, is fundamentally doing something extremely similar to the usual counterfactual approach.</li>
 </ol>
 </section>
-<section id="philosophy-and-fatalism" class="level2">
-<h2 class="anchored" data-anchor-id="philosophy-and-fatalism">Philosophy and “Fatalism”</h2>
+<section id="philosophy-and-fatalism" class="level3">
+<h3 class="anchored" data-anchor-id="philosophy-and-fatalism">Philosophy and “Fatalism”</h3>
 <blockquote class="blockquote">
 <p>Many counterfactual analyses are based, explicitly or implicity, on an attitude that I term <em>“fatalism.”</em> This considers the various potential responses <span class="math inline">\(Y_i(u)\)</span>, when treatment <span class="math inline">\(i\)</span> is applied to unit <span class="math inline">\(u\)</span>, as predetermined attributes of unit <span class="math inline">\(u\)</span>, waiting only to be uncovered by suitable experimentation.</p>
 </blockquote>
@@ -220,25 +225,26 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p>So it sounds a lot like he’s saying he thinks that much of the approach of counterfactual causal inference is rooted in an assumption that the counterfactual is itself <em>not a random variable</em>, which I just simply don’t agree with as that’s not a presentation or approach I’ve ever seen advocated for.</p>
 </section>
-<section id="have-we-constructed-a-strawman" class="level2">
-<h2 class="anchored" data-anchor-id="have-we-constructed-a-strawman">Have we constructed a strawman?</h2>
+<section id="have-we-constructed-a-strawman" class="level3">
+<h3 class="anchored" data-anchor-id="have-we-constructed-a-strawman">Have we constructed a strawman?</h3>
 <p>At one point (section 9.1), Dawid says that the average causal effect (in his notation: <span class="math inline">\(\mathbb E_p\{f(Y_t) - f(Y_c)\}\)</span>) (I take in a population where exchangeability, positivity, and consistency hold) is just <span class="math inline">\(\mathbb E_P \{f(Y_t)\} - \mathbb E_P \{ f(Y_c) \}\)</span> and this only depends on the marginal distributions.</p>
 <blockquote class="blockquote">
 <p>Hence this particular use of counterfactual analysis, focusing on an infinite population ACE, is consistent with the decision-analytic approach and involves only terms subject to empirical scrutiny. It is fortunate that many of the superficially counterfactual analyses in the literature, from Rubin (1978) onward, have in fact confined attention to ACE and thus lead to acceptable conclusions.</p>
 </blockquote>
 <p>At this point, I’m questioning what exactly Dawid is attacking given that he clearly says much of the causal inference literature is acceptable.</p>
 </section>
-<section id="conclusions" class="level2">
-<h2 class="anchored" data-anchor-id="conclusions">“Conclusions”</h2>
+<section id="conclusions" class="level3">
+<h3 class="anchored" data-anchor-id="conclusions">“Conclusions”</h3>
 <blockquote class="blockquote">
 <p>There is no magical statistical route that can bypass the need to do real science to attain the clearest possible understanding of the operation of relevant (typically nondeterministic) causal mechanisms.</p>
 </blockquote>
 <p>There’s a lot to unpack there. First, I think it’s a real bold move to assume that you can litigate what “real” science is and isn’t. Second, it’s news to me if we’ve settled the debate on whether the universe is deterministic or not, but insofar as its relevant to this discussion, it doesn’t really matter as long as long as the best models we have for sufficiently complex future outcomes are those of <em>random</em> data generation mechanisms.</p>
 </section>
-<section id="responses" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Responses</h1>
-<section id="cox" class="level2">
-<h2 class="anchored" data-anchor-id="cox">Cox</h2>
+</section>
+<section id="responses" class="level2">
+<h2 class="anchored" data-anchor-id="responses">Responses</h2>
+<section id="cox" class="level3">
+<h3 class="anchored" data-anchor-id="cox">Cox</h3>
 <p>Of all the responses, I thought the one that hit the nail on the head was David R. Cox’s:</p>
 <blockquote class="blockquote">
 <p>has the philosophical coherence, if not thrown the baby out with the bathwater, at least left the baby seriously bruised in some vital organs?</p>
@@ -247,8 +253,8 @@ ul.task-list li input[type="checkbox"] {
 <p>I agree with Cox that “it is hard to disagree with Dawid’s distate for assumptions that can never be tested… Yet at a work-a-day level, the point is more that any assumptions should not be pressed too far beyond the limits to which they can be tested, and importantly, that assumptions can be tested indirectly via their consequences as well as directly.”</p>
 <p>I think Cox also raises an interesting philosophical question about causality, which is that is causal inference truly causal if it lacks explanation? As in, if a carefully randomized experiment (or even series of experiments) shows that T produces higher responses than C, but no understanding as to how is established, is it the case that causality has been established? “In one sense it has, and yet I believe that many working scientists would be uneasy using the term in such situations.”</p>
 </section>
-<section id="casella-and-schwartz" class="level2">
-<h2 class="anchored" data-anchor-id="casella-and-schwartz">Casella and Schwartz</h2>
+<section id="casella-and-schwartz" class="level3">
+<h3 class="anchored" data-anchor-id="casella-and-schwartz">Casella and Schwartz</h3>
 <blockquote class="blockquote">
 <p>Dawid insists that such choices, and inferences, must be based on strict principles that can be verified empirically. We believe that such a program is so overly rigid that, in the end, science is not served.</p>
 </blockquote>
@@ -258,8 +264,8 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p>Casella and Schwartz also note that it feels like Dawid has substantially changed the inferential target of interest from the average causal effect to the decision-theoretically important quantity <span class="math inline">\(u_0 | \text{treatment} = t\)</span>.</p>
 </section>
-<section id="pearl" class="level2">
-<h2 class="anchored" data-anchor-id="pearl">Pearl</h2>
+<section id="pearl" class="level3">
+<h3 class="anchored" data-anchor-id="pearl">Pearl</h3>
 
 
 </section>
