@@ -242,3 +242,244 @@ decision-theoretically important quantity $u_0 | \text{treatment} = t$.
 
 ### Pearl 
 
+Pearl calls our attention to the historical track record of criticism on
+account of "metaphysics": 
+
+> The field of statistics has seen many well-meaning crusades against threats from 
+metaphysics and other heresy. In its founding prospectus of 1834, the Royal Statistical 
+Society resolved "to exclude carefully all Opinions from its transactions and publication——to confine
+its attention rigorously to facts." This clause was officially struck out in 1858, when it became
+obvious that facts void of theory could not take statistics very far (*Annals of the Royal
+Statistical Society* 1934, p. 16). 
+
+He goes on to argue that the word "counterfactual" itself is a bit of a
+misnomer, and that any scientific law that establishes relationships between
+observable variables remains invariant when the values of those variables
+change. As an example, he provides a counterfactual-esque reading of Ohm's law
+(V = IR) in which we could say *if* the resistance and voltage in a circuit were
+particular values, *then* we can solve for the current in that circuit. Pearl
+doesn't quite come out and say it, but the fundamental "*metaphysical*"
+assumption here is that the laws of physics are invariant across time and space.
+Second, functions in general can be thought of as counterfactuals: *if* we
+substitute a particular value of $x$, *then* we can use the rules of algebra
+and arithmetic to calculate the value of $f(x)$. I thought this was one of the most
+damning criticisms of Dawid's argument.
+
+Pearl launches what is, in my view, another devastating (though less well
+supported) attack against Dawid's line of thought— if we limit the language of
+science to exclusively entertain purely falsifiable ideas, what happens to
+inspiration and creativity in scientific pursuits? As examples, Pearl brings up
+how it was the Greek astronmers with their mythical creative-speculative
+strategies wild with metaphysical imagery of circular tubes, full of fire, and a
+hemispherical Earth riding on turtle backs that inspired Eratosthenes (276-194
+BC) to design an experiment to measure the radius of the Earth (and it wasn't
+the exacting, black-box computational culture of the Babylonians). Second, he
+says that it was precisely due to early 20th century physicists daring to ask
+"metaphysical" questions about physical properties of electrons when electrons
+are un-observable that inspired quantum physics.
+
+It is at once reasonable to me that demanding rigidity in our language and in 
+our experimental designs could be stifling to science, and yet I am usually averse
+to "proof by example" as has been presented by Pearl. It is at once hard to 
+interpret the examples Pearl has brought forward as anything but cherry-picked, 
+and yet I believe that whole fields of dignified science (anthropology, sociology) 
+can admit excellent work by finding what are archetypal examples of social processes
+and studying them. 
+
+Pearl's conclusion: 
+
+> "The success of the counterfactual language stems from two ingredients necessary for 
+scientific progress in general: (a) the use of modeling languages that are somewhat richer than 
+the ones needed for routine predictions, and (b) the use of powerful mathematics
+to filter, rather than muzzle, the untestable queries that such languages tempt us to ask. 
+
+### James Robins and Sander Greenland
+
+> We are confident that Dawid does not wish to join R. A. Fisher (1959) in 
+thereby concluding that causal inferences from observational data
+are illegitimate, including the inference that cigarette smoking is a 
+cause of lung cancer (Stolley 1991). If we are correct, then Dawid has 
+no choice but to recognize the need for untestable assumptions.
+
+> Our conclusion is not to reject counterfactual models, however, but rather to 
+criticize models and measures of effect that depend on nonidentifiable features (Greenland 1987)
+and to develop semiparametric counterfactual models (i.e., structural nested models, marginal structural
+models, and models based on the g-computation algorithm) that place no restrictions on those features
+(Robins 1997, 1999). Our approach completely obviates Dawid's concern.
+
+> ... to misquote the Bard, "the vagueness is not in our counterfactuals but in our attempt to make causal inferences from observational data." 
+
+It took me a bit to figure out that the Bard they're referring to might be Shakespeare, and they're 
+misquoting (deliberately) the line from the play Julius Caeser, "The fault, dear Brutus, is not in our stars, but in ourselves, that we are underlings."
+
+"Popper made clear that falsifiability means a theory must have *some* observable
+predictions that would lead to its rejection were those predictions to fail, not that 
+*every* feature of the theory be testable (Popper 1974)." 
+
+### Rubin 
+
+"I prefer the more generous expression 'potential outcomes' to
+'counterfactuals' to describe the perspective, because as Dawid himself points out before
+his equation (5), it is only after treatment assignments are known that some potential outcomes become known, whereas others become counterfactual. 
+
+Rubin goes on to argue that Dawid has been overly dismissive of the value of the
+counterfactual perspective, naming both the effectiveness to which he has been
+able to teach it to students to their great insight, and the utility it holds in
+rendering otherwise complex seemingly-paradoxical questions like Lord's paradox
+much more straightforward.
+
+### Shafer 
+
+Shafer is the only responder who seems to support Dawid's view, saying "my main 
+reservation about the article is that it does not take advantage of Dawid's own
+path-breaking work on predictive probability ... In his effort to find common ground with those 
+who tout counterfactual variables, Dawid emphasizes the case of a finite homogeneous population, 
+where optimal predictions are merely population average ... In the end, Dawid concedes too much, especially
+on the topic of causes of effects." 
+
+### Wasserman 
+
+Wasserman continues the line of thought started by Rubin, arguing that Simpson's paradox is 
+so easily resolved when cast in counterfactual language. He disputes how the analogy to 
+incompatible quantum variables may be misrepresentative, saying that our inability to measure 
+two incompatible variables is built into the quantum mechanics, whereas this is not the 
+case for all situations in which we might apply counterfactual causal inference. For example, 
+in principle, an idealized experiment in which both $Y_0$ and $Y_1$ are observed is feasible
+if we allow ourselves to consider different treatment over time when either carryover
+effects are minimal or we can wait them out before the next trial. 
+
+> I suggest that we continue to use counterfactuals but educate users to resist
+the temptation to indiscriminantly make inferences for nonidentified parameters
+in all models, not just causal models.
+
+### Dawid's Response
+
+Dawid admits that to address the responses, "I have to accept that a vital 
+aspect of causal modeling and inference is the identification of modular subprocesses." 
+
+He seems to stick to his guns, saying 
+
+> However, I do not feel that the counterfactual approach to causal inference has, as yet, provided any 
+of these advantages. 
+
+He argues the premise of Pearl's argument about the richness of languages, suggesting
+that he believes that the Bayesian decision-analytic framework may be an even richer
+language than that of counterfactual causal inference. 
+
+Finally, he proposes the following framework for evaluating the theory of counterfactual 
+causal inference, asking where on each scale counterfactual causal inference falls: 
+
+  1. Fact $\leftrightarrow$ Fiction. Are counterfactuals to be regarded as genuine features of the external
+  world, or are they purely theoretical terms?
+  2. Real $\leftrightarrow$ Instrumental. Can any inferences based on counterfactuals be allowed, or should 
+  they be restricted to those that could in principle be formulated without mention of counterfactuals?
+  3. Clear $\leftrightarrow$ Vague. Do counterfactual terms in a model have a clear relationship with 
+  meaningful aspects of the problem addressed? Can counterfactual constructions and arguments help to clarify
+  understanding? 
+  4. Helpful $\leftrightarrow$ Dangerous. Can use of counterfactuals streamline thinking and assist analyses,
+  or do they promote misleading lines of arguments and false conclusions? 
+
+
+## My Responses
+
+I'll bite: let's think through the dimensions that Dawid proposes, taking into account the 
+ways of thinking that the responses offered as well. 
+
+  1. Fact or Fiction?  If we think about the extent to which the treated vs.
+  untreated arms physically, undeniably demonstrate the possible outcomes with
+  no recourse to metaphysical hypotheses, we can certainly say that when
+  adjustment for confounders doesn't take the potential outcomes for either
+  group far outside the region of observed data in (covariate, treatment
+  assignment) space, we can certainly refer to the fact-of-the-matter that the
+  counterfactuals posited have support in real-life observed data. Things get
+  trickier in general when we are using models to generate predictions far
+  outside the region of support for which we have observations in (covariate,
+  treatment assignment) space, but in general extrapolation is a hard problem
+  and not a feature of counterfactual causal inference specifically — just
+  something to be careful of.
+  2. Real or Instrumental? Not sure how Dawid intends for anyone to answer this?
+  "Should" counterfactual analyses be allowed? Sure. 
+  3. Clear vs. Vague? I'd say one of the best things the field of 
+  counterfactual causal inference has brought to bear is its emphasis on 
+  causal diagram presentation which have rendered clarity to a number of 
+  complex social questions, and especially with the rules for d-separation,
+  determining backdoor paths, etc., the lucid clarity that counterfactual causal
+  inference has brought to a wide number of problems is nothing to scoff at. 
+  4. Helpful or Dangerous? I suspect whether or not an analysis is helpful or
+  dangerous is independent of whether or not an analyst uses counterfactual
+  causal inference, but rather a feature of the degree to which the analyst
+  harbors dangerous world-views such as those of eugenics, white supremacy,
+  biological essentialism, a disregard for human rights, and comfort
+  with twisting the facts. 
+
+Finally, I'd just like to turn Dawid's argument around on him for just a moment:
+is it not the case that the predictions necessary for his suggested Bayesian
+decision-analytic necessitate so-called metaphysical assumptions? For example,
+one must obtain a prediction, which, if we admit that statistical predictions are
+uncertain even in best-case scenarios, then we are forced to acknowledge that either: 
+
+  1. We can never validate a single prediction (since we can always resort to saying it was
+  just an exceptionally low-probability outlier in the probability distribution 
+  model of the prediction), or 
+  2. We would have to validate it through a *sample* of repeated observations on
+  the same unit, but of course this suggests that the treatment effect needs to
+  be invariant over time on the same unit.
+
+I think the second statement here is similar to the unit treatment value
+assumption, where I don't fully buy that this is an untestable, metaphysical
+assumption as Dawid claims it is. We can use tools like stratification to test
+for effect heterogeneity — and broadly speaking, as Pearl points out, either
+these assumptions are insignificant and hence have no meaningful effect, or
+they are significant and hence can be observed in their ramifications. 
+
+Finally, I'd like to point out that the truly untestable, metaphysical 
+assumption that Dawid's decision-analytic framework suffers from in equal
+measure as the counterfactual causal inference paradigm does is the need to 
+assume that no unmeasured confounders exist. Importantly, it could be a
+*very bad thing* if one uses a decision-analytic model that did not capture
+an important confounder to decide on a treatment policy for an individual and
+got it wrong. 
+
+## Conclusions
+
+What have we learned (that felt nontrivial)? 
+
+I particularly like Pearl's analogizing causal inference to that of
+learning functions. The framing that, broadly speaking, our posited laws of
+physics are hypothesized relationships between variables such that *if* some
+variables hold particular values, *then* we would expect to see other
+variables become determined feels like its taking "counterfactual" causal
+inference from the domain of speculative language and transforming it into
+codified statements about what we know about how the universe works.
+
+I need to think more deeply about the appropriateness of pragmatism in
+science. On the one hand, it feels reasonable that we should
+not hold ourselves so rigidly to a philosophical rigor that would cast most
+science as ineffective. On the other hand, pragmatism is present in ideas I am
+deeply skeptical of (such as that predictive models need not effectively
+capture causal relations). Cox's example where we can imagine observing
+through perfect randomized controlled trials that a treatment has a
+statistically significant effect compared to the control, but with no
+explanatory mechanism detailed, should we act on this knowledge? It might be
+pragmatic to do so, but as Cox suggests, there is a part of me that feels
+squeamish about using knowledge founded atop at-best shaky grounds to make
+important decisions.
+
+It's worth noting that no one involved seemed to change their minds. A
+few points here and there were conciliatorily granted, but it is not as if
+either the counterfactualists responding or Dawid admitted defeat. For me, I can
+only take this as indication that 1) when someone has deeply held beliefs (e.g.,
+science shouldn't be based on unverifiable, metaphysical quantities;
+counterfactual causal inference has been working well, etc.) they will rarely
+let them go, and 2) the significant impact of this paper is in the ways in which it
+may have helped to shape young readers' perspectives. 
+
+There is something valuable here, and Pearl is probably the writer who came
+closest to explicitly acknowledging it, but it appears that Dawid's criticisms
+of counterfactual causal inference has the effect of sharpening the ways the
+counterfactualists think about their work and how they talk about it. It seems
+most plausible that when sharply targeted jabs in theory are traded
+back-and-forth in journal articles between careful, thoughtful colleagues, the
+typical pupil set to receive the battle-tested treatment of the theory will have
+a particularly challenging time taking issue with their instructors'
+presentation. 
