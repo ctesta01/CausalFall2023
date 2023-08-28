@@ -5,6 +5,8 @@ format:
     theme: style.scss
 ---
 
+## Introduction
+
 During the Fall 2023 I'm doing a reading-based independent study 
 and writing up my notes to share here from some classic and modern 
 texts in causal inference with a particular interest on a few subtopics
@@ -19,6 +21,8 @@ and 3) doubly-robust learning.
 {{< include additional_references.qmd >}}
 :::
 
+## Writeups 
+
 --- 
 
 Week 1: <a href="1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html" style='text-decoration: none; color: black;'><u><i>The Central Role of the Propensity Score in Observational Studies for Causal Effects</i></u> by Paul R. Rosenbaum and Donald B. Rubin (1983), Biometrika</a>
@@ -26,17 +30,19 @@ Week 1: <a href="1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html" style='
 [HTML](1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html) 
 <span style='margin-left: 25px;'></span>
 [PDF](1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.pdf)
+---
 
 Week 2a: <a href="2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" style='text-decoration: none; color: black;'><u><i>Marginal Structural Models for Causal Inference</i></u> by James M. Robin, Miguel Ángel Hernán, and Babette Brumback (2000), Epidemiology</a>
 
 [HTML](2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html) 
 <span style='margin-left: 25px;'></span>
 [PDF](2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.pdf)
+---
 
-Week 2b: <a href="" style='text-decoration: none; color: black;'><u><i>Causal Inference Without Counterfactuals</i>
+Week 2b: <a href="2000_Dawid/2000_Dawid.html" style='text-decoration: none; color: black;'><u><i>Causal Inference Without Counterfactuals</i>
 </u> by Alexander Phillip Dawid (2000). JASA</a>
 
-[HTML]()
+[HTML](2000_Dawid/2000_Dawid.html)
 [PDF]()
 
 ---

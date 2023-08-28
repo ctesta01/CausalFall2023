@@ -1,0 +1,242 @@
+---
+title: "Causal Inference Without Counterfactuals"
+format: 
+  html:
+    toc: true
+    theme: ../style.scss
+comments:
+  giscus:
+    repo: ctesta01/CausalFall2023
+---
+
+[← Home](https://ctesta01.github.io/CausalFall2023/)
+
+::: {.content-hidden}
+$$
+\newcommand{\E}[0]{\mathbb E}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+$$
+:::
+
+Notes on <i>Causal Inference without Counterfactuals</i> by Alexander Philip Dawid (2000)
+and responses to it in the Journal of the American Statistical Association
+
+<https://doi.org/10.1080/01621459.2000.10474210>
+
+<https://www.ics.uci.edu/~sternh/courses/265/dawid_jasa2000.pdf>
+
+--- 
+
+Dawid argues that because we never observe both treated and untreated outcomes
+for the same units, we are dangerously wading into metaphysical terrain and
+that ultimately this renders causal inference in its counterfactual formulation 
+untestable and unfalsifiable. I suppose I'm giving away the ending, but a large
+handful of eminent statisticians wrote responses to this article disagreeing
+quite substantially with its premises. 
+
+Dawid does have a few choice quotes that I particularly agree with: 
+
+> Nature is surely utterly indifferent to our attempts to ensnare her in our theories. 
+
+> As long as a model appears to describe the relevant aspects of the world satisfactorily, we may continue, cautiously to use it; when it fails to do so, we need to search for a better one. 
+
+And here we get into the substance of issue: 
+
+> My approach is grounded in a Popperian philosophy, in which the meaningfulness of a purportedly scientific theory, proposition, quantity, or concept is related to the implications it has for what is or could be observed ... When this is the case, assertions are empirically refutable and are considered "scientific." When this is not so, they may be branded "metaphysical." I argue that counterfactual theories are essentially metaphysical. 
+
+We'll be discussing what this "Popperian philosophy" exactly is and 
+the role philosophy of science has in this conversation at length, but for now let's establish
+a few more facts about Dawid's argument. 
+
+## Types of Causal Inference
+
+Dawid draws our attention to the difference in nature between two types of questions, 
+which can be characterized by archetypal examples. 
+
+  1. "I have a headache. Will it help if I take aspirin?"
+  2. "My headache has gone. Was it because I took aspirin?"
+  
+While Dawid contrasts these as being about <span class='vocab'>"effects of causes"</span> and <span class='vocab'>"causes of effects,"</span> 
+I find that language is a little bit tricky to follow. Perhaps it is because of my 
+prior knowledge, but I immediately recast these in my mind into the language of "token" and
+"type" causation, where <span class='vocab'>token causation</span> refers to causal 
+inference with respect to a specific event and <span class='vocab'>type causation</span> refers
+to causal inference regarding trends in events. In other words, we could take climate 
+related events as an example:  "Did climate change cause this storm?" and "Does climate
+change increase storm intensity?" The former is an example of token causation and in general
+is thought by many to be much harder to establish. The latter is an example of a 
+question about type causation and is more firmly in the realm of what we usually think of 
+when we think about observational causal inference questions. 
+
+In the case of Dawid's examples, I view question 1 as being a question of type
+causation because at-best we can apply our knowledge about trends in outcomes
+under aspirin treatment and non-treatment to make some prediction about what
+might happen in the future under aspirin treatment and non-treatment
+circumstances. Meanwhile, I view question 2 as a question of token causation:
+without knowing much more, it's hard to know if the person in question was
+simply dehydrated and the water they drank with their aspirin was the more
+causally significant explanatory variable or perhaps the headache just went away
+on its own.
+
+Later on, Dawid has this to say about what I would call inference regarding token causation:
+
+> No amount of wishful thinking, clever analysis, or arbitrary untestable assumptions can license
+unambiguous inference about causes of effects, even when the model is simple and the data are extensive (unless one is lucky enough to discover uniformity among units). 
+
+"Wishful thinking" and "clever analysis," I agree with, but arbitrary untestable
+assumptions can get you pretty far — But I agree with him in principle here. I
+think it's practically impossible to take a recorded history and give a rigorous
+treatment to why it played out the way it did using statistical machinery, as
+far as I can tell. This is in large part due to the problem of fundamental
+causes:  eventually we'll get to a statement like "X happened because the
+Universe began" which is profoundly unsatisfying.
+
+## A Decision-Analytic Framework
+
+I find this a bit strange, but Dawid claims that "the counterfactual approach
+typically takes as the fundamental object of causal inference the <span class='vocab'>
+*individual causal effect*</span>..."
+
+I can't tell if it's that I'm not very familiar with what the field of causal inference
+looked like pre-1980 or so, or if it's just that this is a mischaracterization. 
+Either way, what I'm familiar with is exclusively causal inference literature 
+that takes as its main object of interest the <span class='vocab'>*average treatment effect*</span> or another population-level treatment effect (perhaps conditioned if thinking about 
+effect-heterogeneity).
+
+Nonetheless, Dawid mounts criticism of the counterfactual framework as involving 
+"metaphysical" variables (variables we do not directly observe) and suggests 
+a Bayesian decision-analytic alternative to the counterfactual formulation of 
+causal inference instead. 
+
+Rather than investigating the properties of $Y_1 - Y_0$ (the individual causal effect)
+(or even $\E[Y_1] - \E[Y_0]$, the average treatment effect), instead Dawid
+suggests that what we should do is: 
+
+  1. Restrict our studies to perfectly homogeneous populations so as to banish any
+  potential confounders; 
+  2. Look at the "physical array" of values representing the outcomes of treated
+  and untreated units to develop a prediction model; 
+  3. And for any questions about whether or not treatment should be assigned in 
+  the future, we should use a Bayesian decision-theoretic model to infer 
+  the optimality choice based on the distributions of observed outcomes for 
+  treated vs. untreated. 
+  
+Dawid does grant that models could be developed for nonhomogeneous populations,
+suggesting that "symmetry arguments" can be used to "justify the construction
+of certain random-effects-type models ..." 
+
+He goes on to say, "As long as one's models relate the responses of the new and the old units (under arbitrary treatment assignments), and so support the required predictive inferences, 
+one can conduct whatever decision-analytic analysis appears most relevant to 
+one's purpose, eschewing counterfactuals entirely." 
+
+It seems to me that one of the following two statements must be true, depending on 
+how comfortable Dawid is with the line of thought that the decision-analytic framework
+could support nonhomogeneous populations: 
+
+  1. Restricting causal inference to only 
+  homogeneous populations would be incredibly restrictive and would render a huge 
+  number of problems for which data already exist in economics, sociology, health sciences, 
+  and education un-workable. 
+  2. If we're allowing ourselves to control for potential confounders in prediction models 
+  that are used for a Bayesian decision-analytic approach, I'm suspicious we're treading
+  awfully close to a modeling approach that, while in its description may sound different,
+  is fundamentally doing something extremely similar to the usual counterfactual approach. 
+
+## Philosophy and "Fatalism"
+
+> Many counterfactual analyses are based, explicitly or implicity, on an attitude that I 
+term *"fatalism."* This considers the various potential responses $Y_i(u)$, when 
+treatment $i$ is applied to unit $u$, as predetermined attributes of unit $u$, waiting only to be 
+uncovered by suitable experimentation.
+
+It's a little bit hard here to disentangle whether Dawid is talking about 1) whether
+the Universe is a deterministic or stochastic place, or 2) whether he's saying that 
+counterfactuals are themselves random or fixed variables. 
+
+However, he goes on to say: 
+
+> For example, it [the fatalistic worldview] leaves no scope for introducing realistic
+stochastic effects of external influences acting between times of application of treatment and 
+of the response.
+
+So it sounds a lot like he's saying he thinks that much of the approach of
+counterfactual causal inference is rooted in an assumption that the counterfactual
+is itself *not a random variable*, which I just simply don't agree with as that's 
+not a presentation or approach I've ever seen advocated for.  
+
+## Have we constructed a strawman?
+
+At one point (section 9.1), Dawid says that the average causal effect (in his
+notation: $\E_p\{f(Y_t) - f(Y_c)\}$) (I take in a population where
+exchangeability, positivity, and consistency hold) is just $\E_P \{f(Y_t)\} -
+\E_P \{ f(Y_c) \}$ and this only depends on the marginal distributions.
+
+> Hence this particular use of counterfactual analysis, focusing on an infinite
+population ACE, is consistent with the decision-analytic approach and involves
+only terms subject to empirical scrutiny. It is fortunate that many of the
+superficially counterfactual analyses in the literature, from 
+Rubin (1978) onward, have in fact confined attention to ACE and thus lead to acceptable
+conclusions. 
+
+At this point, I'm questioning what exactly Dawid is attacking given that he
+clearly says much of the causal inference literature is acceptable. 
+
+## "Conclusions"
+
+> There is no magical statistical route that can bypass the need to do real science to attain 
+the clearest possible understanding of the operation of relevant (typically 
+nondeterministic) causal mechanisms.
+
+There's a lot to unpack there. First, I think it's a real bold move to assume
+that you can litigate what "real" science is and isn't. Second, it's news to me
+if we've settled the debate on whether the universe is deterministic or not, but
+insofar as its relevant to this discussion, it doesn't really matter as long as
+long as the best models we have for sufficiently complex future outcomes are
+those of *random* data generation mechanisms.
+
+# Responses 
+
+## Cox 
+
+Of all the responses, I thought the one that hit the nail on the head 
+was David R. Cox's: 
+
+> has the philosophical coherence, if not thrown the baby out with the bathwater, at least left the baby seriously bruised in some vital organs?
+
+In other words: is Dawid making perfect the enemy of good? 
+
+I agree with Cox that "it is hard to disagree with Dawid's distate for assumptions that 
+can never be tested... Yet at a work-a-day level, the point is more that any 
+assumptions should not be pressed too far beyond the limits to which they can be tested, and 
+importantly, that assumptions can be tested indirectly via their consequences as well as 
+directly." 
+
+I think Cox also raises an interesting philosophical question about causality, 
+which is that is causal inference truly causal if it lacks explanation? 
+As in, if a carefully randomized experiment (or even series of experiments) 
+shows that T produces higher responses than C, but no understanding as to how
+is established, is it the case that causality has been established? "In one sense it has, 
+and yet I believe that many working scientists would be uneasy using the term in 
+such situations." 
+
+## Casella and Schwartz 
+
+> Dawid insists that such choices, and inferences, must be based on strict principles
+that can be verified empirically. We believe that such a program is so overly rigid that,
+in the end, science is not served.
+
+Of particular note to me is the historical evidence that Casella and Schwartz
+bring to the table — already in 1748, philosopher David Hume was thinking about
+causal inference and making the distinction of token vs. type causation:
+
+> It appears, then, that this idea of a necessary connection among events arises from a number of similar instances which occur, of the constant conjunction of these events; nor can that idea ever be suggested by any one of these instances surveyed in all possible lights and positions.
+
+Casella and Schwartz also note that it feels like Dawid has substantially changed
+the inferential target of interest from the average causal effect to the 
+decision-theoretically important quantity $u_0 | \text{treatment} = t$.
+
+## Pearl 
+

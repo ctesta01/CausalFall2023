@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Readings in Causal Inference, Fall 2023 - 4&nbsp; Causal Inference Without Counterfactuals</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Causal Inference Without Counterfactuals</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Readings in Causal Inference, Fall 2023</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Readings in Causal Inference, Fall 2023</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Central Role of Propensity Scores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Structural Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2000_Dawid/2000_Dawid.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Causal Inference Without Counterfactuals</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#types-of-causal-inference" id="toc-types-of-causal-inference" class="nav-link active" data-scroll-target="#types-of-causal-inference">Types of Causal Inference</a></li>
+  <li><a href="#a-decision-analytic-framework" id="toc-a-decision-analytic-framework" class="nav-link" data-scroll-target="#a-decision-analytic-framework">A Decision-Analytic Framework</a></li>
+  <li><a href="#philosophy-and-fatalism" id="toc-philosophy-and-fatalism" class="nav-link" data-scroll-target="#philosophy-and-fatalism">Philosophy and “Fatalism”</a></li>
+  <li><a href="#have-we-constructed-a-strawman" id="toc-have-we-constructed-a-strawman" class="nav-link" data-scroll-target="#have-we-constructed-a-strawman">Have we constructed a strawman?</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">“Conclusions”</a></li>
+  <li><a href="#responses" id="toc-responses" class="nav-link" data-scroll-target="#responses"><span class="toc-section-number">5</span>  Responses</a>
+  <ul class="collapse">
+  <li><a href="#cox" id="toc-cox" class="nav-link" data-scroll-target="#cox">Cox</a></li>
+  <li><a href="#casella-and-schwartz" id="toc-casella-and-schwartz" class="nav-link" data-scroll-target="#casella-and-schwartz">Casella and Schwartz</a></li>
+  <li><a href="#pearl" id="toc-pearl" class="nav-link" data-scroll-target="#pearl">Pearl</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Causal Inference Without Counterfactuals</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="https://ctesta01.github.io/CausalFall2023/">← Home</a></p>
+<p>Notes on <i>Causal Inference without Counterfactuals</i> by Alexander Philip Dawid (2000) and responses to it in the Journal of the American Statistical Association</p>
+<p><a href="https://doi.org/10.1080/01621459.2000.10474210" class="uri">https://doi.org/10.1080/01621459.2000.10474210</a></p>
+<p><a href="https://www.ics.uci.edu/~sternh/courses/265/dawid_jasa2000.pdf" class="uri">https://www.ics.uci.edu/~sternh/courses/265/dawid_jasa2000.pdf</a></p>
+<hr>
+<p>Dawid argues that because we never observe both treated and untreated outcomes for the same units, we are dangerously wading into metaphysical terrain and that ultimately this renders causal inference in its counterfactual formulation untestable and unfalsifiable. I suppose I’m giving away the ending, but a large handful of eminent statisticians wrote responses to this article disagreeing quite substantially with its premises.</p>
+<p>Dawid does have a few choice quotes that I particularly agree with:</p>
+<blockquote class="blockquote">
+<p>Nature is surely utterly indifferent to our attempts to ensnare her in our theories.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>As long as a model appears to describe the relevant aspects of the world satisfactorily, we may continue, cautiously to use it; when it fails to do so, we need to search for a better one.</p>
+</blockquote>
+<p>And here we get into the substance of issue:</p>
+<blockquote class="blockquote">
+<p>My approach is grounded in a Popperian philosophy, in which the meaningfulness of a purportedly scientific theory, proposition, quantity, or concept is related to the implications it has for what is or could be observed … When this is the case, assertions are empirically refutable and are considered “scientific.” When this is not so, they may be branded “metaphysical.” I argue that counterfactual theories are essentially metaphysical.</p>
+</blockquote>
+<p>We’ll be discussing what this “Popperian philosophy” exactly is and the role philosophy of science has in this conversation at length, but for now let’s establish a few more facts about Dawid’s argument.</p>
+<section id="types-of-causal-inference" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-causal-inference">Types of Causal Inference</h2>
+<p>Dawid draws our attention to the difference in nature between two types of questions, which can be characterized by archetypal examples.</p>
+<ol type="1">
+<li>“I have a headache. Will it help if I take aspirin?”</li>
+<li>“My headache has gone. Was it because I took aspirin?”</li>
+</ol>
+<p>While Dawid contrasts these as being about <span class="vocab">“effects of causes”</span> and <span class="vocab">“causes of effects,”</span> I find that language is a little bit tricky to follow. Perhaps it is because of my prior knowledge, but I immediately recast these in my mind into the language of “token” and “type” causation, where <span class="vocab">token causation</span> refers to causal inference with respect to a specific event and <span class="vocab">type causation</span> refers to causal inference regarding trends in events. In other words, we could take climate related events as an example: “Did climate change cause this storm?” and “Does climate change increase storm intensity?” The former is an example of token causation and in general is thought by many to be much harder to establish. The latter is an example of a question about type causation and is more firmly in the realm of what we usually think of when we think about observational causal inference questions.</p>
+<p>In the case of Dawid’s examples, I view question 1 as being a question of type causation because at-best we can apply our knowledge about trends in outcomes under aspirin treatment and non-treatment to make some prediction about what might happen in the future under aspirin treatment and non-treatment circumstances. Meanwhile, I view question 2 as a question of token causation: without knowing much more, it’s hard to know if the person in question was simply dehydrated and the water they drank with their aspirin was the more causally significant explanatory variable or perhaps the headache just went away on its own.</p>
+<p>Later on, Dawid has this to say about what I would call inference regarding token causation:</p>
+<blockquote class="blockquote">
+<p>No amount of wishful thinking, clever analysis, or arbitrary untestable assumptions can license unambiguous inference about causes of effects, even when the model is simple and the data are extensive (unless one is lucky enough to discover uniformity among units).</p>
+</blockquote>
+<p>“Wishful thinking” and “clever analysis,” I agree with, but arbitrary untestable assumptions can get you pretty far — But I agree with him in principle here. I think it’s practically impossible to take a recorded history and give a rigorous treatment to why it played out the way it did using statistical machinery, as far as I can tell. This is in large part due to the problem of fundamental causes: eventually we’ll get to a statement like “X happened because the Universe began” which is profoundly unsatisfying.</p>
+</section>
+<section id="a-decision-analytic-framework" class="level2">
+<h2 class="anchored" data-anchor-id="a-decision-analytic-framework">A Decision-Analytic Framework</h2>
+<p>I find this a bit strange, but Dawid claims that “the counterfactual approach typically takes as the fundamental object of causal inference the <span class="vocab"> <em>individual causal effect</em></span>…”</p>
+<p>I can’t tell if it’s that I’m not very familiar with what the field of causal inference looked like pre-1980 or so, or if it’s just that this is a mischaracterization. Either way, what I’m familiar with is exclusively causal inference literature that takes as its main object of interest the <span class="vocab"><em>average treatment effect</em></span> or another population-level treatment effect (perhaps conditioned if thinking about effect-heterogeneity).</p>
+<p>Nonetheless, Dawid mounts criticism of the counterfactual framework as involving “metaphysical” variables (variables we do not directly observe) and suggests a Bayesian decision-analytic alternative to the counterfactual formulation of causal inference instead.</p>
+<p>Rather than investigating the properties of <span class="math inline">\(Y_1 - Y_0\)</span> (the individual causal effect) (or even <span class="math inline">\(\mathbb E[Y_1] - \mathbb E[Y_0]\)</span>, the average treatment effect), instead Dawid suggests that what we should do is:</p>
+<ol type="1">
+<li>Restrict our studies to perfectly homogeneous populations so as to banish any potential confounders;</li>
+<li>Look at the “physical array” of values representing the outcomes of treated and untreated units to develop a prediction model;</li>
+<li>And for any questions about whether or not treatment should be assigned in the future, we should use a Bayesian decision-theoretic model to infer the optimality choice based on the distributions of observed outcomes for treated vs.&nbsp;untreated.</li>
+</ol>
+<p>Dawid does grant that models could be developed for nonhomogeneous populations, suggesting that “symmetry arguments” can be used to “justify the construction of certain random-effects-type models …”</p>
+<p>He goes on to say, “As long as one’s models relate the responses of the new and the old units (under arbitrary treatment assignments), and so support the required predictive inferences, one can conduct whatever decision-analytic analysis appears most relevant to one’s purpose, eschewing counterfactuals entirely.”</p>
+<p>It seems to me that one of the following two statements must be true, depending on how comfortable Dawid is with the line of thought that the decision-analytic framework could support nonhomogeneous populations:</p>
+<ol type="1">
+<li>Restricting causal inference to only homogeneous populations would be incredibly restrictive and would render a huge number of problems for which data already exist in economics, sociology, health sciences, and education un-workable.</li>
+<li>If we’re allowing ourselves to control for potential confounders in prediction models that are used for a Bayesian decision-analytic approach, I’m suspicious we’re treading awfully close to a modeling approach that, while in its description may sound different, is fundamentally doing something extremely similar to the usual counterfactual approach.</li>
+</ol>
+</section>
+<section id="philosophy-and-fatalism" class="level2">
+<h2 class="anchored" data-anchor-id="philosophy-and-fatalism">Philosophy and “Fatalism”</h2>
+<blockquote class="blockquote">
+<p>Many counterfactual analyses are based, explicitly or implicity, on an attitude that I term <em>“fatalism.”</em> This considers the various potential responses <span class="math inline">\(Y_i(u)\)</span>, when treatment <span class="math inline">\(i\)</span> is applied to unit <span class="math inline">\(u\)</span>, as predetermined attributes of unit <span class="math inline">\(u\)</span>, waiting only to be uncovered by suitable experimentation.</p>
+</blockquote>
+<p>It’s a little bit hard here to disentangle whether Dawid is talking about 1) whether the Universe is a deterministic or stochastic place, or 2) whether he’s saying that counterfactuals are themselves random or fixed variables.</p>
+<p>However, he goes on to say:</p>
+<blockquote class="blockquote">
+<p>For example, it [the fatalistic worldview] leaves no scope for introducing realistic stochastic effects of external influences acting between times of application of treatment and of the response.</p>
+</blockquote>
+<p>So it sounds a lot like he’s saying he thinks that much of the approach of counterfactual causal inference is rooted in an assumption that the counterfactual is itself <em>not a random variable</em>, which I just simply don’t agree with as that’s not a presentation or approach I’ve ever seen advocated for.</p>
+</section>
+<section id="have-we-constructed-a-strawman" class="level2">
+<h2 class="anchored" data-anchor-id="have-we-constructed-a-strawman">Have we constructed a strawman?</h2>
+<p>At one point (section 9.1), Dawid says that the average causal effect (in his notation: <span class="math inline">\(\mathbb E_p\{f(Y_t) - f(Y_c)\}\)</span>) (I take in a population where exchangeability, positivity, and consistency hold) is just <span class="math inline">\(\mathbb E_P \{f(Y_t)\} - \mathbb E_P \{ f(Y_c) \}\)</span> and this only depends on the marginal distributions.</p>
+<blockquote class="blockquote">
+<p>Hence this particular use of counterfactual analysis, focusing on an infinite population ACE, is consistent with the decision-analytic approach and involves only terms subject to empirical scrutiny. It is fortunate that many of the superficially counterfactual analyses in the literature, from Rubin (1978) onward, have in fact confined attention to ACE and thus lead to acceptable conclusions.</p>
+</blockquote>
+<p>At this point, I’m questioning what exactly Dawid is attacking given that he clearly says much of the causal inference literature is acceptable.</p>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">“Conclusions”</h2>
+<blockquote class="blockquote">
+<p>There is no magical statistical route that can bypass the need to do real science to attain the clearest possible understanding of the operation of relevant (typically nondeterministic) causal mechanisms.</p>
+</blockquote>
+<p>There’s a lot to unpack there. First, I think it’s a real bold move to assume that you can litigate what “real” science is and isn’t. Second, it’s news to me if we’ve settled the debate on whether the universe is deterministic or not, but insofar as its relevant to this discussion, it doesn’t really matter as long as long as the best models we have for sufficiently complex future outcomes are those of <em>random</em> data generation mechanisms.</p>
+</section>
+<section id="responses" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Responses</h1>
+<section id="cox" class="level2">
+<h2 class="anchored" data-anchor-id="cox">Cox</h2>
+<p>Of all the responses, I thought the one that hit the nail on the head was David R. Cox’s:</p>
+<blockquote class="blockquote">
+<p>has the philosophical coherence, if not thrown the baby out with the bathwater, at least left the baby seriously bruised in some vital organs?</p>
+</blockquote>
+<p>In other words: is Dawid making perfect the enemy of good?</p>
+<p>I agree with Cox that “it is hard to disagree with Dawid’s distate for assumptions that can never be tested… Yet at a work-a-day level, the point is more that any assumptions should not be pressed too far beyond the limits to which they can be tested, and importantly, that assumptions can be tested indirectly via their consequences as well as directly.”</p>
+<p>I think Cox also raises an interesting philosophical question about causality, which is that is causal inference truly causal if it lacks explanation? As in, if a carefully randomized experiment (or even series of experiments) shows that T produces higher responses than C, but no understanding as to how is established, is it the case that causality has been established? “In one sense it has, and yet I believe that many working scientists would be uneasy using the term in such situations.”</p>
+</section>
+<section id="casella-and-schwartz" class="level2">
+<h2 class="anchored" data-anchor-id="casella-and-schwartz">Casella and Schwartz</h2>
+<blockquote class="blockquote">
+<p>Dawid insists that such choices, and inferences, must be based on strict principles that can be verified empirically. We believe that such a program is so overly rigid that, in the end, science is not served.</p>
+</blockquote>
+<p>Of particular note to me is the historical evidence that Casella and Schwartz bring to the table&nbsp;— already in 1748, philosopher David Hume was thinking about causal inference and making the distinction of token vs.&nbsp;type causation:</p>
+<blockquote class="blockquote">
+<p>It appears, then, that this idea of a necessary connection among events arises from a number of similar instances which occur, of the constant conjunction of these events; nor can that idea ever be suggested by any one of these instances surveyed in all possible lights and positions.</p>
+</blockquote>
+<p>Casella and Schwartz also note that it feels like Dawid has substantially changed the inferential target of interest from the average causal effect to the decision-theoretically important quantity <span class="math inline">\(u_0 | \text{treatment} = t\)</span>.</p>
+</section>
+<section id="pearl" class="level2">
+<h2 class="anchored" data-anchor-id="pearl">Pearl</h2>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="ctesta01/CausalFall2023" data-repo-id="R_kgDOKJFkiQ" data-category="General" data-category-id="DIC_kwDOKJFkic4CY4aM" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Structural Models</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

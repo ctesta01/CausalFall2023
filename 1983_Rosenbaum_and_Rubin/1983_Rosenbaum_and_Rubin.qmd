@@ -19,9 +19,12 @@ $$
 $$
 :::
 
+[← Home](https://ctesta01.github.io/CausalFall2023/)
+
 Notes on <i>The Central Role of the Propensity Score in Observational Studies for Causal Effects</i> by Paul R. Rosenbaum and Donald B. Rubin (1983), Biometrika
 
 <https://doi.org/10.1093/biomet/70.1.41>
+
 
 ## Introduction 
 

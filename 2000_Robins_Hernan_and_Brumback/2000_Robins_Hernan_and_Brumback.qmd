@@ -1,13 +1,11 @@
 ---
 title: "Marginal Structural Models"
-format: 
-  html:
-    toc: true
-    theme: ../style.scss
 comments:
   giscus:
     repo: ctesta01/CausalFall2023
 ---
+
+[← Home](https://ctesta01.github.io/CausalFall2023/)
 
 ::: {.content-hidden}
 $$
@@ -200,10 +198,6 @@ could take on.
 
 <div style='text-align: right'>$\square$</div>
 
-*Thinking about 2.* It's not entirely clear to me why they say that 
-$Pr(Y=1|A)$ remains unchanged comparing the weighted vs. unweighted
-populations. 
-
 If we consider the 3-way tables necessary in the situation when $A$, $L$, and 
 $Y$ are each dichotomous, we're looking at something like this (for a 
 simulated study of 1,000 participants):
@@ -218,22 +212,6 @@ After applying inverse probability of treatment weights:
 knitr::include_graphics("script_examples/point_treatment_confounding/table_w_weights.svg")
 knitr::include_graphics("script_examples/point_treatment_confounding/reweighted_table.svg")
 ```
-
-In general, we would write that the estimate of $Pr^W(Y = 1 | A = 1)$ is
-given by:
-
-$$\quad \frac{N_{\tiny (Y=1, A=1, L=1)} w_{\tiny (A=1,L=1)} + N_{\tiny (Y=1, A=1, L=0)}w_{\tiny (A=1,L=0)}}{
-N_{\tiny (Y=1, A=1, L=1)} w_{\tiny (A=1,L=1)} + N_{\tiny (Y=1, A=1, L=0)}w_{\tiny (A=1,L=0)} + 
-N_{\tiny (Y=0, A=1, L=1)} w_{\tiny (A=1,L=1)} + N_{\tiny (Y=0, A=1, L=0)}w_{\tiny (A=1,L=0)}}$$
-
-where $w_{(A=a|L=l)} = 1/Pr(A=a|L=l)$. The previous expression is only equal to
-$Pr(Y=1 | A=1)$ in the unweighted population if $w_{(A=1,L=0)} = w_{(A=1,L=1)}$ 
-(which we will denote $w$ in the next line to follow) since we could
-then factor:
-
-$$ Pr^W(Y = 1 | A = 1) = \frac{\cancel{w} (N_{\tiny (Y=1,A=1,L=1)} + N_{\tiny (Y=1,A=1,L=0)})}{
-\cancel{w} ( N_{\tiny (Y=1,A=1,L=1)} + N_{\tiny (Y=1,A=1,L=0)} + N_{\tiny (Y=0,A=1,L=1)} + N_{\tiny (Y=0,A=1,L=0)})}$$
-$$ = Pr(Y = 1 | A = 1) \quad \text{ as claimed.}$$
 
 After some searching, I believe I have found a proof, in Rebecca Barter's
 blog-post on [*The intuition behind inverse probability weighting in causal
@@ -281,7 +259,10 @@ $$\sum_{i \colon A=1} \frac{Y_i}{N_{(A=1)} \hat p(L_i)} - \sum_{i \colon A = 0}
 \frac{Y_i}{N_{(A=0)} (1-\hat p(L_i))}$$
 
 $$ = \sum_{i}^n \frac{Y_iA_i}{n \hat p(L_i)} - \sum_{i}^n
-\frac{Y_i(1-A_i)}{n (1-\hat p(L_i))}.$$
+\frac{Y_i(1-A_i)}{n (1-\hat p(L_i))},$$
+
+where $n$ is the total population size of observations and $N_(...)$ 
+is my short-hand notation for $\displaystyle \sum_{i \colon ...} 1$.
 
 What remains to be checked is if the above is equal to $\E[Y_{A=1}] - \E[Y_{A=0}]$
 (with respect to the super-population that we assume is exchangeable/unconfounded).
@@ -315,7 +296,7 @@ suggest that few individuals may inappropriately dominate the pseudopopulation
 and hence the weighted analysis. 
 
 To mitigate this, they introduce "stabilized weights" which are written 
-as $$sw_i = \frac{Pr(A = a)}{Pr(A=A_i | L=L_i)},$$
+as $$sw_i = \frac{Pr(A = a_i)}{Pr(A=a_i | L=l_i)},$$
 which are the same weights as before just multiplied by $Pr(A=A_i)$. 
 
 I am suspicious that the reason we're able to do this trick is because if 

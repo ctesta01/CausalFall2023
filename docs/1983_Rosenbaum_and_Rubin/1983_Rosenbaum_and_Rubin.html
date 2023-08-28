@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>The Central Role of Propensity Scores</title>
+<title>Readings in Causal Inference, Fall 2023 - 2&nbsp; The Central Role of Propensity Scores</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,26 +86,103 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<script src="1983_Rosenbaum_and_Rubin_files/libs/clipboard/clipboard.min.js"></script>
-<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/quarto.js"></script>
-<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/popper.min.js"></script>
-<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/anchor.min.js"></script>
-<link href="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="1983_Rosenbaum_and_Rubin_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="1983_Rosenbaum_and_Rubin_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="1983_Rosenbaum_and_Rubin_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="1983_Rosenbaum_and_Rubin_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" rel="next">
+<link href="../index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Central Role of Propensity Scores</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Readings in Causal Inference, Fall 2023</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Readings in Causal Inference, Fall 2023</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Central Role of Propensity Scores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Structural Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2000_Dawid/2000_Dawid.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Causal Inference Without Counterfactuals</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -125,12 +202,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#my-conclusions" id="toc-my-conclusions" class="nav-link" data-scroll-target="#my-conclusions">My Conclusions</a></li>
   </ul>
 </nav>
-</div>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Central Role of Propensity Scores</h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Central Role of Propensity Scores</span></h1>
 </div>
 
 
@@ -145,6 +223,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<p><a href="https://ctesta01.github.io/CausalFall2023/">← Home</a></p>
 <p>Notes on <i>The Central Role of the Propensity Score in Observational Studies for Causal Effects</i> by Paul R. Rosenbaum and Donald B. Rubin (1983), Biometrika</p>
 <p><a href="https://doi.org/10.1093/biomet/70.1.41" class="uri">https://doi.org/10.1093/biomet/70.1.41</a></p>
 <section id="introduction" class="level2">
@@ -378,13 +457,13 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ATE_est)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) 
-   1.106946 </code></pre>
+   1.438144 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Compare to the true average treatment effect</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>true_ATE <span class="ot">&lt;-</span> (alpha_1 <span class="sc">-</span> alpha_0) <span class="sc">+</span> (beta_1 <span class="sc">-</span> beta_0) <span class="sc">*</span> b_bar</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(true_ATE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.243791</code></pre>
+<pre><code>[1] 1.239088</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Bootstrap to estimate SE of ATE_est</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -420,11 +499,11 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(SE_ATE_boot) <span class="co"># print standard error for bootstrap estimated ATE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1961308</code></pre>
+<pre><code>[1] 0.1577429</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_ATE_boot) <span class="co"># check bootstrap estimated ATE resembles above estimate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.107126</code></pre>
+<pre><code>[1] 1.433139</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -561,7 +640,7 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Describe initial bias</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"Initial bias in x (age): "</span>, <span class="fu">round</span>(initial_bias_in_x, <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Initial bias in x (age): 14.5</code></pre>
+<pre><code>Initial bias in x (age): 15.5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(stringr<span class="sc">::</span><span class="fu">str_wrap</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(</span>
@@ -572,7 +651,7 @@ Pr(Z = 1 | r_1, r_0, b(x)) &amp; = \mathbb E[Pr(Z=1|r_1,r_0,X)|b(x)] \\
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">80</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>In other words, age is on average 14.5 years higher in the treated group than
+<pre><code>In other words, age is on average 15.5 years higher in the treated group than
 the untreated group</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider tertile, quantile, and decile subclassification</span></span>
@@ -608,9 +687,9 @@ the untreated group</code></pre>
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"Bias in x (age) after adjusting for "</span>, n, <span class="st">" subclasses is "</span>, <span class="fu">round</span>(B_s, <span class="dv">1</span>), <span class="st">'</span><span class="sc">\n</span><span class="st">'</span>))</span>
 <span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Bias in x (age) after adjusting for 3 subclasses is 3.3
-Bias in x (age) after adjusting for 5 subclasses is 1.1
-Bias in x (age) after adjusting for 10 subclasses is 0.2</code></pre>
+<pre><code>Bias in x (age) after adjusting for 3 subclasses is 3
+Bias in x (age) after adjusting for 5 subclasses is 0.8
+Bias in x (age) after adjusting for 10 subclasses is 0.1</code></pre>
 </div>
 </div>
 </section>
@@ -623,10 +702,11 @@ Bias in x (age) after adjusting for 10 subclasses is 0.2</code></pre>
 <p>King, G., &amp; Nielsen, R. (2019). Why Propensity Scores Should Not Be Used for Matching. Political Analysis, 27(4), 435-454. doi:10.1017/pan.2019.11</p>
 </blockquote>
 <p>My sense is that it’s been a fruitful task for me to work through this paper filling in the proof details that weren’t immediately clear to me and writing simulation code to aid learning as I went along. I’m hopeful that this knowledge will pay off as I move towards more complex subjects, especially things like <span class="vocab"><a style="color: #008B72;" href="https://link.springer.com/book/10.1007/978-1-4419-9782-1"> targeted learning</a></span> or <span class="vocab"><a style="color: #008B72;" href="https://pubmed.ncbi.nlm.nih.gov/17910531/">super-learners</a></span>.</p>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -762,6 +842,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <script src="https://giscus.app/client.js" data-repo="ctesta01/CausalFall2023" data-repo-id="R_kgDOKJFkiQ" data-category="General" data-category-id="DIC_kwDOKJFkic4CY4aM" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Readings in Causal Inference, Fall 2023</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../2000_Robins_Hernan_and_Brumback/2000_Robins_Hernan_and_Brumback.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Structural Models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
