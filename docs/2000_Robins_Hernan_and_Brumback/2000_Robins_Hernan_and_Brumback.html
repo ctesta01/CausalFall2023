@@ -123,15 +123,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">3.1</span>  Introduction</a></li>
-  <li><a href="#time-dependent-confounding" id="toc-time-dependent-confounding" class="nav-link" data-scroll-target="#time-dependent-confounding"><span class="toc-section-number">3.2</span>  Time-Dependent Confounding</a></li>
-  <li><a href="#counterfactuals-in-point-treatment-studies" id="toc-counterfactuals-in-point-treatment-studies" class="nav-link" data-scroll-target="#counterfactuals-in-point-treatment-studies"><span class="toc-section-number">3.3</span>  Counterfactuals in Point-Treatment Studies</a></li>
-  <li><a href="#no-unmeasured-confounders" id="toc-no-unmeasured-confounders" class="nav-link" data-scroll-target="#no-unmeasured-confounders"><span class="toc-section-number">3.4</span>  No Unmeasured Confounders</a></li>
-  <li><a href="#stabilized-weights" id="toc-stabilized-weights" class="nav-link" data-scroll-target="#stabilized-weights"><span class="toc-section-number">3.5</span>  Stabilized Weights</a></li>
-  <li><a href="#time-dependent-treatments" id="toc-time-dependent-treatments" class="nav-link" data-scroll-target="#time-dependent-treatments"><span class="toc-section-number">3.6</span>  Time-Dependent Treatments</a></li>
-  <li><a href="#censoring-by-loss-to-follow-up" id="toc-censoring-by-loss-to-follow-up" class="nav-link" data-scroll-target="#censoring-by-loss-to-follow-up"><span class="toc-section-number">3.7</span>  Censoring by Loss to Follow-Up</a></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="toc-section-number">3.8</span>  Limitations</a></li>
-  <li><a href="#important-points-from-the-appendix" id="toc-important-points-from-the-appendix" class="nav-link" data-scroll-target="#important-points-from-the-appendix"><span class="toc-section-number">3.9</span>  Important Points from the Appendix</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#time-dependent-confounding" id="toc-time-dependent-confounding" class="nav-link" data-scroll-target="#time-dependent-confounding">Time-Dependent Confounding</a></li>
+  <li><a href="#counterfactuals-in-point-treatment-studies" id="toc-counterfactuals-in-point-treatment-studies" class="nav-link" data-scroll-target="#counterfactuals-in-point-treatment-studies">Counterfactuals in Point-Treatment Studies</a></li>
+  <li><a href="#no-unmeasured-confounders" id="toc-no-unmeasured-confounders" class="nav-link" data-scroll-target="#no-unmeasured-confounders">No Unmeasured Confounders</a></li>
+  <li><a href="#stabilized-weights" id="toc-stabilized-weights" class="nav-link" data-scroll-target="#stabilized-weights">Stabilized Weights</a></li>
+  <li><a href="#time-dependent-treatments" id="toc-time-dependent-treatments" class="nav-link" data-scroll-target="#time-dependent-treatments">Time-Dependent Treatments</a></li>
+  <li><a href="#censoring-by-loss-to-follow-up" id="toc-censoring-by-loss-to-follow-up" class="nav-link" data-scroll-target="#censoring-by-loss-to-follow-up">Censoring by Loss to Follow-Up</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#important-points-from-the-appendix" id="toc-important-points-from-the-appendix" class="nav-link" data-scroll-target="#important-points-from-the-appendix">Important Points from the Appendix</a></li>
   </ul>
 </nav>
     </div>
@@ -158,14 +158,14 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="https://ctesta01.github.io/CausalFall2023/">← Home</a></p>
 <p>Notes on <i>Marginal Structural Models and Causal Inference in Epidemiology</i> by James M. Robins, Miguel Ángel Hernán, and Babette Brumback (2000), Epidemiology</p>
 <p><a href="https://doi.org/10.1097/00001648-200009000-00011" class="uri">https://doi.org/10.1097/00001648-200009000-00011</a></p>
-<section id="introduction" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>The key problem this paper addresses is the bias induced by time-dependent confounders that are also affected by previous treatment — which are handled by the introduction of marginal structural models that can be consistently estimated using inverse-probability-of-treatment weighted (IPTW) estimators.</p>
 <p><strong>Definition.</strong> <span class="vocab">Time-dependent confounders</span> are covariates that are a risk factor for, or predictor of, the event of interest and also predicts subsequent exposure.</p>
 <p>We are particularly interested in time-dependent confounders that are also affected or predicted by past exposure history (Condition 2).</p>
 </section>
-<section id="time-dependent-confounding" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="time-dependent-confounding"><span class="header-section-number">3.2</span> Time-Dependent Confounding</h2>
+<section id="time-dependent-confounding" class="level2">
+<h2 class="anchored" data-anchor-id="time-dependent-confounding">Time-Dependent Confounding</h2>
 <blockquote class="blockquote">
 <p>Consider a follow-up study of HIV-infected patients. Let <span class="math inline">\(A_k\)</span> be the dose of the treatment or exposure of interest, say zidovudine (AZT) on the <span class="math inline">\(k\)</span>th day since start of follow-up. Let <span class="math inline">\(Y\)</span> be a dichotomous outcome of interest (for example, <span class="math inline">\(Y = 1\)</span> if HIV RNA is not detectable in the blood and 0 otherwise) measured at end of follow-up on day <span class="math inline">\(K+1\)</span>. Our goal is to estimate the time-dependent treatment <span class="math inline">\(A_k\)</span> on the outcome <span class="math inline">\(Y\)</span>.</p>
 </blockquote>
@@ -236,8 +236,8 @@ ul.task-list li input[type="checkbox"] {
 <p>“… Standard regression methods adjust for covariates by including them in the model as regressors. These standard methods may fail to adjust appropriately for confounding due to measured confounders <span class="math inline">\(L_k\)</span> when treatment is time varying because (1) <span class="math inline">\(L_k\)</span> may be a confounder for later treatment and thus must be adjusted for, but (2) may also be affected by earlier treatment and thus should not be adjusted for by standard methods. A solution to this conundrum is to adjust for the time-dependent covariates <span class="math inline">\(L_k\)</span> by using them to calculate the weights <span class="math inline">\(sw_i\)</span> rather than by adding <span class="math inline">\(L_k\)</span> to the regression model as regressors.”</p>
 </div>
 </section>
-<section id="counterfactuals-in-point-treatment-studies" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="counterfactuals-in-point-treatment-studies"><span class="header-section-number">3.3</span> Counterfactuals in Point-Treatment Studies</h2>
+<section id="counterfactuals-in-point-treatment-studies" class="level2">
+<h2 class="anchored" data-anchor-id="counterfactuals-in-point-treatment-studies">Counterfactuals in Point-Treatment Studies</h2>
 <p>In an effort to help orient the readers, the authors provide some basic background on causal inference in point-treatment studies (Figures 2a-2c) to help keep us all grounded before moving on to more complicated settings.</p>
 <p>Through this section (<span class="math inline">\(\S2\)</span>) the authors contrast <span class="vocab">crude measures</span> with <span class="vocab">causal measures</span> explaining that the causal measures will equal the crude measures when the analysis is unconfounded.</p>
 <p><span class="math display">\[cRD = Pr[Y = 1 | A_0 = 1] - Pr[Y = 1 | A_0 = 0] \quad \text{\small (Crude Risk Difference)}\]</span> <span class="math display">\[cRR = Pr[Y = 1 | A_0 = 1]/Pr[Y = 1 | A_0 = 0] \quad \text{\small (Crude Risk Ratio)}\]</span> <span class="math display">\[cOR = \frac{Pr[Y = 1 | A_0 = 1]/Pr[Y=1 | A_0 = 0]}{Pr[Y=0 | A_0 = 1]/Pr[Y=0 | A_0 = 0]} \quad \text{\small (Crude Odds Ratio)}\]</span></p>
@@ -250,8 +250,8 @@ ul.task-list li input[type="checkbox"] {
 <p>These models are described as <span class="vocab">marginal</span> because they model the marginal distribution of the counterfactual random variables <span class="math inline">\(Y_{a_0=1}\)</span> and <span class="math inline">\(Y_{a_0=1}\)</span> rather than the joint distribution (as in, they do not model <span class="math inline">\(\text{cor}(Y_{a_0=1}, Y_{a_0=0})\)</span>). They are said to be <span class="vocab">structural</span> because they model the probabilities of counterfactual variables (apparently models for counterfactual variables are often called structural in the econometrics and social science literature).</p>
 <p>I’m a little confused about their claim that these are <span class="vocab">saturated</span> models: they say that they’re saturated because each model has two unknown parameters and places no restriction on the probabilities for <span class="math inline">\(Y_{a_0 = 1}\)</span> and <span class="math inline">\(Y_{a_0 = 0}\)</span>. I guess I’m just used to a different definition of saturated in which saturation refers to the model having as many parameters as it has data points, which does not feel like it’s necessarily true here.</p>
 </section>
-<section id="no-unmeasured-confounders" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="no-unmeasured-confounders"><span class="header-section-number">3.4</span> No Unmeasured Confounders</h2>
+<section id="no-unmeasured-confounders" class="level2">
+<h2 class="anchored" data-anchor-id="no-unmeasured-confounders">No Unmeasured Confounders</h2>
 <p>Next a claim is introduced: if we weight the observations by <span class="math inline">\(w_i = 1/Pr[A_0 = a_{0i} | L_0 = l_{0i}]\)</span> where <span class="math inline">\(l_{0i}\)</span> and <span class="math inline">\(a_{0i}\)</span> are the measured covariates and exposures for subject <span class="math inline">\(i\)</span>, then we should recover unbiased estimates of the causal quantities of interest.</p>
 <p>A rough sketch of why this should work is presented that rests on two additional claims:</p>
 <ol type="1">
@@ -336,14 +336,14 @@ window.MathJax = {
 <span class="math inline">\(\square\)</span>
 </div>
 </section>
-<section id="stabilized-weights" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="stabilized-weights"><span class="header-section-number">3.5</span> Stabilized Weights</h2>
+<section id="stabilized-weights" class="level2">
+<h2 class="anchored" data-anchor-id="stabilized-weights">Stabilized Weights</h2>
 <p>Robins, Hernán, and Brumback go on to say that if levels of <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span> are strongly associated, then it is likely that we will see quite large inverse probability of treatment weights. Such undesired variability in our estimated weights suggest that few individuals may inappropriately dominate the pseudopopulation and hence the weighted analysis.</p>
 <p>To mitigate this, they introduce “stabilized weights” which are written as <span class="math display">\[sw_i = \frac{Pr(A = a_i)}{Pr(A=a_i | L=l_i)},\]</span> which are the same weights as before just multiplied by <span class="math inline">\(Pr(A=A_i)\)</span>.</p>
 <p>I am suspicious that the reason we’re able to do this trick is because if we refer back to the proof that the original weights provided an unbiased estimator, we saw that <span class="math display">\[\mathbb E\left[ \frac{Y_{A=1}A}{p(L)} \right] = \mathbb E\left[ Y_{A=1} \right],\]</span> and if we work the same argument through with the stabilized weights, I think we’d get <span class="math inline">\(\mathbb E\left[ Y_{A=1} \mathbb E[A] \right]\)</span> instead. However, since <span class="math inline">\(\mathbb E[Y_{A=1}]\)</span> is the expected value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(A=1\)</span>, I think we can say that the prior quantity is equal to <span class="math inline">\(\mathbb E\left[ Y \mathbb E[A] \middle\vert A = 1\right] = \mathbb E\left[ Y \middle \vert A = 1 \right] = \mathbb E[ Y_{A=1} ].\)</span></p>
 </section>
-<section id="time-dependent-treatments" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="time-dependent-treatments"><span class="header-section-number">3.6</span> Time-Dependent Treatments</h2>
+<section id="time-dependent-treatments" class="level2">
+<h2 class="anchored" data-anchor-id="time-dependent-treatments">Time-Dependent Treatments</h2>
 <p>Returning to the setting of time-dependent confounding as in Figures 1a-c, let <span class="math inline">\(A_k\)</span> represent the dosage of a treatment on the <span class="math inline">\(k\)</span>th day from start of follow-up, <span class="math inline">\(Y\)</span> is a dichotomous variable measured at the end of follow-up on day <span class="math inline">\(K+1\)</span> , and <span class="math inline">\(L_k\)</span> represents all measured risk factors for the outcome on day <span class="math inline">\(k\)</span>. We’ll let <span class="math inline">\(\bar A_k = (A_0, A_1, ..., A_k)\)</span> be the treatment or exposure history thorugh day <span class="math inline">\(k\)</span> and let <span class="math inline">\(\bar A = \bar A_K\)</span>.</p>
 <p>Generally we’ll be more interested in the cumulative effect of dosage (<span class="math inline">\(\sum a_k\)</span>) rather than specific dosage histories <span class="math inline">\(\bar a\)</span> when thinking about counterfactuals.</p>
 <p><em>Assuming no loss to follow-up selection bias or measurement error</em>, we can unbiasedly estimate causal quantities using a logistic regression model</p>
@@ -353,17 +353,17 @@ window.MathJax = {
 \displaystyle \prod_{k=0}^K Pr(A_k = a_{ki} | \bar A_{k-1} = \bar a_{(k-1)i}, \bar L_k = \bar l_{ki}).
 }\]</span></p>
 </section>
-<section id="censoring-by-loss-to-follow-up" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="censoring-by-loss-to-follow-up"><span class="header-section-number">3.7</span> Censoring by Loss to Follow-Up</h2>
+<section id="censoring-by-loss-to-follow-up" class="level2">
+<h2 class="anchored" data-anchor-id="censoring-by-loss-to-follow-up">Censoring by Loss to Follow-Up</h2>
 <p>They say that we can also consider censoring at time <span class="math inline">\(k\)</span> (denoted <span class="math inline">\(C_k\)</span>) as another aspect of treatment and re-work our analyses to become “inverse-probability-of-treatment-and-censoring weighted estimators” if we view <span class="math inline">\((A_k, C_k)\)</span> as a joint-treatment at time <span class="math inline">\(k\)</span>.</p>
 </section>
-<section id="limitations" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="limitations"><span class="header-section-number">3.8</span> Limitations</h2>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
 <p>The authors state that marginal structural models cannot be used to model the interaction of treatment with a time-varying covariate (so effect modification). For this, they recommend structural nested models to be used.</p>
 <p>As suggested above, it’s also the case that we cannot use marginal structural models when we have violations to the positivity assumption.</p>
 </section>
-<section id="important-points-from-the-appendix" class="level2" data-number="3.9">
-<h2 data-number="3.9" class="anchored" data-anchor-id="important-points-from-the-appendix"><span class="header-section-number">3.9</span> Important Points from the Appendix</h2>
+<section id="important-points-from-the-appendix" class="level2">
+<h2 class="anchored" data-anchor-id="important-points-from-the-appendix">Important Points from the Appendix</h2>
 <p>If we recall the recommendations from <a href="https://ctesta01.github.io/CausalFall2023/1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html">Rosenbaum and Rubin, 1983</a>, it’s worth distinguishing the approach suggested here from the propensity score based approaches previously. The propensity score methods were largely oriented towards either propensity score stratification, propensity score matching, or covariance adjustment for propensity scores. It’s very much worth noting that the inverse of the propensity score is not the same as the inverse probability of treatment proposed here, as the propensity score always models <span class="math inline">\(Pr(A=1|L=l)\)</span> while the probability of treatment is the probability of the treatment <em>a specific unit received</em>, so <span class="math inline">\(Pr(A=a_i | L=l_i)\)</span>. In other words, for those units which were treated, the propensity score and the probability of treatment agree, but for untreated units, the probability of the treatment they received (no-treatment) is <span class="math inline">\(1-Pr(A=1|L=l_i)\)</span>.</p>
 <p>As an additional consideration, it’s worth noting that matching or stratification methods could introduce significant bias if there is difficulty finding sufficiently close matches or residual uncontrolled-for intrastratum confounding.</p>
 

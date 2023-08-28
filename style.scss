@@ -99,6 +99,19 @@ h1, h2, h3 {
 h1 {
     font-size: 1.3em;
 }
+
+@media (max-width: 1000px) {
+    h1 {
+        font-size: 1em;
+    }
+    h2 {
+      font-size: .8em;
+    }
+    h3 {
+      font-size: .6em;
+    }
+}
+
 h2 {
     font-size: 1.2em;
 }
@@ -150,3 +163,4 @@ ul li {
 .sidebar nav[role="doc-toc"] ul {
   display: block;
 }
+

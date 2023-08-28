@@ -43,6 +43,7 @@ Week 2b: <a href="2000_Dawid/2000_Dawid.html" style='text-decoration: none; colo
 </u> by Alexander Phillip Dawid (2000). JASA</a>
 
 [HTML](2000_Dawid/2000_Dawid.html)
+<span style='margin-left: 25px;'></span>
 [PDF]()
 
 ---
