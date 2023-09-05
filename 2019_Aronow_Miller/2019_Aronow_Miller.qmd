@@ -1,0 +1,104 @@
+---
+title: "Foundations of Agnostic Statistics"
+comments:
+  giscus:
+    repo: ctesta01/CausalFall2023
+---
+
+[← Home](https://ctesta01.github.io/CausalFall2023/)
+
+::: {.content-hidden}
+$$
+\newcommand{\E}[0]{\mathbb E}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+$$
+:::
+
+Notes on <i>Foundations of Agnostic Statistics</i> by Peter M. Aronow and Benjamin T. Miller (2019), Cambridge
+University Press.
+
+<https://doi.org/10.1017/9781316831762>
+
+## Introduction 
+
+For this week's reading, I jumped straight into the deep-end and read chapters 6 and 7 of 
+Aronow and Miller's (relatively) new book.  I found their text extremely enjoyable and 
+enlightening, and was especially excited to see their easy presentation of 
+doubly-robust estimators, something I've been looking around for for a while. 
+
+The other aspect that I particularly enjoyed was that they make the similarities 
+between handling missing data and questions of causal inference as explicit as 
+possible, going so far as to structure chapters 6 and 7 in parallel, 6 being 
+about missing data and 7 being about causal inference. 
+
+**Definition.** The stable outcomes model is for missing data 
+is given 
+$$Y_i^* = \left\{ \begin{array}{ll} -99 & R_i = 0 \\ Y_i & R_i = 1 \end{array} \right.$$
+where $R_i$ is the missingness indicator variable. This can also be written as $Y_i^* = Y_i R_i + (-99)(1-R_i)$. 
+
+This is called the *stable outcomes model* because 
+it presumes that $Y_i$ is itself a stable quantity.
+
+As far as I can tell, they're using $-99$ in the 
+equations not because it makes the math go through, but
+because $-99$ is number commonly used to indicate
+missingness.
+
+**Theorem.** Sharp bounds for the expected value. 
+Let $Y_i$ and $R_i$ be random variables 
+with support for $Y_i$ be restricted to $[a,b]$,
+$\text{support}(R_i) \in \{0,1\}$, and 
+$Y_i*$ is as in the stable outcomes model. Then 
+
+$$\begin{align} 
+\E[Y_i] \in \big[
+\E[Y_i^* | & R_i = 1]Pr(R_i=1) + aPr(R_i = 0), \\ 
+& \E[Y_i^* | R_i = 1]Pr(R_i=1) + bPr(R_i = 0)\big]. \\
+\end{align}$$
+
+I found this books' proofs quite clear and easy 
+to follow, so I am not going to re-write them here and
+instead refer readers to the book.
+
+Instead, I think some simulation exercise to build
+our intuition on this would be nice. 
+
+```{r}
+N <- 1000
+A <- rnorm(n = N)
+
+# introduce the logistic function
+logistic <- function(x) { exp(x) / (1+exp(x)) }
+curve(logistic(x), from = -10, to = 10)
+
+# simulate our true outcome
+Y <- rnorm(n = N, mean = 2*A + A^2)
+
+# simulate our missingness mechanism
+R <- rbinom(n = N, size = 1, prob = logistic(A+Y))
+
+# subset observed data
+A_observed <- A[as.logical(1-R)]
+Y_observed <- Y[as.logical(1-R)]
+
+plot(A, Y)
+plot(A_observed, Y_observed)
+
+# estimate true regression equation
+jtools::summ(lm(Y ~ A))
+
+# missingness biased regression equation
+jtools::summ(lm(Y_observed ~ A_observed))
+
+# create stable_outcomes_model
+Y_stable <- Y*R + (-99)*(1-R)
+
+# lower bound on the A-Y effect
+mean(Y_stable*R + min(Y_observed)*(1-R))
+
+# upper bound on the A-Y effect
+mean(Y_stable*R + max(Y_observed)*(1-R))
+```

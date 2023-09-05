@@ -58,14 +58,14 @@ knitr::include_graphics("standalone_figures/time_dependent_exposures2/time_depen
 ```
 
 ```{r, echo=FALSE, out.width='75%', fig.cap="Figure 1c. Again similar to the above graph, but also missing the arrows from $L_{t_1}$ to $A_{t_2}$ for $t_1, t_2 \\in \\{0, 1\\}$."}
-knitr::include_graphics("standalone_figures/time_dependent_exposures2/time_dependent_exposures2.svg")
+knitr::include_graphics("standalone_figures/time_dependent_exposures3/time_dependent_exposures3.svg")
 ```
 
 Before diving immediately into how to address time-varying confounding that 
 is affected by antecedent exposures, we establish some preliminary findings
 in the setting of point-treatment studies. 
 
-```{r, echo=FALSE, out.width='35%', fig.cap="Figure 2 |> a. A causal graph for a point-exposure.", fig.align='center'}
+```{r, echo=FALSE, out.width='35%', fig.cap="Figure 2a. A causal graph for a point-exposure.", fig.align='center'}
 knitr::include_graphics("standalone_figures/point_exposure1/point_exposure1.svg")
 ```
 

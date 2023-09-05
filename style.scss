@@ -56,6 +56,7 @@ $web-font-path: "No";
        url('fonts/marcellus-sc-v7-latin-regular.woff') format('woff');
 }
 
+/*
 article, aside, footer, header, hgroup, nav, section, main {
     display:block;
 }
@@ -89,6 +90,8 @@ footer {
     margin-top: 2em;
     margin-bottom: 0.5em;
 }
+*/
+
 h1, h2, h3 {
     font-weight: normal;
     font-family: "Marcellus SC", sans-serif;
@@ -96,6 +99,7 @@ h1, h2, h3 {
     margin-top: 0.8em;
     color: #a81010;
 }
+/*
 h1 {
     font-size: 1.3em;
 }
@@ -151,6 +155,7 @@ ul li {
         font-size: 2em;
     }
 }
+*/
 
 .vocab {
   color: #008B72;
