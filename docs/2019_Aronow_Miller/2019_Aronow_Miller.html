@@ -224,7 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Definition.</strong> The stable outcomes model is for missing data is given <span class="math display">\[Y_i^* = \left\{ \begin{array}{ll} -99 &amp; R_i = 0 \\ Y_i &amp; R_i = 1 \end{array} \right.\]</span> where <span class="math inline">\(R_i\)</span> is the missingness indicator variable. This can also be written as <span class="math inline">\(Y_i^* = Y_i R_i + (-99)(1-R_i)\)</span>.</p>
 <p>This is called the <em>stable outcomes model</em> because it presumes that <span class="math inline">\(Y_i\)</span> is itself a stable quantity.</p>
 <p>As far as I can tell, they’re using <span class="math inline">\(-99\)</span> in the equations not because it makes the math go through, but because <span class="math inline">\(-99\)</span> is number commonly used to indicate missingness.</p>
-<p><strong>Theorem.</strong> Sharp bounds for the expected value. Let <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(R_i\)</span> be random variables with support for <span class="math inline">\(Y_i\)</span> be restricted to <span class="math inline">\([a,b]\)</span>, <span class="math inline">\(\text{support}(R_i) \in \{0,1\}\)</span>, and <span class="math inline">\(Y_i*\)</span> is as in the stable outcomes model. Then</p>
+<p><strong>Theorem 6.1.3.</strong> Sharp bounds for the expected value. Let <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(R_i\)</span> be random variables with support for <span class="math inline">\(Y_i\)</span> be restricted to <span class="math inline">\([a,b]\)</span>, <span class="math inline">\(\text{support}(R_i) \in \{0,1\}\)</span>, and <span class="math inline">\(Y_i*\)</span> is as in the stable outcomes model. Then</p>
 <p><span class="math display">\[\begin{align}
 \mathbb E[Y_i] \in \big[
 \mathbb E[Y_i^* | &amp; R_i = 1]Pr(R_i=1) + aPr(R_i = 0), \\
@@ -284,15 +284,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> F(1,998) </td>
-   <td style="text-align:right;"> 1316.71 </td>
+   <td style="text-align:right;"> 1630.98 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> R² </td>
-   <td style="text-align:right;"> 0.57 </td>
+   <td style="text-align:right;"> 0.62 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Adj. R² </td>
-   <td style="text-align:right;"> 0.57 </td>
+   <td style="text-align:right;"> 0.62 </td>
   </tr>
 </tbody>
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -310,14 +310,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
    <td style="text-align:right;"> 1.03 </td>
    <td style="text-align:right;"> 0.05 </td>
-   <td style="text-align:right;"> 20.02 </td>
+   <td style="text-align:right;"> 19.01 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> A </td>
-   <td style="text-align:right;"> 1.90 </td>
+   <td style="text-align:right;"> 2.19 </td>
    <td style="text-align:right;"> 0.05 </td>
-   <td style="text-align:right;"> 36.29 </td>
+   <td style="text-align:right;"> 40.39 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -333,7 +333,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Observations </td>
-   <td style="text-align:right;"> 453 </td>
+   <td style="text-align:right;"> 447 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Dependent variable </td>
@@ -347,16 +347,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <tbody>
   <tr>
-   <td style="text-align:left;font-weight: bold;"> F(1,451) </td>
-   <td style="text-align:right;"> 10.40 </td>
+   <td style="text-align:left;font-weight: bold;"> F(1,445) </td>
+   <td style="text-align:right;"> 19.75 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> R² </td>
-   <td style="text-align:right;"> 0.02 </td>
+   <td style="text-align:right;"> 0.04 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Adj. R² </td>
-   <td style="text-align:right;"> 0.02 </td>
+   <td style="text-align:right;"> 0.04 </td>
   </tr>
 </tbody>
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -372,16 +372,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
-   <td style="text-align:right;"> -0.51 </td>
+   <td style="text-align:right;"> -0.46 </td>
    <td style="text-align:right;"> 0.07 </td>
-   <td style="text-align:right;"> -7.42 </td>
+   <td style="text-align:right;"> -6.64 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> A_observed </td>
-   <td style="text-align:right;"> 0.22 </td>
+   <td style="text-align:right;"> 0.33 </td>
    <td style="text-align:right;"> 0.07 </td>
-   <td style="text-align:right;"> 3.23 </td>
+   <td style="text-align:right;"> 4.44 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -395,14 +395,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lower bound on the A-Y effect</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_stable<span class="sc">*</span>R <span class="sc">+</span> <span class="fu">min</span>(Y_observed)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.324849</code></pre>
+<pre><code>[1] -0.4926378</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># upper bound on the A-Y effect</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_stable<span class="sc">*</span>R <span class="sc">+</span> <span class="fu">max</span>(Y_observed)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.521793</code></pre>
+<pre><code>[1] 3.099398</code></pre>
 </div>
 </div>
+<p>In chapter 7, they provide a similar theorem that provides the means to bound a causal effect. There is one crucial difference, though, which is that because the average treatment effect is the difference between two potential outcomes (under treatment and under non-treatment), whereas the effect estimate in the missing data scenario is purely associational, the causal theorem has an additional subtracted term.</p>
+<p><strong>Theorem 7.1.17.</strong> Sharp bounds for the average treatment effect.</p>
+<p>Let <span class="math inline">\(Y_i(0)\)</span>, <span class="math inline">\(Y_i(1)\)</span>, and <span class="math inline">\(D_i\)</span> be random variables such that <span class="math inline">\(\forall d \in \{0, 1\},\)</span> <span class="math inline">\(\text{support}(Y_i(d)) \subset [a,b],\)</span> and <span class="math inline">\(\text{support}(D_i) = \{0,1\}\)</span>. Let <span class="math inline">\(Y_i = Y_i(1) \cdot D_i + Y_i(0) \cdot (1-D_i)\)</span> and <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span>. Then</p>
+<p><span class="math display">\[
+\mathbb E[\tau_i] \in \big[ \mathbb E( Y_i | D_i = 1)Pr(D_i=1) + aPr(D_i = 0) \]</span> <span class="math display">\[ -(\mathbb E(Y_i|D_i=0)Pr(D_i=0) + bPr(D_i=1)),\]</span> <span class="math display">\[\mathbb E( Y_i | D_i = 1)Pr(D_i=1) + bPr(D_i = 0) \]</span> <span class="math display">\[ -(\mathbb E(Y_i|D_i=0)Pr(D_i=0) + aPr(D_i=1)) \big].\]</span></p>
 
 
 </section>

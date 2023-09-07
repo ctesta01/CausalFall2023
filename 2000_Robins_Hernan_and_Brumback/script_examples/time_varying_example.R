@@ -89,107 +89,200 @@
 # the bias in the true A0 effect on Y vs. the observed association 
 # or otherwise some function of all of the paths. 
 
-# dependencies ------------------------------------------------------------
+# -----------------------------------------------------------------------
 
 library(tidyverse)
 
-mostly_deterministic_simulation <- function(N = 1000, L0 = 0, A0_beyond_L0 = 0, confounding_path_strength = 0) {
-  A0 <- L0*confounding_path_strength + A0_beyond_L0 + rnorm(n = N)
-  L1 <- L0 + A0
-  A1 <- A0 + L0*confounding_path_strength + L1*confounding_path_strength
-  Y <- A0 + A1 + L1
+# Function to generate simulated data
+generate_sim_data <- function(N, confounding_path_strength) {
+  L0 <- rnorm(N)
+  A0 <- rnorm(N, mean = L0 * confounding_path_strength)
+  L1 <- rnorm(N, mean = L0 + A0)
+  A1 <- rnorm(N, mean = A0 + L0 * confounding_path_strength + L1 * confounding_path_strength)
+  Y <- rnorm(N, mean = A0 + A1 + L1)
   
-  return(data.frame(L0 = L0, A0 = A0, L1 = L1, A1 = A1, Y = Y))
-}
-lm(Y ~ A0, data = mostly_deterministic_simulation(L0 = 0, A0_beyond_L0 = 0))
-lm(Y ~ A0, data = mostly_deterministic_simulation(L0 = 0, A0_beyond_L0 = 1))
-lm(Y ~ A0, mostly_deterministic_simulation(L0 = 0, A0_beyond_L0 = 0, confounding_path_strength = 1))
-lm(Y ~ A0, mostly_deterministic_simulation(L0 = 0, A0_beyond_L0 = 1, confounding_path_strength = 1))
-
-# create simulated data with a time-varying confounder affected by the exposure
-simulate_data <- function(
-    N = 1000, # population size 
-    confounding_path_strength = 0,
-    sd = 1
-    ) {
-  L0 <- rnorm(n = N, sd = sd)
-  A0 <- rnorm(n = N, mean = L0*confounding_path_strength, sd = sd)
-  L1 <- rnorm(n = N, mean = L0 + A0, sd = sd)
-  A1 <- rnorm(n = N, mean = A0 + L0*confounding_path_strength + L1*confounding_path_strength, sd = sd)
-  Y <- rnorm(n = N, mean = A0 + A1 + L1, sd = sd)
-  cumulative_A <- A0 + A1
-  
-  tibble(L0 = L0, A0 = A0, L1 = L1, A1 = A1, cumulative_A, Y = Y)
+  data.frame(L0 = L0, A0 = A0, L1 = L1, A1 = A1, Y = Y)
 }
 
-df <- simulate_data(N = 10000, confounding_path_strength = 0, sd = 1)
+# Function to calculate IPTW
+calculate_weights <- function(data) {
+  model_A0 <- lm(A0 ~ L0, data = data)
+  model_A1 <- lm(A1 ~ A0 + L0 + L1, data = data)
+  
+  weights_A0 <- 1 / dnorm(x = data$A0, mean = coef(model_A0)[1], sd = summary(model_A0)$sigma)
+  weights_A1 <- 1 / dnorm(
+    x = data$A1,
+    mean = coef(model_A1)[1] + coef(model_A1)[2] * data$A0 +
+      coef(model_A1)[3] * data$L0 + coef(model_A1)[4] * data$L1,
+    sd = summary(model_A1)$sigma
+  )
+  
+  weights_A0 * weights_A1
+}
 
-lm(formula = Y ~ cumulative_A, data = df)
+# Function to calculate stabilized IPTW
+calculate_stable_weights <- function(data) {
+  model_A0 <- lm(A0 ~ L0, data = data)
+  model_A1 <- lm(A1 ~ A0 + L0 + L1, data = data)
+  
+  weights_A0 <- 1 / dnorm(x = data$A0, mean = coef(model_A0)[1], sd = summary(model_A0)$sigma)
+  weights_A1 <- 1 / dnorm(
+    x = data$A1,
+    mean = coef(model_A1)[1] + coef(model_A1)[2] * data$A0 +
+      coef(model_A1)[3] * data$L0 + coef(model_A1)[4] * data$L1,
+    sd = summary(model_A1)$sigma
+  )
+  
+  model_A0_alone <- lm(A0 ~ 1, data = data)
+  model_A1_stabilizer <- lm(A1 ~ A0, data = data)
+  A0_stabilizer <- dnorm(x = data$A0, mean = coef(model_A0_alone)[1], sd = summary(model_A0_alone)$sigma)
+  A1_stabilizer <- dnorm(x = data$A1, mean = coef(model_A0_alone)[1] + data$A0*coef(model_A1_stabilizer)[2], sd = summary(model_A1_stabilizer)$sigma)
+  
+  A0_stabilizer * A1_stabilizer * weights_A0 * weights_A1
+}
 
-df <- simulate_data(N = 10000, confounding_path_strength = 1, sd = 1)
+# Generate simulated data
+N <- 1000
+confounding_path_strength <- 1
+sim_data <- generate_sim_data(N, confounding_path_strength)
 
-lm(formula = Y ~ A0, data = df)
-lm(formula = Y ~ cumulative_A, data = df)
+# Calculate weights
+sim_data$weights <- calculate_weights(sim_data)
+sim_data$stable_weights <- calculate_stable_weights(sim_data)
 
-A0.L0.model <- lm(A0 ~ L0, data = df)
-weights <- 1 / dnorm(
-  x = df$A0, 
-  mean = coef(A0.L0.model)[1] + coef(A0.L0.model)[2]*df$L0,
-  sd = summary(A0.L0.model)$sigma)
+# Unadjusted model
+model_unadjusted <- lm(Y ~ A0 + A1, data = sim_data)
+summary(model_unadjusted)
 
-lm(formula = Y ~ A0, data = df, weights = weights)
-
-A0.model <- lm(A0 ~ 1, data = df)
-stabilized_weights <- 
-  dnorm(x = df$A0,
-        mean = coef(A0.model)[1],
-        sd = summary(A0.model)$sigma) / 
-  dnorm(
-    x = df$A0, 
-    mean = coef(A0.L0.model)[1] + coef(A0.L0.model)[2]*df$L0,
-    sd = summary(A0.L0.model)$sigma)
-
-lm(formula = Y ~ A0, data = df, weights = stabilized_weights)
-lm(formula = Y ~ cumulative_A, data = df, weights = stabilized_weights)
-
-A1.A0.L0.L1.model <- lm(A1 ~ A0 + L0 + L1, data = df)
-
-multi_time_weights <- 
-  1 / (dnorm(
-    x = df$A0, 
-    mean = coef(A0.L0.model)[1] + coef(A0.L0.model)[2]*df$L0,
-    sd = summary(A0.L0.model)$sigma) * 
-      dnorm(
-        x = df$A1,
-        mean = coef(A1.A0.L0.L1.model)[1] + coef(A1.A0.L0.L1.model)[2]*df$A0 + 
-          coef(A1.A0.L0.L1.model)[3]*df$L0 + coef(A1.A0.L0.L1.model)[4]*df$L1,
-        sd = summary(A1.A0.L0.L1.model)$sigma
-      ))
-
-lm(formula = Y ~ A0, data = df, weights = multi_time_weights)
-lm(formula = Y ~ cumulative_A, data = df, weights = multi_time_weights)
+# Adjust for confounders using MSM
+model_msm <- lm(Y ~ A0 + A1, data = sim_data, weights = sim_data$stable_weights)
+summary(model_msm)
 
 
-A1.A0.model <- lm(A1 ~ A0, data = df)
+# Look at estimates when confounding_path_strength is ramped up or down 
+results <- list()
+for (confounding_path_strength in seq(-1,1,length.out = 7)) {
+  for (i in 1:100) {
+  # Generate simulated data
+  N <- 1000
+  sim_data <- generate_sim_data(N, confounding_path_strength)
+  
+  # Calculate weights
+  sim_data$stable_weights <- calculate_stable_weights(sim_data)
+  
+  # Unadjusted model
+  model_unadjusted <- lm(Y ~ A0 + A1, data = sim_data)
 
-multi_time_stabilized_weights <- 
-  (dnorm(x = df$A0,
-        mean = coef(A0.model)[1],
-        sd = summary(A0.model)$sigma) * 
-     dnorm(x = df$A1,
-           mean = coef(A1.A0.model)[1] + coef(A1.A0.model)[2]*df$A0,
-           sd = summary(A1.A0.model)$sigma)
-     )/ (dnorm(
-    x = df$A0, 
-    mean = coef(A0.L0.model)[1] + coef(A0.L0.model)[2]*df$L0,
-    sd = summary(A0.L0.model)$sigma) * 
-      dnorm(
-        x = df$A1,
-        mean = coef(A1.A0.L0.L1.model)[1] + coef(A1.A0.L0.L1.model)[2]*df$A0 + 
-          coef(A1.A0.L0.L1.model)[3]*df$L0 + coef(A1.A0.L0.L1.model)[4]*df$L1,
-        sd = summary(A1.A0.L0.L1.model)$sigma
-      ))
+  # Adjust for confounders using MSM
+  model_msm <- lm(Y ~ A0 + A1, data = sim_data, weights = sim_data$stable_weights)
 
-lm(formula = Y ~ A0, data = df, weights = multi_time_stabilized_weights)
-lm(formula = Y ~ cumulative_A, data = df, weights = multi_time_stabilized_weights)
+  # store results from MSM model
+  results[[length(results)+1]] <- 
+    list(confounding_path_strength = confounding_path_strength,
+      i = i,
+      model = 'marginal structural model (with IPTW)',
+      intercept = unname(coef(model_msm)[1]),
+      A0_effect = unname(coef(model_msm)[2]),
+      A1_effect = unname(coef(model_msm)[3]))
+  
+  # store results from unadjusted model
+  results[[length(results)+1]] <- 
+    list(confounding_path_strength = confounding_path_strength,
+      i = i,
+      model = 'unadjusted',
+      intercept = unname(coef(model_unadjusted)[1]),
+      A0_effect = unname(coef(model_unadjusted)[2]),
+      A1_effect = unname(coef(model_unadjusted)[3]))
+  }
+}
+
+# turn into a dataframe
+results <- bind_rows(results)
+
+labelling_helper <- function(x) { 
+  paste0("confounding path coefficient: ", round(as.numeric(x), 1))
+}
+
+results |> # filter(confounding_path_strength %in% c(3, 2, 1, 0)) |> 
+  tidyr::pivot_longer(cols = c(intercept, A0_effect, A1_effect), names_to = 'coefficient', values_to = 'estimate') |> 
+  # mutate(coefficient = factor(coefficient, c('intercept', 'A0_effect', 'A1_effect'))) |> 
+  ggplot(aes(x = coefficient, y = estimate, color = model, group = model)) + 
+  geom_jitter(height = 0, width=.15, alpha = .15) + 
+  stat_summary(fun = mean, geom = 'point', aes(group = model, shape = model), color = 'grey30') + 
+  stat_summary(fun = mean, geom = 'line', aes(group = model)) + 
+  facet_wrap(~confounding_path_strength, nrow = 1,
+             labeller = as_labeller(labelling_helper)) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom', axis.text.x = element_text(angle = 15, hjust = 1),
+        plot.caption = element_text(hjust = .5)) + 
+  ggtitle("Variation in Coefficient Estimates with/without IPTW",
+          subtitle = "Datasets (N obs=1000) were simulated for varying coefficients for the confounding paths (L0→A0, L0→A1, L1→A1) 100 times") + 
+  labs(caption = "Mean coefficient estimates from the 100 simulations are indicated by the black marks that are connected by colored lines for each model type.")
+
+ggsave("2000_Robins_Hernan_and_Brumback/script_examples/time_varying_confounding/time_varying_confounding_lt1.png",
+       width = 14, height = 3.5)
+
+
+
+
+# Look at estimates when confounding_path_strength is ramped up or down 
+results <- list()
+for (confounding_path_strength in seq(-2,2,length.out = 7)) {
+  for (i in 1:100) {
+    # Generate simulated data
+    N <- 1000
+    sim_data <- generate_sim_data(N, confounding_path_strength)
+    
+    # Calculate weights
+    sim_data$stable_weights <- calculate_stable_weights(sim_data)
+    
+    # Unadjusted model
+    model_unadjusted <- lm(Y ~ A0 + A1, data = sim_data)
+    
+    # Adjust for confounders using MSM
+    model_msm <- lm(Y ~ A0 + A1, data = sim_data, weights = sim_data$stable_weights)
+    
+    # store results from MSM model
+    results[[length(results)+1]] <- 
+      list(confounding_path_strength = confounding_path_strength,
+           i = i,
+           model = 'marginal structural model (with IPTW)',
+           intercept = unname(coef(model_msm)[1]),
+           A0_effect = unname(coef(model_msm)[2]),
+           A1_effect = unname(coef(model_msm)[3]))
+    
+    # store results from unadjusted model
+    results[[length(results)+1]] <- 
+      list(confounding_path_strength = confounding_path_strength,
+           i = i,
+           model = 'unadjusted',
+           intercept = unname(coef(model_unadjusted)[1]),
+           A0_effect = unname(coef(model_unadjusted)[2]),
+           A1_effect = unname(coef(model_unadjusted)[3]))
+  }
+}
+
+# turn into a dataframe
+results <- bind_rows(results)
+
+labelling_helper <- function(x) { 
+  paste0("confounding path coefficient: ", round(as.numeric(x), 1))
+}
+
+results |> # filter(confounding_path_strength %in% c(3, 2, 1, 0)) |> 
+  tidyr::pivot_longer(cols = c(intercept, A0_effect, A1_effect), names_to = 'coefficient', values_to = 'estimate') |> 
+  # mutate(coefficient = factor(coefficient, c('intercept', 'A0_effect', 'A1_effect'))) |> 
+  ggplot(aes(x = coefficient, y = estimate, color = model, group = model)) + 
+  geom_jitter(height = 0, width=.15, alpha = .15) + 
+  stat_summary(fun = mean, geom = 'point', aes(group = model, shape = model), color = 'grey30') + 
+  stat_summary(fun = mean, geom = 'line', aes(group = model)) + 
+  facet_wrap(~confounding_path_strength, nrow = 1,
+             labeller = as_labeller(labelling_helper)) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom', axis.text.x = element_text(angle = 15, hjust = 1)) + 
+  ggtitle("Variation in Coefficient Estimates with/without IPTW",
+          subtitle = "Datasets (N obs=1000) were simulated for varying coefficients for the confounding paths (L0→A0, L0→A1, L1→A1) 100 times")
+
+ggsave("2000_Robins_Hernan_and_Brumback/script_examples/time_varying_confounding/time_varying_confounding_wider_scenario.png",
+       width = 14, height = 3.5)
 
