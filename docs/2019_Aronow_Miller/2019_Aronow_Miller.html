@@ -191,6 +191,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#sharp-bounds-for-estimates" id="toc-sharp-bounds-for-estimates" class="nav-link" data-scroll-target="#sharp-bounds-for-estimates">Sharp Bounds for Estimates</a></li>
+  <li><a href="#inverse-probability-weighting" id="toc-inverse-probability-weighting" class="nav-link" data-scroll-target="#inverse-probability-weighting">Inverse Probability Weighting</a></li>
   </ul>
 </nav>
     </div>
@@ -224,6 +226,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Definition.</strong> The stable outcomes model is for missing data is given <span class="math display">\[Y_i^* = \left\{ \begin{array}{ll} -99 &amp; R_i = 0 \\ Y_i &amp; R_i = 1 \end{array} \right.\]</span> where <span class="math inline">\(R_i\)</span> is the missingness indicator variable. This can also be written as <span class="math inline">\(Y_i^* = Y_i R_i + (-99)(1-R_i)\)</span>.</p>
 <p>This is called the <em>stable outcomes model</em> because it presumes that <span class="math inline">\(Y_i\)</span> is itself a stable quantity.</p>
 <p>As far as I can tell, they’re using <span class="math inline">\(-99\)</span> in the equations not because it makes the math go through, but because <span class="math inline">\(-99\)</span> is number commonly used to indicate missingness.</p>
+</section>
+<section id="sharp-bounds-for-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="sharp-bounds-for-estimates">Sharp Bounds for Estimates</h2>
 <p><strong>Theorem 6.1.3.</strong> Sharp bounds for the expected value. Let <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(R_i\)</span> be random variables with support for <span class="math inline">\(Y_i\)</span> be restricted to <span class="math inline">\([a,b]\)</span>, <span class="math inline">\(\text{support}(R_i) \in \{0,1\}\)</span>, and <span class="math inline">\(Y_i*\)</span> is as in the stable outcomes model. Then</p>
 <p><span class="math display">\[\begin{align}
 \mathbb E[Y_i] \in \big[
@@ -284,15 +289,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> F(1,998) </td>
-   <td style="text-align:right;"> 1630.98 </td>
+   <td style="text-align:right;"> 1287.76 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> R² </td>
-   <td style="text-align:right;"> 0.62 </td>
+   <td style="text-align:right;"> 0.56 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Adj. R² </td>
-   <td style="text-align:right;"> 0.62 </td>
+   <td style="text-align:right;"> 0.56 </td>
   </tr>
 </tbody>
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -308,16 +313,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
-   <td style="text-align:right;"> 1.03 </td>
+   <td style="text-align:right;"> 0.95 </td>
    <td style="text-align:right;"> 0.05 </td>
-   <td style="text-align:right;"> 19.01 </td>
+   <td style="text-align:right;"> 17.62 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> A </td>
-   <td style="text-align:right;"> 2.19 </td>
+   <td style="text-align:right;"> 1.96 </td>
    <td style="text-align:right;"> 0.05 </td>
-   <td style="text-align:right;"> 40.39 </td>
+   <td style="text-align:right;"> 35.89 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -333,7 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Observations </td>
-   <td style="text-align:right;"> 447 </td>
+   <td style="text-align:right;"> 487 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Dependent variable </td>
@@ -347,16 +352,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <tbody>
   <tr>
-   <td style="text-align:left;font-weight: bold;"> F(1,445) </td>
-   <td style="text-align:right;"> 19.75 </td>
+   <td style="text-align:left;font-weight: bold;"> F(1,485) </td>
+   <td style="text-align:right;"> 16.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> R² </td>
-   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:right;"> 0.03 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Adj. R² </td>
-   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:right;"> 0.03 </td>
   </tr>
 </tbody>
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -372,16 +377,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
-   <td style="text-align:right;"> -0.46 </td>
+   <td style="text-align:right;"> -0.48 </td>
    <td style="text-align:right;"> 0.07 </td>
-   <td style="text-align:right;"> -6.64 </td>
+   <td style="text-align:right;"> -6.96 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> A_observed </td>
-   <td style="text-align:right;"> 0.33 </td>
+   <td style="text-align:right;"> 0.29 </td>
    <td style="text-align:right;"> 0.07 </td>
-   <td style="text-align:right;"> 4.44 </td>
+   <td style="text-align:right;"> 4.00 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -395,19 +400,115 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lower bound on the A-Y effect</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_stable<span class="sc">*</span>R <span class="sc">+</span> <span class="fu">min</span>(Y_observed)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.4926378</code></pre>
+<pre><code>[1] -0.5036956</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># upper bound on the A-Y effect</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_stable<span class="sc">*</span>R <span class="sc">+</span> <span class="fu">max</span>(Y_observed)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.099398</code></pre>
+<pre><code>[1] 3.028738</code></pre>
 </div>
 </div>
 <p>In chapter 7, they provide a similar theorem that provides the means to bound a causal effect. There is one crucial difference, though, which is that because the average treatment effect is the difference between two potential outcomes (under treatment and under non-treatment), whereas the effect estimate in the missing data scenario is purely associational, the causal theorem has an additional subtracted term.</p>
 <p><strong>Theorem 7.1.17.</strong> Sharp bounds for the average treatment effect.</p>
 <p>Let <span class="math inline">\(Y_i(0)\)</span>, <span class="math inline">\(Y_i(1)\)</span>, and <span class="math inline">\(D_i\)</span> be random variables such that <span class="math inline">\(\forall d \in \{0, 1\},\)</span> <span class="math inline">\(\text{support}(Y_i(d)) \subset [a,b],\)</span> and <span class="math inline">\(\text{support}(D_i) = \{0,1\}\)</span>. Let <span class="math inline">\(Y_i = Y_i(1) \cdot D_i + Y_i(0) \cdot (1-D_i)\)</span> and <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span>. Then</p>
-<p><span class="math display">\[
-\mathbb E[\tau_i] \in \big[ \mathbb E( Y_i | D_i = 1)Pr(D_i=1) + aPr(D_i = 0) \]</span> <span class="math display">\[ -(\mathbb E(Y_i|D_i=0)Pr(D_i=0) + bPr(D_i=1)),\]</span> <span class="math display">\[\mathbb E( Y_i | D_i = 1)Pr(D_i=1) + bPr(D_i = 0) \]</span> <span class="math display">\[ -(\mathbb E(Y_i|D_i=0)Pr(D_i=0) + aPr(D_i=1)) \big].\]</span></p>
+<p><span class="math display">\[\begin{aligned}\mathbb E[\tau_i] \in \big[ \mathbb E( &amp; Y_i | D_i = 1)Pr(D_i=1) + aPr(D_i = 0) \\
+&amp;  -(\mathbb E(Y_i|D_i=0)Pr(D_i=0) + bPr(D_i=1)), \\
+&amp; \mathbb E( Y_i | D_i = 1)Pr(D_i=1) + bPr(D_i = 0) \\
+&amp; -(\mathbb E(Y_i|D_i=0)Pr(D_i=0) + aPr(D_i=1)) \big]. \end{aligned} \]</span></p>
+<p>Let’s simulate some data and run an analysis to build some intuition around how this sharp bounding works. For example, we might imagine a scenario where the treatment assigment and the outcome are confounded, and hence the naive (unadjusted) estimate of the average treatment effect would be biased.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">logistic</span>(L))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> L <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> <span class="dv">2</span>) <span class="co"># outcome under treatment</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> L <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> <span class="dv">0</span>) <span class="co"># outcome under no treatment</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> Y1<span class="sc">*</span>D <span class="sc">+</span> Y0<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>unadjusted_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> D)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">D =</span> <span class="fu">as.factor</span>(D), <span class="at">Y =</span> Y),</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> D, <span class="at">y =</span> Y, <span class="at">color =</span> D)) <span class="sc">+</span> </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha =</span> <span class="fl">0.35</span>, <span class="at">scale =</span> <span class="st">'width'</span>, <span class="at">maxwidth=</span>.<span class="dv">5</span>) <span class="sc">+</span> </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">width =</span> .<span class="dv">3</span>, <span class="at">outlier.color =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span> </span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">'point'</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span> </span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="sc">+</span> </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"D (treatment) and Y (outcome) are confounded by (unshown) L"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Averages are indicated by the open black circles"</span>) <span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="fu">paste0</span>(<span class="st">"The biased estimate of average treatment effect is roughly "</span>, <span class="fu">round</span>(<span class="fu">coef</span>(unadjusted_model)[<span class="dv">2</span>], <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2019_Aronow_Miller_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" style="width:5in"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">L =</span> L, <span class="at">D =</span> <span class="fu">as.factor</span>(D), <span class="at">Y =</span> Y),</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> L, <span class="at">y =</span> Y, <span class="at">color =</span> D)) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>, <span class="at">se=</span>F) <span class="sc">+</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="sc">+</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">'D (treatment):'</span>) <span class="sc">+</span> </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>)) <span class="sc">+</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Conditioning on L allows us to see that the average treatment effect is actually 2"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2019_Aronow_Miller_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" style="width:6in"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So now can we check if the sharp bounds contain 2, which they should as long as the theorem holds? (check the book for the proof!)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lower_bound <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y<span class="sc">*</span>D <span class="sc">+</span> <span class="fu">min</span>(Y)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> Y<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> <span class="fu">max</span>(Y)<span class="sc">*</span>D)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>upper_bound <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y<span class="sc">*</span>D <span class="sc">+</span> <span class="fu">max</span>(Y)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> Y<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> <span class="fu">min</span>(Y)<span class="sc">*</span>D)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"the actual causal estimate should be guaranteed to lie within:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "the actual causal estimate should be guaranteed to lie within:"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"["</span>, <span class="fu">round</span>(lower_bound, <span class="dv">1</span>), <span class="st">', '</span>, <span class="fu">round</span>(upper_bound, <span class="dv">1</span>), <span class="st">"]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "[-4.1, 6.9]"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"is the actual average treatment effect within these bounds?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "is the actual average treatment effect within these bounds?"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">2</span> <span class="sc">&gt;=</span> lower_bound <span class="sc">&amp;</span> <span class="dv">2</span> <span class="sc">&lt;=</span> upper_bound) <span class="fu">print</span>(<span class="st">"yup! 🙂"</span>) <span class="cf">else</span> <span class="fu">print</span>(<span class="st">"nope 😕"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "yup! 🙂"</code></pre>
+</div>
+</div>
+</section>
+<section id="inverse-probability-weighting" class="level2">
+<h2 class="anchored" data-anchor-id="inverse-probability-weighting">Inverse Probability Weighting</h2>
+<p><strong>Definition 6.2.8</strong> Stabilized IPW Estimator for Missing Data</p>
+<p>Let <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(R_i\)</span> be random variables with <span class="math inline">\(\text{support}(R_i) = \{ 0, 1 \}\)</span>. Let <span class="math inline">\(Y_i^*\)</span> be as in the stable outcomes model and let <span class="math inline">\(X_i\)</span> be a random vector. Then given <span class="math inline">\(n\)</span> independently and identically distributed observations of <span class="math inline">\((Y_i^*, R_i, X_i)\)</span>, the stabilized IPW estimator for <span class="math inline">\(\mathbb E[Y_i]\)</span> is</p>
+<p><span class="math display">\[ \hat{\mathbb E}_{SIPW} (Y_i) = \frac{\frac{1}{n} \sum_{i=1}^n \frac{Y_i R^i}{\hat p_R(X_i)}}{\frac{1}{n} \sum_{i=1}^n \frac{R^i}{\hat p_R(X_i)}}. \]</span></p>
 
 
 </section>

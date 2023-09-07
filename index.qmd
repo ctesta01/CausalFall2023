@@ -47,3 +47,11 @@ Week 2b: <a href="2000_Dawid/2000_Dawid.html" style='text-decoration: none; colo
 [PDF]()
 
 ---
+
+Week 3: <a href="2019_Aronow_Miller/2019_Aronow_Miller.html" style='text-decoration: none; color: black;'><u><i>Foundations of Agnostic Statistics</i>
+</u> by Peter M. Aronow and Benjamin T. Miller (2019). Cambridge University Press.</a>
+
+[HTML](2019_Aronow_Miller/2019_Aronow_Miller.html)
+<span style='margin-left: 25px;'></span>
+
+---
