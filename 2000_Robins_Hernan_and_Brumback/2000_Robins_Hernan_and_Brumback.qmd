@@ -366,3 +366,194 @@ agree, but for untreated units, the probability of the treatment they received (
 As an additional consideration, it's worth noting that matching or stratification methods
 could introduce significant bias if there is difficulty finding sufficiently close 
 matches or residual uncontrolled-for intrastratum confounding.
+
+## Simulations to Build Intuition
+
+I've been motivated by the question "how can we tell that we've implemented our marginal structural 
+model (MSM) correctly if we allow ourselves to check our work in a simulation setting?"
+
+My idea for "checking" centers around the idea that we can simulate data with varying 
+strength on the pathways from the $L$ (the time-varying confounders affected by the exposures) variables to the $A$ (exposure) variables and compare what happens in MSMs comparing to the setting where there was 0 confounding. 
+
+To come up with a more straightforward setting to test our ideas in, the following DAG is 
+sufficient as an example of a scenario where time-varying-confounding affected by exposures 
+exist: 
+
+```{r, echo=FALSE, out.width='45%', fig.cap="A simpler situation with time-varying confounders affected by exposures."}
+knitr::include_graphics("standalone_figures/simpler_tvcabte1/simpler_tvcabte1.svg")
+```
+
+We'll introduce a few functions to simulate some data.
+
+```{r}
+# Function to generate simulated data
+generate_sim_data <- function(N, confounding_path_strength) {
+  L0 <- rnorm(N)
+  A0 <- rnorm(N, mean = L0 * confounding_path_strength)
+  L1 <- rnorm(N, mean = L0 + A0)
+  A1 <- rnorm(N, mean = A0 + L0 * confounding_path_strength + L1 * confounding_path_strength)
+  Y <- rnorm(N, mean = A0 + A1 + L1)
+  
+  data.frame(L0 = L0, A0 = A0, L1 = L1, A1 = A1, Y = Y)
+}
+
+# Function to calculate stabilized IPTW
+# Note that since the above data generating function uses continuous variables, we 
+# estimate the densities of observations
+calculate_stable_weights <- function(data) {
+  model_A0 <- lm(A0 ~ L0, data = data)
+  model_A1 <- lm(A1 ~ A0 + L0 + L1, data = data)
+  
+  weights_A0 <-
+    1 / dnorm(
+      x = data$A0,
+      mean = coef(model_A0)[1],
+      sd = summary(model_A0)$sigma
+    )
+  weights_A1 <- 1 / dnorm(
+    x = data$A1,
+    mean = coef(model_A1)[1] + coef(model_A1)[2] * data$A0 +
+      coef(model_A1)[3] * data$L0 + coef(model_A1)[4] * data$L1,
+    sd = summary(model_A1)$sigma
+  )
+  
+  model_A0_alone <- lm(A0 ~ 1, data = data)
+  model_A1_stabilizer <- lm(A1 ~ A0, data = data)
+  A0_stabilizer <-
+    dnorm(
+      x = data$A0,
+      mean = coef(model_A0_alone)[1],
+      sd = summary(model_A0_alone)$sigma
+    )
+  A1_stabilizer <-
+    dnorm(
+      x = data$A1,
+      mean = coef(model_A0_alone)[1] + data$A0 * coef(model_A1_stabilizer)[2],
+      sd = summary(model_A1_stabilizer)$sigma
+    )
+  
+  A0_stabilizer * A1_stabilizer * weights_A0 * weights_A1
+}
+```
+
+Just to check that everything is working right, we might do a pair of simulations to compare: 
+
+```{r}
+# Generate simulated data
+N <- 1000
+confounding_path_strength <- 1
+sim_data <- generate_sim_data(N, confounding_path_strength)
+
+# Calculate weights
+sim_data$stable_weights <- calculate_stable_weights(sim_data)
+
+# Unadjusted model
+model_unadjusted <- lm(Y ~ A0 + A1, data = sim_data)
+jtools::summ(model_unadjusted, model.info=FALSE, model.fit = FALSE)
+
+# Adjust for confounders using MSM
+model_msm <- lm(Y ~ A0 + A1, data = sim_data, weights = sim_data$stable_weights)
+jtools::summ(model_msm, model.info=FALSE, model.fit = FALSE)
+```
+
+If the above estimates are showing us that in the marginal structural 
+model with IPTW we're getting coefficients on $A_0$ of roughly 2 and 
+coefficients on $A_1$ of roughly 1, that would make a lot of sense. 
+If we consider the DAG where we're controlling for $A_1$ (as in the regression performed for `model_msm`), we can see that there's two pathways (shown in blue below) through which $A_0$ contributes to the outcome $Y$, and only the one direct pathway from $A_1$ to $Y$ (shown in red). 
+
+```{r, echo=FALSE, out.width='45%', fig.cap="Pathways from the exposure to the outcome once we remove the arrows from $L_{0,1} \\to A_{0,1}$."}
+knitr::include_graphics("standalone_figures/simpler_tvcabte2/simpler_tvcabte2.svg")
+```
+
+Now we can finally investigate whether or not my intuition is right: 
+
+```{r, echo=TRUE, eval=FALSE}
+# Look at estimates when confounding_path_strength is ramped up or down 
+results <- list()
+for (confounding_path_strength in seq(-1,1,length.out = 7)) {
+  for (i in 1:100) {
+  # Generate simulated data
+  N <- 1000
+  sim_data <- generate_sim_data(N, confounding_path_strength)
+  
+  # Calculate weights
+  sim_data$stable_weights <- calculate_stable_weights(sim_data)
+  
+  # Unadjusted model
+  model_unadjusted <- lm(Y ~ A0 + A1, data = sim_data)
+
+  # Adjust for confounders using MSM
+  model_msm <- lm(Y ~ A0 + A1, data = sim_data, weights = sim_data$stable_weights)
+
+  # store results from MSM model
+  results[[length(results)+1]] <- 
+    list(confounding_path_strength = confounding_path_strength,
+      i = i,
+      model = 'marginal structural model (with IPTW)',
+      intercept = unname(coef(model_msm)[1]),
+      A0_effect = unname(coef(model_msm)[2]),
+      A1_effect = unname(coef(model_msm)[3]))
+  
+  # store results from unadjusted model
+  results[[length(results)+1]] <- 
+    list(confounding_path_strength = confounding_path_strength,
+      i = i,
+      model = 'unadjusted',
+      intercept = unname(coef(model_unadjusted)[1]),
+      A0_effect = unname(coef(model_unadjusted)[2]),
+      A1_effect = unname(coef(model_unadjusted)[3]))
+  }
+}
+
+# turn into a dataframe
+results <- bind_rows(results)
+
+labelling_helper <- function(x) { 
+  paste0("confounding path coefficient: ", round(as.numeric(x), 1))
+}
+
+results |> 
+  tidyr::pivot_longer(cols = c(intercept, A0_effect, A1_effect), names_to = 'coefficient', values_to = 'estimate') |> 
+  ggplot(aes(
+    x = coefficient,
+    y = estimate,
+    color = model,
+    group = model
+  )) +
+  geom_jitter(height = 0, width=.15, alpha = .15) + 
+  stat_summary(
+    fun = mean,
+    geom = 'point',
+    aes(group = model, shape = model),
+    color = 'grey30'
+  ) +
+  stat_summary(fun = mean, geom = 'line', aes(group = model)) +
+  facet_wrap(
+    ~ confounding_path_strength,
+    nrow = 1,
+    labeller = as_labeller(labelling_helper)
+  ) +
+  theme_bw() +
+  theme(
+    legend.position = 'bottom',
+    axis.text.x = element_text(angle = 15, hjust = 1),
+    plot.caption = element_text(hjust = .5)
+  ) +
+  ggtitle("Variation in Coefficient Estimates with/without IPTW",
+          subtitle = "Datasets (N obs=1000) were simulated for varying coefficients for the confounding paths (L0→A0, L0→A1, L1→A1) 100 times") +
+  labs(caption = "Mean coefficient estimates from the 100 simulations are indicated by the black marks that are connected by colored lines for each model type.")
+```
+
+```{r, echo=FALSE}
+knitr::include_graphics("script_examples/time_varying_confounding/time_varying_confounding_lt1.png")
+```
+
+What's quite interesting to me is that when we start to ramp up the confounding path strength 
+to be higher than 1, we start to run into scenarios where the variability in the $A_0$ estimate
+after IPTW is quite high and we fail to be able to continue to recover unbiased estimates of the $A_0$ and $A_1$
+coefficients. 
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("script_examples/time_varying_confounding/time_varying_confounding_wider_scenario.png")
+```

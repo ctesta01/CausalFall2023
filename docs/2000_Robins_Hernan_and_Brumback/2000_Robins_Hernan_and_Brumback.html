@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -137,6 +200,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#censoring-by-loss-to-follow-up" id="toc-censoring-by-loss-to-follow-up" class="nav-link" data-scroll-target="#censoring-by-loss-to-follow-up">Censoring by Loss to Follow-Up</a></li>
   <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
   <li><a href="#important-points-from-the-appendix" id="toc-important-points-from-the-appendix" class="nav-link" data-scroll-target="#important-points-from-the-appendix">Important Points from the Appendix</a></li>
+  <li><a href="#simulations-to-build-intuition" id="toc-simulations-to-build-intuition" class="nav-link" data-scroll-target="#simulations-to-build-intuition">Simulations to Build Intuition</a></li>
   </ul>
 </nav>
     </div>
@@ -371,6 +435,357 @@ window.MathJax = {
 <h2 class="anchored" data-anchor-id="important-points-from-the-appendix">Important Points from the Appendix</h2>
 <p>If we recall the recommendations from <a href="https://ctesta01.github.io/CausalFall2023/1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html">Rosenbaum and Rubin, 1983</a>, it’s worth distinguishing the approach suggested here from the propensity score based approaches previously. The propensity score methods were largely oriented towards either propensity score stratification, propensity score matching, or covariance adjustment for propensity scores. It’s very much worth noting that the inverse of the propensity score is not the same as the inverse probability of treatment proposed here, as the propensity score always models <span class="math inline">\(Pr(A=1|L=l)\)</span> while the probability of treatment is the probability of the treatment <em>a specific unit received</em>, so <span class="math inline">\(Pr(A=a_i | L=l_i)\)</span>. In other words, for those units which were treated, the propensity score and the probability of treatment agree, but for untreated units, the probability of the treatment they received (no-treatment) is <span class="math inline">\(1-Pr(A=1|L=l_i)\)</span>.</p>
 <p>As an additional consideration, it’s worth noting that matching or stratification methods could introduce significant bias if there is difficulty finding sufficiently close matches or residual uncontrolled-for intrastratum confounding.</p>
+</section>
+<section id="simulations-to-build-intuition" class="level2">
+<h2 class="anchored" data-anchor-id="simulations-to-build-intuition">Simulations to Build Intuition</h2>
+<p>I’ve been motivated by the question “how can we tell that we’ve implemented our marginal structural model (MSM) correctly if we allow ourselves to check our work in a simulation setting?”</p>
+<p>My idea for “checking” centers around the idea that we can simulate data with varying strength on the pathways from the <span class="math inline">\(L\)</span> (the time-varying confounders affected by the exposures) variables to the <span class="math inline">\(A\)</span> (exposure) variables and compare what happens in MSMs comparing to the setting where there was 0 confounding.</p>
+<p>To come up with a more straightforward setting to test our ideas in, the following DAG is sufficient as an example of a scenario where time-varying-confounding affected by exposures exist:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/simpler_tvcabte1/simpler_tvcabte1.svg" class="img-fluid figure-img" style="width:45.0%"></p>
+<p></p><figcaption class="figure-caption">A simpler situation with time-varying confounders affected by exposures.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We’ll introduce a few functions to simulate some data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to generate simulated data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>generate_sim_data <span class="ot">&lt;-</span> <span class="cf">function</span>(N, confounding_path_strength) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  L0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  A0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> L0 <span class="sc">*</span> confounding_path_strength)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  L1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> L0 <span class="sc">+</span> A0)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  A1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> A0 <span class="sc">+</span> L0 <span class="sc">*</span> confounding_path_strength <span class="sc">+</span> L1 <span class="sc">*</span> confounding_path_strength)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> A0 <span class="sc">+</span> A1 <span class="sc">+</span> L1)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">L0 =</span> L0, <span class="at">A0 =</span> A0, <span class="at">L1 =</span> L1, <span class="at">A1 =</span> A1, <span class="at">Y =</span> Y)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate stabilized IPTW</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that since the above data generating function uses continuous variables, we </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the densities of observations</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>calculate_stable_weights <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  model_A0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(A0 <span class="sc">~</span> L0, <span class="at">data =</span> data)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  model_A1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(A1 <span class="sc">~</span> A0 <span class="sc">+</span> L0 <span class="sc">+</span> L1, <span class="at">data =</span> data)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  weights_A0 <span class="ot">&lt;-</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">/</span> <span class="fu">dnorm</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> data<span class="sc">$</span>A0,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">coef</span>(model_A0)[<span class="dv">1</span>],</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">summary</span>(model_A0)<span class="sc">$</span>sigma</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  weights_A1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">dnorm</span>(</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> data<span class="sc">$</span>A1,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">coef</span>(model_A1)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(model_A1)[<span class="dv">2</span>] <span class="sc">*</span> data<span class="sc">$</span>A0 <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coef</span>(model_A1)[<span class="dv">3</span>] <span class="sc">*</span> data<span class="sc">$</span>L0 <span class="sc">+</span> <span class="fu">coef</span>(model_A1)[<span class="dv">4</span>] <span class="sc">*</span> data<span class="sc">$</span>L1,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">summary</span>(model_A1)<span class="sc">$</span>sigma</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  model_A0_alone <span class="ot">&lt;-</span> <span class="fu">lm</span>(A0 <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> data)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  model_A1_stabilizer <span class="ot">&lt;-</span> <span class="fu">lm</span>(A1 <span class="sc">~</span> A0, <span class="at">data =</span> data)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  A0_stabilizer <span class="ot">&lt;-</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> data<span class="sc">$</span>A0,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">coef</span>(model_A0_alone)[<span class="dv">1</span>],</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">summary</span>(model_A0_alone)<span class="sc">$</span>sigma</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  A1_stabilizer <span class="ot">&lt;-</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> data<span class="sc">$</span>A1,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">coef</span>(model_A0_alone)[<span class="dv">1</span>] <span class="sc">+</span> data<span class="sc">$</span>A0 <span class="sc">*</span> <span class="fu">coef</span>(model_A1_stabilizer)[<span class="dv">2</span>],</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">summary</span>(model_A1_stabilizer)<span class="sc">$</span>sigma</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  A0_stabilizer <span class="sc">*</span> A1_stabilizer <span class="sc">*</span> weights_A0 <span class="sc">*</span> weights_A1</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Just to check that everything is working right, we might do a pair of simulations to compare:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate simulated data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>confounding_path_strength <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sim_data <span class="ot">&lt;-</span> <span class="fu">generate_sim_data</span>(N, confounding_path_strength)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate weights</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sim_data<span class="sc">$</span>stable_weights <span class="ot">&lt;-</span> <span class="fu">calculate_stable_weights</span>(sim_data)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Unadjusted model</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>model_unadjusted <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> A0 <span class="sc">+</span> A1, <span class="at">data =</span> sim_data)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>jtools<span class="sc">::</span><span class="fu">summ</span>(model_unadjusted, <span class="at">model.info=</span><span class="cn">FALSE</span>, <span class="at">model.fit =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Est.
+</th>
+<th style="text-align:right;">
+S.E.
+</th>
+<th style="text-align:right;">
+t val.
+</th>
+<th style="text-align:right;">
+p
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+A0
+</td>
+<td style="text-align:right;">
+1.08
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+16.21
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+A1
+</td>
+<td style="text-align:right;">
+1.47
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+72.42
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Standard errors: OLS
+</td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust for confounders using MSM</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model_msm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> A0 <span class="sc">+</span> A1, <span class="at">data =</span> sim_data, <span class="at">weights =</span> sim_data<span class="sc">$</span>stable_weights)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>jtools<span class="sc">::</span><span class="fu">summ</span>(model_msm, <span class="at">model.info=</span><span class="cn">FALSE</span>, <span class="at">model.fit =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Est.
+</th>
+<th style="text-align:right;">
+S.E.
+</th>
+<th style="text-align:right;">
+t val.
+</th>
+<th style="text-align:right;">
+p
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+-0.29
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+-6.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+A0
+</td>
+<td style="text-align:right;">
+1.38
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+12.58
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+A1
+</td>
+<td style="text-align:right;">
+1.30
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+37.27
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Standard errors: OLS
+</td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+</div>
+<p>If the above estimates are showing us that in the marginal structural model with IPTW we’re getting coefficients on <span class="math inline">\(A_0\)</span> of roughly 2 and coefficients on <span class="math inline">\(A_1\)</span> of roughly 1, that would make a lot of sense. If we consider the DAG where we’re controlling for <span class="math inline">\(A_1\)</span> (as in the regression performed for <code>model_msm</code>), we can see that there’s two pathways (shown in blue below) through which <span class="math inline">\(A_0\)</span> contributes to the outcome <span class="math inline">\(Y\)</span>, and only the one direct pathway from <span class="math inline">\(A_1\)</span> to <span class="math inline">\(Y\)</span> (shown in red).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/simpler_tvcabte2/simpler_tvcabte2.svg" class="img-fluid figure-img" style="width:45.0%"></p>
+<p></p><figcaption class="figure-caption">Pathways from the exposure to the outcome once we remove the arrows from <span class="math inline">\(L_{0,1} \to A_{0,1}\)</span>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we can finally investigate whether or not my intuition is right:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at estimates when confounding_path_strength is ramped up or down </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (confounding_path_strength <span class="cf">in</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="at">length.out =</span> <span class="dv">7</span>)) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generate simulated data</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  sim_data <span class="ot">&lt;-</span> <span class="fu">generate_sim_data</span>(N, confounding_path_strength)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate weights</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  sim_data<span class="sc">$</span>stable_weights <span class="ot">&lt;-</span> <span class="fu">calculate_stable_weights</span>(sim_data)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unadjusted model</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  model_unadjusted <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> A0 <span class="sc">+</span> A1, <span class="at">data =</span> sim_data)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adjust for confounders using MSM</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  model_msm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> A0 <span class="sc">+</span> A1, <span class="at">data =</span> sim_data, <span class="at">weights =</span> sim_data<span class="sc">$</span>stable_weights)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># store results from MSM model</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  results[[<span class="fu">length</span>(results)<span class="sc">+</span><span class="dv">1</span>]] <span class="ot">&lt;-</span> </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">confounding_path_strength =</span> confounding_path_strength,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">i =</span> i,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="st">'marginal structural model (with IPTW)'</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">intercept =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(model_msm)[<span class="dv">1</span>]),</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">A0_effect =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(model_msm)[<span class="dv">2</span>]),</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">A1_effect =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(model_msm)[<span class="dv">3</span>]))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># store results from unadjusted model</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  results[[<span class="fu">length</span>(results)<span class="sc">+</span><span class="dv">1</span>]] <span class="ot">&lt;-</span> </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">confounding_path_strength =</span> confounding_path_strength,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">i =</span> i,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="st">'unadjusted'</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">intercept =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(model_unadjusted)[<span class="dv">1</span>]),</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">A0_effect =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(model_unadjusted)[<span class="dv">2</span>]),</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">A1_effect =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(model_unadjusted)[<span class="dv">3</span>]))</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co"># turn into a dataframe</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(results)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>labelling_helper <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { </span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"confounding path coefficient: "</span>, <span class="fu">round</span>(<span class="fu">as.numeric</span>(x), <span class="dv">1</span>))</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(intercept, A0_effect, A1_effect), <span class="at">names_to =</span> <span class="st">'coefficient'</span>, <span class="at">values_to =</span> <span class="st">'estimate'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> coefficient,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> estimate,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> model,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> model</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">width=</span>.<span class="dv">15</span>, <span class="at">alpha =</span> .<span class="dv">15</span>) <span class="sc">+</span> </span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean,</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">'point'</span>,</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">group =</span> model, <span class="at">shape =</span> model),</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">'grey30'</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">'line'</span>, <span class="fu">aes</span>(<span class="at">group =</span> model)) <span class="sc">+</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> confounding_path_strength,</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">1</span>,</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">labeller =</span> <span class="fu">as_labeller</span>(labelling_helper)</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">'bottom'</span>,</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">15</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">5</span>)</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Variation in Coefficient Estimates with/without IPTW"</span>,</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"Datasets (N obs=1000) were simulated for varying coefficients for the confounding paths (L0→A0, L0→A1, L1→A1) 100 times"</span>) <span class="sc">+</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Mean coefficient estimates from the 100 simulations are indicated by the black marks that are connected by colored lines for each model type."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="script_examples/time_varying_confounding/time_varying_confounding_lt1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>What’s quite interesting to me is that when we start to ramp up the confounding path strength to be higher than 1, we start to run into scenarios where the variability in the <span class="math inline">\(A_0\)</span> estimate after IPTW is quite high and we fail to be able to continue to recover unbiased estimates of the <span class="math inline">\(A_0\)</span> and <span class="math inline">\(A_1\)</span> coefficients.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="script_examples/time_varying_confounding/time_varying_confounding_wider_scenario.png" class="img-fluid"></p>
+</div>
+</div>
 
 
 </section>

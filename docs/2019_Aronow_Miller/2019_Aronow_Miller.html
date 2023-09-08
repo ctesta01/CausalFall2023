@@ -191,8 +191,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#sharp-bounds-for-estimates" id="toc-sharp-bounds-for-estimates" class="nav-link" data-scroll-target="#sharp-bounds-for-estimates">Sharp Bounds for Estimates</a></li>
-  <li><a href="#inverse-probability-weighting" id="toc-inverse-probability-weighting" class="nav-link" data-scroll-target="#inverse-probability-weighting">Inverse Probability Weighting</a></li>
+  <li><a href="#sharp-bounds-for-estimates" id="toc-sharp-bounds-for-estimates" class="nav-link" data-scroll-target="#sharp-bounds-for-estimates">Sharp Bounds for Estimates</a>
+  <ul class="collapse">
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a></li>
+  <li><a href="#causal-estimation" id="toc-causal-estimation" class="nav-link" data-scroll-target="#causal-estimation">Causal Estimation</a></li>
+  </ul></li>
+  <li><a href="#inverse-probability-weighting" id="toc-inverse-probability-weighting" class="nav-link" data-scroll-target="#inverse-probability-weighting">Inverse Probability Weighting</a>
+  <ul class="collapse">
+  <li><a href="#missing-data-1" id="toc-missing-data-1" class="nav-link" data-scroll-target="#missing-data-1">Missing Data</a></li>
+  <li><a href="#causal-estimation-1" id="toc-causal-estimation-1" class="nav-link" data-scroll-target="#causal-estimation-1">Causal Estimation</a></li>
+  </ul></li>
+  <li><a href="#doubly-robust-estimation" id="toc-doubly-robust-estimation" class="nav-link" data-scroll-target="#doubly-robust-estimation">Doubly Robust Estimation</a>
+  <ul class="collapse">
+  <li><a href="#missing-data-2" id="toc-missing-data-2" class="nav-link" data-scroll-target="#missing-data-2">Missing Data</a></li>
+  <li><a href="#causal-estimation-2" id="toc-causal-estimation-2" class="nav-link" data-scroll-target="#causal-estimation-2">Causal Estimation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -229,6 +242,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="sharp-bounds-for-estimates" class="level2">
 <h2 class="anchored" data-anchor-id="sharp-bounds-for-estimates">Sharp Bounds for Estimates</h2>
+<section id="missing-data" class="level3">
+<h3 class="anchored" data-anchor-id="missing-data">Missing Data</h3>
 <p><strong>Theorem 6.1.3.</strong> Sharp bounds for the expected value. Let <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(R_i\)</span> be random variables with support for <span class="math inline">\(Y_i\)</span> be restricted to <span class="math inline">\([a,b]\)</span>, <span class="math inline">\(\text{support}(R_i) \in \{0,1\}\)</span>, and <span class="math inline">\(Y_i*\)</span> is as in the stable outcomes model. Then</p>
 <p><span class="math display">\[\begin{align}
 \mathbb E[Y_i] \in \big[
@@ -289,15 +304,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> F(1,998) </td>
-   <td style="text-align:right;"> 1287.76 </td>
+   <td style="text-align:right;"> 1304.73 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> R² </td>
-   <td style="text-align:right;"> 0.56 </td>
+   <td style="text-align:right;"> 0.57 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Adj. R² </td>
-   <td style="text-align:right;"> 0.56 </td>
+   <td style="text-align:right;"> 0.57 </td>
   </tr>
 </tbody>
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -313,16 +328,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
-   <td style="text-align:right;"> 0.95 </td>
-   <td style="text-align:right;"> 0.05 </td>
-   <td style="text-align:right;"> 17.62 </td>
+   <td style="text-align:right;"> 1.06 </td>
+   <td style="text-align:right;"> 0.06 </td>
+   <td style="text-align:right;"> 18.55 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> A </td>
-   <td style="text-align:right;"> 1.96 </td>
-   <td style="text-align:right;"> 0.05 </td>
-   <td style="text-align:right;"> 35.89 </td>
+   <td style="text-align:right;"> 2.02 </td>
+   <td style="text-align:right;"> 0.06 </td>
+   <td style="text-align:right;"> 36.12 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -338,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Observations </td>
-   <td style="text-align:right;"> 487 </td>
+   <td style="text-align:right;"> 431 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Dependent variable </td>
@@ -352,16 +367,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <tbody>
   <tr>
-   <td style="text-align:left;font-weight: bold;"> F(1,485) </td>
-   <td style="text-align:right;"> 16.00 </td>
+   <td style="text-align:left;font-weight: bold;"> F(1,429) </td>
+   <td style="text-align:right;"> 8.43 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> R² </td>
-   <td style="text-align:right;"> 0.03 </td>
+   <td style="text-align:right;"> 0.02 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> Adj. R² </td>
-   <td style="text-align:right;"> 0.03 </td>
+   <td style="text-align:right;"> 0.02 </td>
   </tr>
 </tbody>
 </table> <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -377,16 +392,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
   <tr>
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
-   <td style="text-align:right;"> -0.48 </td>
+   <td style="text-align:right;"> -0.46 </td>
    <td style="text-align:right;"> 0.07 </td>
-   <td style="text-align:right;"> -6.96 </td>
+   <td style="text-align:right;"> -6.36 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> A_observed </td>
-   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.22 </td>
    <td style="text-align:right;"> 0.07 </td>
-   <td style="text-align:right;"> 4.00 </td>
+   <td style="text-align:right;"> 2.90 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -400,14 +415,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lower bound on the A-Y effect</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_stable<span class="sc">*</span>R <span class="sc">+</span> <span class="fu">min</span>(Y_observed)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.5036956</code></pre>
+<pre><code>[1] -0.4937127</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># upper bound on the A-Y effect</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_stable<span class="sc">*</span>R <span class="sc">+</span> <span class="fu">max</span>(Y_observed)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.028738</code></pre>
+<pre><code>[1] 2.803694</code></pre>
 </div>
 </div>
+</section>
+<section id="causal-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="causal-estimation">Causal Estimation</h3>
 <p>In chapter 7, they provide a similar theorem that provides the means to bound a causal effect. There is one crucial difference, though, which is that because the average treatment effect is the difference between two potential outcomes (under treatment and under non-treatment), whereas the effect estimate in the missing data scenario is purely associational, the causal theorem has an additional subtracted term.</p>
 <p><strong>Theorem 7.1.17.</strong> Sharp bounds for the average treatment effect.</p>
 <p>Let <span class="math inline">\(Y_i(0)\)</span>, <span class="math inline">\(Y_i(1)\)</span>, and <span class="math inline">\(D_i\)</span> be random variables such that <span class="math inline">\(\forall d \in \{0, 1\},\)</span> <span class="math inline">\(\text{support}(Y_i(d)) \subset [a,b],\)</span> and <span class="math inline">\(\text{support}(D_i) = \{0,1\}\)</span>. Let <span class="math inline">\(Y_i = Y_i(1) \cdot D_i + Y_i(0) \cdot (1-D_i)\)</span> and <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span>. Then</p>
@@ -486,9 +504,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lower_bound <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y<span class="sc">*</span>D <span class="sc">+</span> <span class="fu">min</span>(Y)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> Y<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> <span class="fu">max</span>(Y)<span class="sc">*</span>D)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>upper_bound <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y<span class="sc">*</span>D <span class="sc">+</span> <span class="fu">max</span>(Y)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> Y<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>D) <span class="sc">-</span> <span class="fu">min</span>(Y)<span class="sc">*</span>D)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"the actual causal estimate should be guaranteed to lie within:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"the true average treatment effect should be guaranteed to lie within:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "the actual causal estimate should be guaranteed to lie within:"</code></pre>
+<pre><code>[1] "the true average treatment effect should be guaranteed to lie within:"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"["</span>, <span class="fu">round</span>(lower_bound, <span class="dv">1</span>), <span class="st">', '</span>, <span class="fu">round</span>(upper_bound, <span class="dv">1</span>), <span class="st">"]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -504,13 +522,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
+</section>
 <section id="inverse-probability-weighting" class="level2">
 <h2 class="anchored" data-anchor-id="inverse-probability-weighting">Inverse Probability Weighting</h2>
+<section id="missing-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="missing-data-1">Missing Data</h3>
+<p>The inverse probability weighting for missing data described in theorem 6.2.6 for missing at random data is exactly the same as the propensity score weighting described in <a href="https://ctesta01.github.io/CausalFall2023/1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.html">Rosenbaum and Rubin’s paper</a>.</p>
+<p>What’s more interesting to me is to see that they provide a stabilized inverse probability weighting approach for missing data.</p>
 <p><strong>Definition 6.2.8</strong> Stabilized IPW Estimator for Missing Data</p>
 <p>Let <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(R_i\)</span> be random variables with <span class="math inline">\(\text{support}(R_i) = \{ 0, 1 \}\)</span>. Let <span class="math inline">\(Y_i^*\)</span> be as in the stable outcomes model and let <span class="math inline">\(X_i\)</span> be a random vector. Then given <span class="math inline">\(n\)</span> independently and identically distributed observations of <span class="math inline">\((Y_i^*, R_i, X_i)\)</span>, the stabilized IPW estimator for <span class="math inline">\(\mathbb E[Y_i]\)</span> is</p>
 <p><span class="math display">\[ \hat{\mathbb E}_{SIPW} (Y_i) = \frac{\frac{1}{n} \sum_{i=1}^n \frac{Y_i R^i}{\hat p_R(X_i)}}{\frac{1}{n} \sum_{i=1}^n \frac{R^i}{\hat p_R(X_i)}}. \]</span></p>
+</section>
+<section id="causal-estimation-1" class="level3">
+<h3 class="anchored" data-anchor-id="causal-estimation-1">Causal Estimation</h3>
+<p>A similar stabilization approach is given for causal average treatment effects:</p>
+<p><strong>Definition 7.2.7.</strong> Stabilized IPW Estimator for Causal Inference. Let <span class="math inline">\(Y_i(0)\)</span>, <span class="math inline">\(Y_i(1)\)</span>, and <span class="math inline">\(D_i\)</span> be random variables with <span class="math inline">\(\text{support}(D_i) = \{0,1\}\)</span>. Let <span class="math inline">\(Y_i = Y_i(1) \cdot D_i + Y_i(0) \cdot (1-D_i)\)</span> and <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span>, and let <span class="math inline">\(X_i\)</span> be a random vector. Then given <span class="math inline">\(n\)</span> i.i.d. observations of <span class="math inline">\((Y_i, D_i, X_i)\)</span>, the stabilized IPW estimator for <span class="math inline">\(\mathbb E[\tau_i]\)</span> is</p>
+<p><span class="math display">\[\hat{\mathbb E}_{SIPW}[\tau_i] = \frac{
+\frac{1}{n} \sum_{i=1}^n \frac{Y_iD_i}{\hat p_{D}(X_i)
+}}{
+\frac{1}{n} \sum_{i=1}^n \frac{D_i}{\hat p_{D}(X_i)
+}} -
+\frac{
+\frac{1}{n} \sum_{i=1}^n \frac{Y_i(1-D_i)}{1 -\hat p_{D}(X_i)
+}}{
+\frac{1}{n} \sum_{i=1}^n \frac{1-D_i}{1-\hat p_{D}(X_i)
+}}.
+\]</span></p>
+</section>
+</section>
+<section id="doubly-robust-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="doubly-robust-estimation">Doubly Robust Estimation</h2>
+<section id="missing-data-2" class="level3">
+<h3 class="anchored" data-anchor-id="missing-data-2">Missing Data</h3>
+<p><strong>Theorem 6.2.9</strong> Double Robustness Theorem for Missing Data. Let <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(Y_i^*\)</span>, <span class="math inline">\(R_i\)</span>, <span class="math inline">\(X_i\)</span> be as in definition 6.2.8 above. If missing at randomness holds and if either</p>
+<ol type="1">
+<li><p><span class="math inline">\(\hat{\mathbb E}[Y_i^*|R_i=1,X_i=x] = \mathbb E[Y_i^*|R_i=1,X_i=x]\)</span> for all <span class="math inline">\(x \in \text{support}(X_i)\)</span> and <span class="math inline">\(\exists \epsilon &gt; 0\)</span> such that <span class="math inline">\(\epsilon &lt; \hat p_R(x) &lt; 1-\epsilon\)</span>, or</p></li>
+<li><p><span class="math inline">\(\hat p_R(x) = p_R(x)\)</span> for all <span class="math inline">\(x \in \text{support}(X_i)\)</span>,</p></li>
+</ol>
+<p>then:</p>
+<p><span class="math display">\[\mathbb E[Y_i] = \mathbb E\left[ \hat{\mathbb E}[Y_i^*|R_i=1,X_i] + \frac{R_i\left(Y_i^* - \hat{\mathbb E}[Y_i^* | R_i=1,X_i] \right)}{\hat p_R(x)} \right].\]</span></p>
+<p>What’s interesting about the proof is that it essentially follows in a straightforward fashion by assuming (case-by-case) that either 1 or 2 hold and seeing that the other terms cancel away leaving us with the term assumed to equal <span class="math inline">\(\mathbb E[Y_i]\)</span> in both cases.</p>
+<p><strong>Definition 6.2.10</strong> Doubly Robust Estimator for Missing Data Let <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(Y_i^*\)</span>, <span class="math inline">\(R_i\)</span> and <span class="math inline">\(X_i\)</span> be as in definition 6.2.8. Then the <span class="vocab">doubly robust estimator</span> is given as</p>
+<p><span class="math display">\[ \hat{\mathbb E}_{DR}[Y_i] = \frac{1}{n} \sum_{i=1}^n \hat{\mathbb E}[Y_i^* | R_i = 1, X_i] +
+\frac{1}{n} \sum_{i=1}^n \frac{R_i \left(Y_i^* - \hat{\mathbb E}[Y_i^* | R_i = 1, X_i]\right)}{\hat p_R(X_i) }.\]</span></p>
+</section>
+<section id="causal-estimation-2" class="level3">
+<h3 class="anchored" data-anchor-id="causal-estimation-2">Causal Estimation</h3>
+<p>Turning our attention to causal inference, we have a similar double robustness theorem.</p>
+<p><strong>Theorem 7.2.8.</strong> Double Robustness Theorem for Causal Inference. Let <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(D_i\)</span> <span class="math inline">\(\tau_i\)</span> and <span class="math inline">\(X_i\)</span> be as in definition 7.2.7. If strong ignorability holds and if either</p>
+<ol type="1">
+<li><span class="math inline">\(\hat{\mathbb E}[Y_i|D_i=d,X_i=x] = \mathbb E[Y_i|D_i=d,X_i=x]\)</span> for all <span class="math inline">\(d \in \{0,1\}\)</span>, <span class="math inline">\(x \in \text{support}(X_i)\)</span> and <span class="math inline">\(\exists \epsilon &gt; 0\)</span> such that <span class="math inline">\(\epsilon &lt; \hat{p}_D(x) &lt; 1-\epsilon\)</span>, or</li>
+<li><span class="math inline">\(\hat{p}_D(x) = p_D(x)\)</span>, for all <span class="math inline">\(x \in \text{support}(X_i)\)</span>,</li>
+</ol>
+<p>then:</p>
+<p><span class="math display">\[ \begin{aligned}\mathbb E[\tau_i] = \mathbb E\Big[
+\hat{\mathbb E}[Y_i|&amp; D_i=1,X_i] + \frac{D_i(Y_i - \hat{\mathbb E}[D_i=1,X_i])}{
+\hat p_D(X_i)} \\
+&amp; -\hat{\mathbb E}[Y_i|D_i=0,X_i] - \frac{(1-D_i)(Y_i - \hat{\mathbb E}[Y_i|D_i=0,X_i])}{1-\hat{p}_D(X_i)}\Big]. \end{aligned} \]</span></p>
+<p><strong>Definition 7.2.9</strong> Doubly Robust Estimator for Causal Inference. Again, let <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(D_i\)</span> <span class="math inline">\(\tau_i\)</span> and <span class="math inline">\(X_i\)</span> be as in definition 7.2.7. The <span class="vocab">doubly robust estimator</span> is</p>
+<p><span class="math display">\[\begin{aligned}\hat{\mathbb E}_{DR}[\tau_i] = &amp; \frac{1}{n} \sum_{i=1}^n \hat{\mathbb E}[Y_i|D_i=1,X_i] +
+\frac{1}{n}\sum_{i=1}^n \frac{D_i(Y_i - \hat{\mathbb E}[Y_i |D_i=1,X_i])}{\hat p_D(X_i)} \\
+&amp; - \frac{1}{n}\sum_{i=1}^n [Y_i|D_i=0,X_i] -
+\frac{1}{n}\sum_{i=1}^n \frac{(1-D_i)(Y_i - \hat{\mathbb E}[Y_i |D_i=0,X_i])}{1-\hat p_D(X_i)}.
+\end{aligned}
+\]</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
