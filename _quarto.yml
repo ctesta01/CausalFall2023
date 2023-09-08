@@ -5,6 +5,7 @@ project:
 book:
   title: "Readings in Causal Inference, Fall 2023"
   author: "Christian Testa"
+  repo-url: https://github.com/ctesta01/CausalFall2023
   chapters:
     - index.qmd
     - 1983_Rosenbaum_and_Rubin/1983_Rosenbaum_and_Rubin.qmd
