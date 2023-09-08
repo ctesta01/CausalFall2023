@@ -542,16 +542,16 @@ p
 (Intercept)
 </td>
 <td style="text-align:right;">
-0.00
+-0.04
 </td>
 <td style="text-align:right;">
 0.04
 </td>
 <td style="text-align:right;">
-0.05
+-1.01
 </td>
 <td style="text-align:right;">
-0.96
+0.31
 </td>
 </tr>
 <tr>
@@ -559,13 +559,13 @@ p
 A0
 </td>
 <td style="text-align:right;">
-1.08
+0.95
 </td>
 <td style="text-align:right;">
-0.07
+0.06
 </td>
 <td style="text-align:right;">
-16.21
+14.96
 </td>
 <td style="text-align:right;">
 0.00
@@ -576,13 +576,13 @@ A0
 A1
 </td>
 <td style="text-align:right;">
-1.47
+1.51
 </td>
 <td style="text-align:right;">
 0.02
 </td>
 <td style="text-align:right;">
-72.42
+77.58
 </td>
 <td style="text-align:right;">
 0.00
@@ -629,16 +629,16 @@ p
 (Intercept)
 </td>
 <td style="text-align:right;">
--0.29
+0.12
 </td>
 <td style="text-align:right;">
-0.05
+0.04
 </td>
 <td style="text-align:right;">
--6.00
+2.79
 </td>
 <td style="text-align:right;">
-0.00
+0.01
 </td>
 </tr>
 <tr>
@@ -649,10 +649,10 @@ A0
 1.38
 </td>
 <td style="text-align:right;">
-0.11
+0.08
 </td>
 <td style="text-align:right;">
-12.58
+16.38
 </td>
 <td style="text-align:right;">
 0.00
@@ -663,13 +663,13 @@ A0
 A1
 </td>
 <td style="text-align:right;">
-1.30
+1.35
 </td>
 <td style="text-align:right;">
 0.03
 </td>
 <td style="text-align:right;">
-37.27
+46.79
 </td>
 <td style="text-align:right;">
 0.00
@@ -775,17 +775,149 @@ A1
 <span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"Datasets (N obs=1000) were simulated for varying coefficients for the confounding paths (L0→A0, L0→A1, L1→A1) 100 times"</span>) <span class="sc">+</span></span>
 <span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Mean coefficient estimates from the 100 simulations are indicated by the black marks that are connected by colored lines for each model type."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="script_examples/time_varying_confounding/time_varying_confounding_lt1.png" class="img-fluid"></p>
-</div>
-</div>
+<!--
+
+::: {.cell}
+::: {.cell-output-display}
+![](script_examples/time_varying_confounding/time_varying_confounding_lt1.png)
+:::
+:::
+
+-->
+<p><img id="tvcabte1" src="script_examples/time_varying_confounding/time_varying_confounding_lt1.png" alt="The marginal structural models are are de-biased towards the scenario where there is no confounding compared with the naive models." style="width:100%"></p>
 <p>What’s quite interesting to me is that when we start to ramp up the confounding path strength to be higher than 1, we start to run into scenarios where the variability in the <span class="math inline">\(A_0\)</span> estimate after IPTW is quite high and we fail to be able to continue to recover unbiased estimates of the <span class="math inline">\(A_0\)</span> and <span class="math inline">\(A_1\)</span> coefficients.</p>
 <div class="cell">
-<div class="cell-output-display">
-<p><img src="script_examples/time_varying_confounding/time_varying_confounding_wider_scenario.png" class="img-fluid"></p>
+<style type="text/css">
+ /* Style the Image Used to Trigger the Modal */
+#tvcabte1 {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#tvcabte2 {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#tvcabte1:hover {opacity: 0.7;}
+#tvcabte2:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 95%;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+} 
+</style>
+</div>
+<p><img id="tvcabte2" src="script_examples/time_varying_confounding/time_varying_confounding_wider_scenario.png" alt="IPTW appears to not be working so well once the confounding path strength exceeds ~1" style="width:100%"></p>
+<div id="myModal" class="modal">
+<p><!-- The Close Button --> <span class="close">×</span></p>
+<p><!-- Modal Content (The Image) --> <img class="modal-content" id="img01"></p>
+<!-- Modal Caption (Image Text) -->
+<div id="caption">
+
 </div>
 </div>
+<script>
+ // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img1 = document.getElementById("tvcabte1");
+var img2 = document.getElementById("tvcabte2");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img1.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+img2.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+} 
+document.addEventListener('keydown', function(e) {
+    if(e.keyCode == 27){
+      modal.style.display = "none";
+    }
+});
+</script>
 
 
 </section>
