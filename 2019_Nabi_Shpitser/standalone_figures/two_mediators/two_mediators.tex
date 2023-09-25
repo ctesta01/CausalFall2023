@@ -1,0 +1,30 @@
+\documentclass[tikz,margin=3.14mm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\begin{document}
+\begin{tikzpicture}[scale=1.5]
+
+\node (A) at (0,0) {$A$};
+\node (M) at (1,0) {$M$};
+\node (W) at (2,0) {$W$};
+\node (U) at (2,.75) {$U$};
+\node (Y) at (3,0) {$Y$};
+\node (C) at (0,.75) {$C$};
+
+\path [-latex] (A) edge [bend right] (Y);
+\path [-latex] (A) edge (M);
+\path [-latex] (A) edge [bend right] (W);
+\path [-latex] (M) edge (W);
+\path [-latex] (M) edge [bend right] (Y);
+\path [-latex] (W) edge (Y);
+\path [-latex] (C) edge (A);
+\path [-latex] (C) edge (M);
+\path [-latex] (C) edge (W);
+\path [-latex] (C) edge (Y);
+\path [-latex] (U) edge (M);
+\path [-latex] (U) edge (Y);
+
+\end{tikzpicture}
+\end{document}

@@ -55,3 +55,9 @@ Week 3: <a href="2019_Aronow_Miller/2019_Aronow_Miller.html" style='text-decorat
 <span style='margin-left: 25px;'></span>
 
 ---
+
+Week 4: <a href="2019_Nabi_Shpitser/2019_Nabi_Shpitser.html" style='text-decoration: none; color: black;'><u><i>Fair Inference on Outcomes</i>
+</u> by Razieh Nabi and Ilya Shpitser (2019) for The Thirty-Second AAAI Conference on Artificial Intelligence.</a>
+
+[HTML](2019_Nabi_Shpitser/2019_Nabi_Shpitser.html)
+<span style='margin-left: 25px;'></span>

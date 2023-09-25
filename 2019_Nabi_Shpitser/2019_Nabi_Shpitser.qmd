@@ -1,0 +1,185 @@
+---
+title: "Fair Inference on Outcomes"
+comments:
+  giscus:
+    repo: ctesta01/CausalFall2023
+---
+
+[← Home](https://ctesta01.github.io/CausalFall2023/)
+
+::: {.content-hidden}
+$$
+\newcommand{\E}[0]{\mathbb E}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+$$
+:::
+
+Notes on <i>Fair Inference on Outcomes</i> by Razieh Nabi and Ilya Shpitser 
+for The Thirty-Second AAAI Conference on Artificial Intelligence.
+
+<https://doi.org/10.1097/00001648-200009000-00011>
+
+## Introduction 
+
+This paper presents and argues that the construction of "fair" algorithms 
+can be performed by using ideas from causal mediation to construct
+constrained optimization problems.  They describe the "disallowing" of 
+particular causal pathways, like for example how gender should not *directly* 
+influence hiring decisions. Moreover, before you jump out of your seat asking 
+"but what about indirect pathways?" they also extend this to a framework in 
+which a set $S$ of variables are considered *sensitive variables* 
+on which discrimination should not occur. 
+
+## Mediation Analysis 
+
+```{r, echo=FALSE, out.width='45%', fig.align='center'}
+knitr::include_graphics("standalone_figures/single_mediator/single_mediator.svg")
+```
+
+```{r, echo=FALSE, out.width='45%', fig.align='center'}
+knitr::include_graphics("standalone_figures/two_mediators/two_mediators.svg")
+```
+
+```{r, echo=FALSE, out.width='45%', fig.align='center'}
+knitr::include_graphics("standalone_figures/unidentified_direct_effect/unidentified_direct_effect.svg")
+```
+
+In their figure 1, they introduce scenarios where we have a causal graph with a
+single mediator and potential for confounding, a causal graph with two mediators
+where one is confounded with the outcome via an unobserved common cause, and
+lastly a causal graph with a single mediator where the natural direct effect is
+not identified.
+
+## Path-Specific Effects
+
+This paper has a nice presentation of mediation analysis, and before diving into 
+the application of mediation to discrimination, they present several instructive examples 
+and outline how to calculate path-specific effects. 
+
+For example, they describe how in figure 1b the path-specific effect of $A$ on $Y$ 
+along the path $A \to W \to Y$ can be formulated as 
+
+$$\mathbb E[\underbrace{Y(a', W(M(a'), a), M(a'))}_{\text{note that }A=a \text{ only affects }Y \text{ through }W}] - \mathbb E[Y(a')],$$
+
+where $a'$ is taken to be the baseline value of $A$. 
+
+## Problems with Associational Approaches to Fair Inference
+
+Suppose we have a scenario where it is illegal to discriminate against 
+those with prior convictions, and those with prior convictions are 
+more often male. 
+
+Letting $H$ denote hiring, $G$ denote gender, and $C$ denote prior conviction, 
+consider the following table of hiring patterns:
+
+|$Pr(H=1|G,C)$|$G$|$C$|$Pr(C=1|G)$|
+|:-:|:-:|:-:|:-:|
+|$0.06$|︎M|✔︎|$0.99$|
+|$0.01$|F|✔︎|$0.01$|
+|$0.2$|︎M| |$1-0.99=.01$|
+|$0.05$|F| | $1-0.01=.99$|
+
+We can see that 
+
+$$P(H=1|C=1) = .99\times.06 + .01\times.01 = .0595, \quad \text{ and }$$
+
+$$P(H=1|C=0) = .2\times.01 + .05\times .99 = .0515$$
+
+which are roughly similar. Should we then conclude that no discrimination on
+account of prior convictions is happening?
+
+> ... intuitively, we would consider a hiring rule in this 
+example fair if, in a hypothetical rnadomized trial that is assigned
+convictions randomly (convictions to the case gorup, 
+no conviction to the control group), the rule would yield 
+equal hiring probabilities to cases and controls. 
+
+If we consider then what might happen under this randomized scenario, 
+we'd have that 
+
+$$P(H(C=1)) = .5 \times .06 + .5 \times .01 = .035, \quad \text{ and }$$
+$$P(H(C=0)) = .5 \times .2 + .5 \times .05 = .125,$$
+
+which is a 3.6x higher hiring rate for those without a prior conviction! 
+
+I think this quite well demonstrates what the problems can be with a purely
+associational approach to demonstrating the fairness of an algorithm. What isn't
+fully satisfying about this example is that one can see quite plainly in the
+table of hiring probabilities that there is disproportionate hiring of the men
+compared to women.
+
+### The role of Direct Effects 
+
+This idea that we are going to select a subset of variables in our DAG to label
+"sensitive" topics, controlling for others appropriately, and attempt to 
+ensure that outcomes are not unduly dependent on the sensitive topics 
+appeals straightforwardly to the concept of *direct effects* from mediation 
+analysis. The authors note that: 
+
+> The intuition here is it is legitimate to consider job characteristics in 
+making hiring decisions *even if* those characteristics are correlated with gender. However,
+it is not legitimate to consider gender directly. This intuition underscores resume
+"name-swapping" experiments where identical resumes are sent out for review with names 
+where identical resumes are sent for review with names switched from a Caucasian
+sounding name to an African-American sounding name (Bertrand and Mullainathan 2004). 
+
+I'll note here the problematic nature of the term "Caucasian" which stems from
+and was perpetuated by an incorrect theory from the 1790s that the human species
+originated in the Caucasus Mountains that has no scientific validity whatsoever.
+Instead, one should use White, European, American, White non-Hispanic, etc. 
+as appropriate instead. See <https://www.latimes.com/opinion/story/2019-09-10/race-caucasian-myth-racism>.
+
+At this juncture, one might be particularly concerned about *effects* rather 
+than structural diagrams. Is it enough to say "well, we didn't discriminate on 
+_______ *directly*?" The law even makes special provisions in regards to this
+(from the Fair Housing Act): 
+
+> Discriminatory effect. A practice has a discriminatory effect where it
+actually or predictably results in a disparate impact on a group of persons or
+creates, increases, reinforces, or perpetuates segregated housing patterns
+because of race, color, religion, sex, handicap, familial status, or national
+origin. <br>
+<https://www.law.cornell.edu/cfr/text/24/100.500>
+
+That is, a practice need not be <u>intentionally</u> discriminatory 
+in order to be called disciminatory if it has discriminatory effects.
+
+The authors go on to provide another example later: 
+
+> We now consider two mediators of $A$ [gender], the number of children $M$, and
+physical strength as measured by an entrance test $W$. In this setting, it seems
+that it is inappropriate for the applicant's gender $A$ to directly influence
+the hiring decision $Y$, nor for the number of the subject's children to
+influence the hiring decision either since the consensus is that women should
+not be penalized in their career for the biological necessity of having to bear
+children in the family. However, gender also likely influences the subject's
+performance on the entrance test, and requiring that certain requirements of
+strength and fitness is reasonable in a job like construction.
+
+## Fair Inference 
+
+So now that we know how to estimate path-specific-effects, and we are going to be 
+careful to identify sensitive nodes/paths in our DAGs, how are we going to 
+estimate fair algorithms? 
+
+The authors propose that given a dataset $\mathcal D$ with outcome $Y$ and 
+predictors $X$, a path-specific-effect representing discrimination as $f(p(Y,X))$, and a 
+likelihood function $\mathcal L_{Y,X}(\mathcal D;\alpha)$ parameterized by $\alpha$,
+an estimator $g(\mathcal D)$ of the discriminatory path-specific-effect, and 
+tolerance bounds $\epsilon_l$, $\epsilon_u$, that we should solve 
+the constrained optimization problem: 
+
+$$\hat \alpha = \text{arg } \max_{\alpha} \mathcal L_{Y,X}(\mathcal D; \alpha)$$
+$$\text{ subject to } \epsilon_l \leq g(\mathcal D) \leq \epsilon_u.$$
+
+## Epilogue 
+
+This paper presents a lot more detail — in particular how to adapt Bayesian
+methods for estimating conditional densities to this approach can be performed,
+an application to recidivism data, and worthwhile points about what can be done
+when path-specific-effects are not identifiable. However, I thought I'd stop
+here after presenting the main ideas of the paper to keep things short and
+sweet.
