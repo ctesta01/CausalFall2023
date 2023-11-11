@@ -61,3 +61,12 @@ Week 4: <a href="2019_Nabi_Shpitser/2019_Nabi_Shpitser.html" style='text-decorat
 
 [HTML](2019_Nabi_Shpitser/2019_Nabi_Shpitser.html)
 <span style='margin-left: 25px;'></span>
+
+---
+
+Week 5: <a href="2011_targeted_learning_I/2011_targeted_learning_I.html" style='text-decoration: none; color: black;'><u><i>Targeted Learning: Causal Inference on Observational and Experimental Outcomes</i>
+</u> by Mark J. van der Laan and Sherri Rose (2011).</a>
+
+[HTML](2011_targeted_learning_I/2011_targeted_learning_I.html)
+<span style='margin-left: 25px;'></span>
+

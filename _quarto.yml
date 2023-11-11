@@ -13,6 +13,7 @@ book:
     - 2000_Dawid/2000_Dawid.qmd
     - 2019_Aronow_Miller/2019_Aronow_Miller.qmd
     - 2019_Nabi_Shpitser/2019_Nabi_Shpitser.qmd
+    - 2011_targeted_learning_I/2011_targeted_learning_I.qmd
 format:
   html:
     toc: true
