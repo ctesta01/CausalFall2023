@@ -122,34 +122,61 @@ calculate_weights <- function(data) {
 }
 
 # Function to calculate stabilized IPTW
-calculate_stable_weights <- function(data) {
+calculate_stable_weights <- function(data, use_log = TRUE) {
   model_A0 <- lm(A0 ~ L0, data = data)
   model_A1 <- lm(A1 ~ A0 + L0 + L1, data = data)
   
-  weights_A0 <- 1 / dnorm(x = data$A0, mean = coef(model_A0)[1], sd = summary(model_A0)$sigma)
-  weights_A1 <- 1 / dnorm(
-    x = data$A1,
-    mean = coef(model_A1)[1] + coef(model_A1)[2] * data$A0 +
-      coef(model_A1)[3] * data$L0 + coef(model_A1)[4] * data$L1,
-    sd = summary(model_A1)$sigma
-  )
-  
   model_A0_alone <- lm(A0 ~ 1, data = data)
   model_A1_stabilizer <- lm(A1 ~ A0, data = data)
-  A0_stabilizer <- dnorm(x = data$A0, mean = coef(model_A0_alone)[1], sd = summary(model_A0_alone)$sigma)
-  A1_stabilizer <- dnorm(x = data$A1, mean = coef(model_A0_alone)[1] + data$A0*coef(model_A1_stabilizer)[2], sd = summary(model_A1_stabilizer)$sigma)
-  
-  A0_stabilizer * A1_stabilizer * weights_A0 * weights_A1
+
+  if (use_log) {
+    inv_log_weight_A0 = dnorm(x = data$A0, mean = coef(model_A0)[1], sd = summary(model_A0)$sigma, log = TRUE)
+    inv_log_weight_A1 = dnorm(
+      x = data$A1,
+      mean = coef(model_A1)[1] + coef(model_A1)[2] * data$A0 +
+        coef(model_A1)[3] * data$L0 + coef(model_A1)[4] * data$L1,
+      sd = summary(model_A1)$sigma,
+      log = TRUE
+    )
+    
+    log_A0_stabilizer <- dnorm(x = data$A0, mean = coef(model_A0_alone)[1], sd = summary(model_A0_alone)$sigma, log=TRUE)
+    log_A1_stabilizer <- dnorm(x = data$A1, mean = coef(model_A0_alone)[1] + data$A0*coef(model_A1_stabilizer)[2], sd = summary(model_A1_stabilizer)$sigma, log=TRUE)
+
+    log_stabilized_weight <- log_A0_stabilizer + log_A1_stabilizer - inv_log_weight_A0 - inv_log_weight_A1
+    return(exp(log_stabilized_weight))
+  } else {
+    weights_A0 <- 1 / dnorm(x = data$A0, mean = coef(model_A0)[1], sd = summary(model_A0)$sigma)
+    weights_A1 <- 1 / dnorm(
+      x = data$A1,
+      mean = coef(model_A1)[1] + coef(model_A1)[2] * data$A0 +
+        coef(model_A1)[3] * data$L0 + coef(model_A1)[4] * data$L1,
+      sd = summary(model_A1)$sigma
+    )
+    
+    model_A0_alone <- lm(A0 ~ 1, data = data)
+    model_A1_stabilizer <- lm(A1 ~ A0, data = data)
+    A0_stabilizer <- dnorm(x = data$A0, mean = coef(model_A0_alone)[1], sd = summary(model_A0_alone)$sigma)
+    A1_stabilizer <- dnorm(x = data$A1, mean = coef(model_A0_alone)[1] + data$A0*coef(model_A1_stabilizer)[2], sd = summary(model_A1_stabilizer)$sigma)
+    
+    return(A0_stabilizer * A1_stabilizer * weights_A0 * weights_A1)
+  }
 }
 
 # Generate simulated data
 N <- 1000
-confounding_path_strength <- 1
+confounding_path_strength <- .3
 sim_data <- generate_sim_data(N, confounding_path_strength)
 
 # Calculate weights
 sim_data$weights <- calculate_weights(sim_data)
 sim_data$stable_weights <- calculate_stable_weights(sim_data)
+sim_data$stable_weights_no_log_precision <- calculate_stable_weights(sim_data, use_log = FALSE)
+
+# check if log precision improves things:
+# answer: not really
+# ggplot(sim_data, aes(x = weights, y = stable_weights_no_log_precision)) + 
+#   geom_point() + 
+#   geom_smooth(method = 'lm')
 
 # Unadjusted model
 model_unadjusted <- lm(Y ~ A0 + A1, data = sim_data)
@@ -159,32 +186,49 @@ summary(model_unadjusted)
 model_msm <- lm(Y ~ A0 + A1, data = sim_data, weights = sim_data$stable_weights)
 summary(model_msm)
 
-plt1 <- ggplot(sim_data, aes(x = A0, y = L0, color = stable_weights)) + 
+make_exposure_confounder_bivariate_plt_weighted <- function(var1, var2) {
+  ggplot(sim_data, aes(x = {{var1}}, y = {{var2}}, color = stable_weights, size = stable_weights)) + 
   geom_point(alpha = .5) + 
-  scale_color_viridis_c() + 
-  theme_bw()
+  scale_color_viridis_c(option = 'magma', end = .8) + 
+  theme_bw() +
+  guides(color= guide_legend(), size=guide_legend())
+}
 
-plt2 <- ggplot(sim_data, aes(x = A1, y = L0, color = stable_weights)) + 
-  geom_point(alpha = .5) + 
-  scale_color_viridis_c() + 
-  theme_bw()
-
-plt3 <- ggplot(sim_data, aes(x = A1, y = L1, color = stable_weights)) + 
-  geom_point(alpha = .5) + 
-  scale_color_viridis_c() + 
-  theme_bw()
-
-plt4 <- ggplot(sim_data, aes(x = A0, y = A1, color = stable_weights)) + 
-  geom_point(alpha = .5) + 
-  scale_color_viridis_c(option = 'magma') + 
-  theme_bw()
-
+plt1 <- make_exposure_confounder_bivariate_plt_weighted(A0, L0)
+plt2 <- make_exposure_confounder_bivariate_plt_weighted(A1, L0)
+plt3 <- make_exposure_confounder_bivariate_plt_weighted(A0, L1)
+plt4 <- make_exposure_confounder_bivariate_plt_weighted(A0, A1)
+ 
 (plt1 + plt2 )/ (plt3 + plt4) 
+
+hist(sim_data$stable_weights, breaks = 50)
 
 library(scatterplot3d)
 library(rgl)
+library(car)
 
-scatter3d(x = sim_data$A0, y = sim_data$A1, z = sim_data$L1, point.col = sim_data$stable_weights)
+myColorRamp <- function(colors, values) {
+    v <- (values - min(values))/diff(range(values))
+    x <- colorRamp(colors)(v)
+    rgb(x[,1], x[,2], x[,3], maxColorValue = 255)
+}
+
+cols <- myColorRamp(c("red", "blue"), sim_data$stable_weights) 
+
+scatter3d(x = sim_data$A0, y = sim_data$A1, z = sim_data$L1, 
+  point.col = cols,
+  radius = sim_data$stable_weights)
+
+library(plotly)
+
+plot_ly(sim_data, 
+  x = ~A0,
+  y = ~A1, 
+  z = ~L0,
+  size = ~stable_weights,
+  color = ~stable_weights,
+  alpha = .5) %>% 
+  add_markers(marker = list(sizeref = .1))
 
 # Look at estimates when confounding_path_strength is ramped up or down 
 results <- list()
